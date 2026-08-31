@@ -233,74 +233,207 @@
             <h2 data-i18n="scanTitle">📡 اسکنر IP تمیز کلودفلر</h2>
             <p class="page-sub" data-i18n="scanHint">پینگ واقعی RTT از مرورگر شما — IP های زنده معمولاً تمیزند.</p>
           </div>
-          <div class="page-actions">
-            <button id="scan-start" class="btn-glow" data-i18n="scanStart">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              <span data-i18n="scanStart">شروع اسکن</span>
-            </button>
-            <button id="scan-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
-          </div>
         </div>
 
-        <div class="card scan-options">
-          <div class="scan-opts">
-            <div class="field">
-              <label for="scan-count" data-i18n="scanCount">تعداد IP</label>
-              <select id="scan-count">
-                <option value="50">50</option>
-                <option value="100" selected>100</option>
-                <option value="200">200</option>
-                <option value="500">500</option>
-              </select>
+        <div class="scan-tabs" id="scan-tabs">
+          <button class="scan-tab active" data-stab="ipscan">⚡ <span data-i18n="stabQuick">اسکن سریع</span></button>
+          <button class="scan-tab" data-stab="relay">🧪 <span data-i18n="stabRelay">تست رله‌ها</span></button>
+        </div>
+
+        <!-- ── تب ۱: اسکن سریع ── -->
+        <div id="stab-ipscan" class="stab active">
+          <div class="card scan-options">
+            <div class="scan-opts">
+              <div class="field">
+                <label for="scan-count" data-i18n="scanCount">تعداد IP</label>
+                <select id="scan-count">
+                  <option value="50">50</option>
+                  <option value="100" selected>100</option>
+                  <option value="200">200</option>
+                  <option value="500">500</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="scan-timeout" data-i18n="scanTimeout">مهلت اتصال</label>
+                <select id="scan-timeout">
+                  <option value="1000">1 ثانیه</option>
+                  <option value="2000" selected>2 ثانیه</option>
+                  <option value="3000">3 ثانیه</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="scan-conc" data-i18n="scanConc">همزمانی</label>
+                <select id="scan-conc">
+                  <option value="15">15</option>
+                  <option value="30" selected>30</option>
+                  <option value="60">60</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="scan-port" data-i18n="scanPort">پورت</label>
+                <select id="scan-port">
+                  <option value="443" selected>443</option>
+                  <option value="8443">8443</option>
+                  <option value="2053">2053</option>
+                  <option value="2083">2083</option>
+                  <option value="2087">2087</option>
+                  <option value="2096">2096</option>
+                </select>
+                <p class="hint" data-i18n="scanPortHint">اگر ۴۴۳ وصل نشد، پورت‌های جایگزین را امتحان کنید</p>
+              </div>
             </div>
-            <div class="field">
-              <label for="scan-timeout" data-i18n="scanTimeout">مهلت اتصال</label>
-              <select id="scan-timeout">
-                <option value="1000">1 ثانیه</option>
-                <option value="2000" selected>2 ثانیه</option>
-                <option value="3000">3 ثانیه</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="scan-conc" data-i18n="scanConc">همزمانی</label>
-              <select id="scan-conc">
-                <option value="15">15</option>
-                <option value="30" selected>30</option>
-                <option value="60">60</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="scan-port" data-i18n="scanPort">پورت</label>
-              <select id="scan-port">
-                <option value="443" selected>443</option>
-                <option value="8443">8443</option>
-                <option value="2053">2053</option>
-                <option value="2083">2083</option>
-                <option value="2087">2087</option>
-                <option value="2096">2096</option>
-              </select>
-              <p class="hint" data-i18n="scanPortHint">اگر ۴۴۳ وصل نشد، پورت‌های جایگزین را امتحان کنید</p>
+            <div class="scan-actions">
+              <button id="scan-start" class="btn-glow" data-i18n="scanStart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span data-i18n="scanStart">شروع اسکن</span>
+              </button>
+              <button id="scan-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
+              <button id="scan-send-relay" class="ghost-btn" disabled>
+                🧪 <span data-i18n="scanSendRelay">تست رله روی نتایج</span>
+              </button>
             </div>
           </div>
-          <div id="scan-progress" class="scan-progress" hidden>
+          <div id="scan-progress" class="card scan-progress" hidden>
             <div class="scan-ring"><svg viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="15.9"/><circle class="ring-fg" id="scan-ring-fg" cx="18" cy="18" r="15.9"/></svg><span id="scan-pct">0%</span></div>
             <div class="scan-status">
               <div class="scan-bar"><i id="scan-bar-fill" style="width:0%"></i></div>
               <div class="scan-meta"><span id="scan-counter">0 / 0</span><span id="scan-found" class="ok">0 ✓</span></div>
             </div>
           </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3 data-i18n="scanResults">نتایج</h3>
+              <button id="scan-copy-best" class="ghost-btn" data-i18n="scanCopyBest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="scanCopyBest">کپی کانفیگ ۵ IP برتر</span>
+              </button>
+            </div>
+            <div id="scan-list" class="scan-list">
+              <div class="empty-hint" data-i18n="scanIdle">اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.</div>
+            </div>
+          </div>
         </div>
 
-        <div class="card">
-          <div class="card-head">
-            <h3 data-i18n="scanResults">نتایج</h3>
-            <button id="scan-copy-best" class="ghost-btn" data-i18n="scanCopyBest">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <span data-i18n="scanCopyBest">کپی کانفیگ ۵ IP برتر</span>
-            </button>
+        <!-- ── تب ۲: تست رله‌ها ── -->
+        <div id="stab-relay" class="stab">
+          <div class="card">
+            <div class="card-head">
+              <h3>🧪 <span data-i18n="relayTitle">تست رله‌ها</span></h3>
+              <span class="chip-btn passive" data-i18n="relaySub">تأیید چندمرحله‌ای + آمار دقیق</span>
+            </div>
+
+            <div class="relay-inputs">
+              <div class="field">
+                <label for="relay-ips" data-i18n="relayIpsLabel">آدرس IP ها (هر خط یک IP)</label>
+                <textarea id="relay-ips" rows="4" dir="ltr" placeholder="104.16.0.1&#10;172.64.0.2&#10;162.159.128.1"></textarea>
+                <div class="relay-quick">
+                  <input id="relay-ip-add" type="text" dir="ltr" placeholder="104.16.0.1"/>
+                  <button id="relay-add-ip" class="ghost-btn sm" data-i18n="relayAdd">افزودن</button>
+                  <button id="relay-import-scan" class="ghost-btn sm" data-i18n="relayImport">🎯 از نتایج اسکن</button>
+                  <button id="relay-import-fav" class="ghost-btn sm" data-i18n="relayFavs">⭐ علاقه‌مندی‌ها</button>
+                </div>
+              </div>
+              <div class="relay-opts">
+                <div class="field">
+                  <label for="relay-port" data-i18n="scanPort">پورت</label>
+                  <select id="relay-port">
+                    <option value="443" selected>443</option>
+                    <option value="8443">8443</option>
+                    <option value="2053">2053</option>
+                    <option value="2083">2083</option>
+                    <option value="2087">2087</option>
+                    <option value="2096">2096</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="relay-probes" data-i18n="relayProbes">پینگ به ازای هر IP</label>
+                  <select id="relay-probes">
+                    <option value="3">3</option>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="relay-conc" data-i18n="relayConc">همزمانی</label>
+                  <select id="relay-conc">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="relay-timeout" data-i18n="relayTimeout">مهلت هر پینگ</label>
+                  <select id="relay-timeout">
+                    <option value="1500">1.5 ثانیه</option>
+                    <option value="2500" selected>2.5 ثانیه</option>
+                    <option value="4000">4 ثانیه</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="relay-actions">
+              <button id="relay-start" class="btn-glow" data-i18n="relayStart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span data-i18n="relayStart">شروع تست رله</span>
+              </button>
+              <button id="relay-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
+              <button id="relay-export" class="ghost-btn" data-i18n="relayExport">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span data-i18n="relayExport">خروجی متن</span>
+              </button>
+            </div>
+
+            <div class="relay-summary" id="relay-summary" hidden></div>
           </div>
-          <div id="scan-list" class="scan-list">
-            <div class="empty-hint" data-i18n="scanIdle">اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.</div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>💻 <span data-i18n="relayConsole">کنترل ترمینال</span></h3>
+              <span class="console-live" id="console-live" hidden>●</span>
+            </div>
+            <div id="relay-console" class="relay-console" dir="ltr">
+              <div class="console-line dim" data-i18n="relayConsoleIdle">— کنسول آماده است —</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3 data-i18n="relayResults">نتایج تست رله</h3>
+              <span class="muted sm" id="relay-count">—</span>
+            </div>
+            <div class="relay-table-wrap">
+              <table class="relay-table" id="relay-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th data-i18n="relayThIp">IP</th>
+                    <th data-i18n="relayThPort">پورت</th>
+                    <th data-i18n="relayThMin">min</th>
+                    <th data-i18n="relayThAvg">avg</th>
+                    <th data-i18n="relayThMax">max</th>
+                    <th data-i18n="relayThJitter">jitter</th>
+                    <th data-i18n="relayThLoss">loss</th>
+                    <th data-i18n="relayThScore">امتیاز</th>
+                    <th data-i18n="relayThTrend">روند</th>
+                    <th data-i18n="relayThAct">عملیات</th>
+                  </tr>
+                </thead>
+                <tbody id="relay-tbody"></tbody>
+              </table>
+            </div>
+            <div id="relay-empty" class="empty-hint" data-i18n="relayEmpty">هنوز تستی اجرا نشده — IP اضافه کنید و شروع کنید.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>⭐ <span data-i18n="relayFavTitle">IP های ذخیره‌شده</span></h3>
+              <button id="relay-clear-favs" class="ghost-btn sm danger" data-i18n="relayClearFavs">پاک‌سازی</button>
+            </div>
+            <div id="relay-favs" class="relay-favs">
+              <div class="empty-hint" data-i18n="relayNoFavs">هنوز چیزی ذخیره نکرده‌اید — روی ⭐ در نتایج بزنید.</div>
+            </div>
           </div>
         </div>
       </section>

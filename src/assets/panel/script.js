@@ -75,6 +75,26 @@
       scanProgress: 'در حال اسکن…', scanFound: 'زنده', scanAlive: 'زنده', scanBest: 'بهترین',
       scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.',
       scanCopy: 'کپی',
+
+      stabQuick: 'اسکن سریع', stabRelay: 'تست رله‌ها',
+      scanSendRelay: 'تست رله روی نتایج',
+      relayTitle: 'تست رله‌ها', relaySub: 'تأیید چندمرحله‌ای + آمار دقیق',
+      relayIpsLabel: 'آدرس IP ها (هر خط یک IP — یا ip:port)',
+      relayAdd: 'افزودن', relayImport: 'از نتایج اسکن', relayFavs: 'علاقه‌مندی‌ها',
+      relayProbes: 'پینگ به ازای هر IP', relayConc: 'همزمانی', relayTimeout: 'مهلت هر پینگ',
+      relayStart: 'شروع تست رله', relayExport: 'خروجی متن',
+      relayConsole: 'کنترل ترمینال', relayConsoleIdle: '— کنسول آماده است —',
+      relayResults: 'نتایج تست رله', relayEmpty: 'هنوز تستی اجرا نشده — IP اضافه کنید و شروع کنید.',
+      relayFavTitle: 'IP های ذخیره‌شده', relayClearFavs: 'پاک‌سازی', relayNoFavs: 'هنوز چیزی ذخیره نکرده‌اید — روی ⭐ در نتایج بزنید.',
+      relayThIp: 'IP', relayThPort: 'پورت', relayThMin: 'min', relayThAvg: 'avg', relayThMax: 'max',
+      relayThJitter: 'jitter', relayThLoss: 'loss', relayThScore: 'امتیاز', relayThTrend: 'روند', relayThAct: 'عملیات',
+      relayScoreHint: 'A+ تا F بر اساس میانگین پینگ، جیتر و افت بسته',
+      relayLogStart: '⚙️ شروع تست رله — {n} IP × {p} پینگ — پورت {port} (همزمانی {c})',
+      relayLogFinish: '🏁 پایان — {alive} از {total} IP سالم',
+      relayLogStop: '⏹ متوقف شد توسط کاربر',
+      relaySummary: '🏁 تست کامل شد: {alive} از {total} IP سالم ({pct}٪). میانگین پینگ: {avg}. بهترین: {best} با {bestms}. از ۳ IP برتر کانفیگ بسازید — دکمه 📋 در جدول.',
+      relayNoIps: 'اول IP اضافه کنید', relayImported: 'وارد شد', relayFavSaved: 'ذخیره شد — در علاقه‌مندی‌ها', relayFavExists: 'قبلاً ذخیره شده',
+
     },
     en: {
       panelTitle: 'Qanat', logout: 'Logout',
@@ -132,6 +152,26 @@
       scanProgress: 'Scanning…', scanFound: 'alive', scanAlive: 'Alive', scanBest: 'Best',
       scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.',
       scanCopy: 'Copy',
+
+      stabQuick: 'Quick scan', stabRelay: 'Relay test',
+      scanSendRelay: 'Relay-test results',
+      relayTitle: 'Relay Test', relaySub: 'Multi-phase verification + precise stats',
+      relayIpsLabel: 'IP addresses (one per line — or ip:port)',
+      relayAdd: 'Add', relayImport: 'From scan results', relayFavs: 'Favorites',
+      relayProbes: 'Pings per IP', relayConc: 'Concurrency', relayTimeout: 'Per-ping timeout',
+      relayStart: 'Start relay test', relayExport: 'Export text',
+      relayConsole: 'Terminal', relayConsoleIdle: '— console ready —',
+      relayResults: 'Relay test results', relayEmpty: 'No test yet — add IPs and start.',
+      relayFavTitle: 'Saved IPs', relayClearFavs: 'Clear', relayNoFavs: 'Nothing saved yet — press ⭐ in results.',
+      relayThIp: 'IP', relayThPort: 'Port', relayThMin: 'min', relayThAvg: 'avg', relayThMax: 'max',
+      relayThJitter: 'jitter', relayThLoss: 'loss', relayThScore: 'Score', relayThTrend: 'Trend', relayThAct: 'Actions',
+      relayScoreHint: 'A+ to F based on avg ping, jitter and packet loss',
+      relayLogStart: '⚙️ Relay test started — {n} IPs × {p} pings — port {port} (concurrency {c})',
+      relayLogFinish: '🏁 Done — {alive} of {total} IPs alive',
+      relayLogStop: '⏹ Stopped by user',
+      relaySummary: '🏁 Test finished: {alive} of {total} IPs alive ({pct}%). Avg ping: {avg}. Best: {best} at {bestms}. Build configs from the top 3 — use 📋 in the table.',
+      relayNoIps: 'Add IPs first', relayImported: 'Imported', relayFavSaved: 'Saved — see Favorites', relayFavExists: 'Already saved',
+
     },
   };
 
@@ -844,6 +884,8 @@
       this.index = 0;
       this.active = 0;
       this.results = [];
+      var sr0 = $('scan-send-relay');
+      if (sr0) sr0.disabled = true;
       this.ips = randomCfIps(count);
       $('scan-start').hidden = true;
       $('scan-stop').hidden = false;
@@ -897,6 +939,8 @@
         ring.style.strokeDashoffset = (C * (1 - pct / 100)).toFixed(2);
       }
       $('scan-pct').textContent = pct + '%';
+      var sr = $('scan-send-relay');
+      if (sr) sr.disabled = !this.results.length;
     },
 
     render: function () {
@@ -957,6 +1001,346 @@
       });
     });
   });
+
+  /* ═══════════ تست رله‌ها (پیشرفته) ═══════════ */
+  var relay = {
+    running: false, ips: [], results: [], index: 0, active: 0,
+    probeCount: 5, timeoutMs: 2500, conc: 10,
+  };
+
+  function switchScanTab(name) {
+    document.querySelectorAll('.scan-tab').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-stab') === name);
+    });
+    var a = $('stab-ipscan'), b = $('stab-relay');
+    if (a) a.classList.toggle('active', name === 'ipscan');
+    if (b) b.classList.toggle('active', name === 'relay');
+  }
+  $('scan-tabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.scan-tab');
+    if (btn) switchScanTab(btn.getAttribute('data-stab'));
+  });
+
+  /* ─── لاگ کنسول ─── */
+  function relayLog(cls, msg) {
+    var box = $('relay-console');
+    if (!box) return;
+    var now = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    var line = document.createElement('div');
+    line.className = 'console-line ' + (cls || '');
+    line.innerHTML = '<span class="time">' + now + '</span> ' + msg;
+    box.appendChild(line);
+    while (box.children.length > 220) box.removeChild(box.firstChild);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ─── امتیاز کیفیت ─── */
+  function relayScore(avg, loss, jitter) {
+    if (loss >= 100 || avg == null) return 'F';
+    var pts = 100 - avg * 0.22 - jitter * 0.6 - loss * 1.2;
+    if (pts >= 88) return 'A+';
+    if (pts >= 75) return 'A';
+    if (pts >= 60) return 'B';
+    if (pts >= 45) return 'C';
+    if (pts >= 30) return 'D';
+    return 'F';
+  }
+  function relayScoreRank(sc) { return { 'A+': 0, A: 1, B: 2, C: 3, D: 4, F: 5 }[sc] || 9; }
+  function relayScoreClass(sc) { return 'score-' + sc.replace('+', '-plus'); }
+
+  function relayStats(probes) {
+    var alive = probes.filter(function (m) { return m != null; });
+    var loss = Math.round((1 - alive.length / probes.length) * 100);
+    var min = alive.length ? Math.min.apply(null, alive) : null;
+    var max = alive.length ? Math.max.apply(null, alive) : null;
+    var avg = alive.length ? Math.round(alive.reduce(function (a, b) { return a + b; }, 0) / alive.length) : null;
+    var jitter = 0;
+    if (alive.length >= 2) {
+      var sum = 0;
+      for (var i = 1; i < alive.length; i++) sum += Math.abs(alive[i] - alive[i - 1]);
+      jitter = Math.round(sum / (alive.length - 1));
+    }
+    return { min: min, max: max, avg: avg, jitter: jitter, loss: loss, score: relayScore(avg, loss, jitter) };
+  }
+
+  /* ─── اسپارکلاین ─── */
+  function relaySpark(probes) {
+    var W = 90, H = 24, pad = 2;
+    var alive = [];
+    for (var i = 0; i < probes.length; i++) if (probes[i] != null) alive.push({ i: i, m: probes[i] });
+    var pts, cls;
+    if (!alive.length) {
+      pts = [{ x: 0, y: H - pad }, { x: W, y: H - pad }];
+      cls = 'sp-line-bad';
+    } else {
+      var max = Math.max.apply(null, alive.map(function (p) { return p.m; }));
+      pts = alive.map(function (p) {
+        var x = probes.length > 1 ? (p.i / (probes.length - 1)) * (W - 2 * pad) + pad : W / 2;
+        var y = H - pad - (p.m / max) * (H - 2 * pad);
+        return { x: x, y: y };
+      });
+    }
+    var line = pts.map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
+    var last = pts[pts.length - 1];
+    return '<svg class="spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">' +
+      '<polyline points="' + line + '" class="' + cls + '"/>' +
+      (alive.length ? '<circle cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="2.2"/>' : '') +
+      '</svg>';
+  }
+
+  /* ─── پارس IP (پشتیبانی از ip و ip:port) ─── */
+  function relayParseIps(text) {
+    var out = [], seen = {};
+    String(text).split(/[\n,;]+/).forEach(function (line) {
+      line = line.trim();
+      if (!line) return;
+      var ip = line, port = null;
+      if (line.indexOf(':') !== -1) {
+        var parts = line.split(':');
+        ip = parts[0].trim();
+        port = Number(parts[1]);
+      }
+      if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(ip)) return;
+      if (port != null && (!Number.isInteger(port) || port < 1 || port > 65535)) return;
+      var key = ip + ':' + (port || '');
+      if (seen[key]) return;
+      seen[key] = 1;
+      out.push({ ip: ip, port: port || Number($('relay-port').value) || 443 });
+    });
+    return out;
+  }
+
+  /* ─── اجرای تست ─── */
+  function relayStart() {
+    var ips = relayParseIps($('relay-ips').value);
+    if (!ips.length) { toast(t.relayNoIps); return; }
+    relay.running = true;
+    relay.ips = ips;
+    relay.index = 0;
+    relay.active = 0;
+    relay.results = [];
+    relay.probeCount = Number($('relay-probes').value) || 5;
+    relay.timeoutMs = Number($('relay-timeout').value) || 2500;
+    relay.conc = Number($('relay-conc').value) || 10;
+    $('relay-console').innerHTML = '';
+    $('relay-start').hidden = true;
+    $('relay-stop').hidden = false;
+    $('relay-empty').hidden = true;
+    $('relay-summary').hidden = true;
+    $('relay-tbody').innerHTML = '';
+    $('relay-count').textContent = '';
+    relayLog('info', t.relayLogStart
+      .replace('{n}', ips.length)
+      .replace('{p}', relay.probeCount)
+      .replace('{port}', ips[0].port)
+      .replace('{c}', relay.conc));
+    relayTick();
+  }
+
+  function relayTick() {
+    if (!relay.running) return;
+    while (relay.active < relay.conc && relay.index < relay.ips.length) {
+      var entry = relay.ips[relay.index++];
+      relay.active++;
+      relayTestIp(entry);
+    }
+  }
+
+  async function relayTestIp(entry) {
+    var probes = [];
+    for (var i = 1; i <= relay.probeCount; i++) {
+      if (!relay.running) break;
+      var r = await pingIp(entry.ip, relay.timeoutMs, entry.port);
+      var alive = !!r.ok;
+      probes.push(alive ? r.ms : null);
+      var tag = r.reason === 'open' ? '✔' : (alive ? '▸' : '✗');
+      var cls = r.reason === 'open' ? 'good' : (alive ? 'info' : 'bad');
+      var note = r.reason === 'open' ? ' رله ✓' : (alive ? ' reachable' : ' TIMEOUT');
+      relayLog(cls, tag + ' ' + esc(entry.ip) + ':' + entry.port + ' — ping ' + i + '/' + relay.probeCount +
+        ': ' + (alive ? r.ms + 'ms' + note : '—'));
+    }
+    if (!relay.running) { relay.active--; relayRender(); return; }
+    var st = relayStats(probes);
+    var result = {
+      ip: entry.ip, port: entry.port, probes: probes,
+      min: st.min, max: st.max, avg: st.avg, jitter: st.jitter, loss: st.loss, score: st.score,
+    };
+    relay.results.push(result);
+    relayLog(st.score === 'F' ? 'bad' : 'good',
+      '✔ ' + esc(entry.ip) + ':' + entry.port + ' → avg ' + (st.avg == null ? '—' : st.avg + 'ms') +
+      ' · loss ' + st.loss + '% · score ' + st.score);
+    relayRender();
+    relay.active--;
+    if (relay.running && relay.active === 0 && relay.index >= relay.ips.length) relayFinish();
+    else relayTick();
+  }
+
+  function relayFinish() {
+    relay.running = false;
+    $('relay-start').hidden = false;
+    $('relay-stop').hidden = true;
+    var alive = relay.results.filter(function (r) { return r.avg != null; });
+    var total = relay.results.length;
+    var avgAll = alive.length ? Math.round(alive.reduce(function (s, r) { return s + r.avg; }, 0) / alive.length) : null;
+    var best = alive.slice().sort(function (a, b) { return a.avg - b.avg; })[0];
+    relayLog('info', t.relayLogFinish.replace('{alive}', alive.length).replace('{total}', total));
+    var sum = $('relay-summary');
+    sum.innerHTML = t.relaySummary
+      .replace('{alive}', '<b class="ok">' + alive.length + '</b>')
+      .replace('{total}', '<b>' + total + '</b>')
+      .replace('{pct}', Math.round(total ? (alive.length / total) * 100 : 0))
+      .replace('{avg}', avgAll == null ? '—' : '<b>' + avgAll + 'ms</b>')
+      .replace('{best}', best ? '<b>' + esc(best.ip) + '</b>' : '—')
+      .replace('{bestms}', best ? best.avg + 'ms' : '—');
+    sum.hidden = false;
+    relayRender();
+  }
+
+  /* ─── رندر جدول ─── */
+  function relayRender() {
+    var tbody = $('relay-tbody');
+    if (!tbody) return;
+    if (!relay.results.length) {
+      tbody.innerHTML = '';
+      $('relay-empty').hidden = false;
+      $('relay-count').textContent = '—';
+      return;
+    }
+    $('relay-empty').hidden = true;
+    var sorted = relay.results.slice().sort(function (a, b) {
+      return relayScoreRank(a.score) - relayScoreRank(b.score) ||
+        (a.avg == null ? 99999 : a.avg) - (b.avg == null ? 99999 : b.avg);
+    });
+    tbody.innerHTML = sorted.map(function (r, i) {
+      var dead = r.avg == null;
+      return '<tr>' +
+        '<td><span class="rank">' + (i + 1) + '</span></td>' +
+        '<td class="ip-cell">' + esc(r.ip) + '</td>' +
+        '<td class="num">' + r.port + '</td>' +
+        '<td class="num">' + (r.min == null ? '—' : r.min) + '</td>' +
+        '<td class="num">' + (r.avg == null ? '—' : r.avg) + '</td>' +
+        '<td class="num">' + (r.max == null ? '—' : r.max) + '</td>' +
+        '<td class="num">' + r.jitter + '</td>' +
+        '<td class="num">' + (dead ? '—' : r.loss + '%') + '</td>' +
+        '<td><span class="score ' + relayScoreClass(r.score) + '" title="' + esc(t.relayScoreHint) + '">' + r.score + '</span></td>' +
+        '<td>' + relaySpark(r.probes) + '</td>' +
+        '<td><div class="cell-actions">' +
+        '<button class="icon-btn" data-relay-copy="' + esc(r.ip) + '" data-relay-port="' + r.port + '" title="' + esc(t.copyVless) + '">📋</button>' +
+        '<button class="icon-btn" data-relay-fav="' + esc(r.ip) + '" data-relay-port="' + r.port + '" title="⭐">⭐</button>' +
+        '</div></td>' +
+        '</tr>';
+    }).join('');
+    var alive = relay.results.filter(function (r) { return r.avg != null; }).length;
+    var avg = alive ? Math.round(relay.results.filter(function (r) { return r.avg != null; }).reduce(function (s, r) { return s + r.avg; }, 0) / alive) : 0;
+    $('relay-count').textContent = alive + ' / ' + relay.results.length + ' · avg ' + avg + 'ms';
+  }
+
+  /* ─── علاقه‌مندی‌ها ─── */
+  function favsList() {
+    try { var v = JSON.parse(store.getItem('panel_favs') || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function favsSave(l) { store.setItem('panel_favs', JSON.stringify(l)); }
+  function favsRender() {
+    var box = $('relay-favs');
+    if (!box) return;
+    var l = favsList();
+    if (!l.length) { box.innerHTML = '<div class="empty-hint">' + t.relayNoFavs + '</div>'; return; }
+    box.innerHTML = l.map(function (f) {
+      return '<span class="fav-chip" data-fav-ip="' + esc(f.ip) + '" data-fav-port="' + f.port + '">' +
+        esc(f.ip) + '<span class="fav-port">:' + f.port + '</span>' +
+        '<button data-fav-del="' + esc(f.ip) + '" title="del">✕</button></span>';
+    }).join('');
+  }
+
+  /* ─── خروجی ─── */
+  function relayExport() {
+    if (!relay.results.length) { toast(t.relayEmpty); return; }
+    var sorted = relay.results.slice().sort(function (a, b) {
+      return relayScoreRank(a.score) - relayScoreRank(b.score) ||
+        (a.avg == null ? 99999 : a.avg) - (b.avg == null ? 99999 : b.avg);
+    });
+    var lines = ['QANAT RELAY TEST — ' + new Date().toISOString().slice(0, 19).replace('T', ' ')];
+    lines.push('==================================================');
+    lines.push('#' + '\t' + 'IP' + '\t' + 'PORT' + '\t' + 'MIN' + '\t' + 'AVG' + '\t' + 'MAX' + '\t' + 'JITTER' + '\t' + 'LOSS%' + '\t' + 'SCORE');
+    sorted.forEach(function (r, i) {
+      lines.push((i + 1) + '\t' + r.ip + '\t' + r.port + '\t' + (r.min == null ? '-' : r.min) + '\t' +
+        (r.avg == null ? '-' : r.avg) + '\t' + (r.max == null ? '-' : r.max) + '\t' + r.jitter + '\t' + r.loss + '\t' + r.score);
+    });
+    copyText(lines.join('\n'));
+  }
+
+  /* ─── رویدادها ─── */
+  $('relay-start').addEventListener('click', relayStart);
+  $('relay-stop').addEventListener('click', function () {
+    relay.running = false;
+    relayLog('warn', t.relayLogStop);
+    $('relay-start').hidden = false;
+    $('relay-stop').hidden = true;
+  });
+  $('relay-add-ip').addEventListener('click', function () {
+    var v = $('relay-ip-add').value.trim();
+    if (!v) return;
+    var cur = $('relay-ips').value.trim();
+    $('relay-ips').value = (cur ? cur + '\n' : '') + v;
+    $('relay-ip-add').value = '';
+    $('relay-ip-add').focus();
+  });
+  $('relay-ip-add').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('relay-add-ip').click(); });
+  $('relay-import-scan').addEventListener('click', function () {
+    if (!scanner.results.length) { toast(t.scanErr); return; }
+    var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 20);
+    $('relay-ips').value = best.map(function (r) { return r.ip + (r.port && r.port !== 443 ? ':' + r.port : ''); }).join('\n');
+    toast(t.relayImported + ': ' + best.length);
+  });
+  $('relay-import-fav').addEventListener('click', function () {
+    var l = favsList();
+    if (!l.length) { toast(t.relayNoFavs); return; }
+    $('relay-ips').value = l.map(function (f) { return f.ip + ':' + f.port; }).join('\n');
+    toast(t.relayImported + ': ' + l.length);
+  });
+  $('relay-export').addEventListener('click', relayExport);
+  $('relay-clear-favs').addEventListener('click', function () { favsSave([]); favsRender(); });
+  $('relay-favs').addEventListener('click', function (e) {
+    var del = e.target.closest('[data-fav-del]');
+    if (del) {
+      var ip = del.getAttribute('data-fav-del');
+      favsSave(favsList().filter(function (f) { return f.ip !== ip; }));
+      favsRender();
+      return;
+    }
+    var chip = e.target.closest('[data-fav-ip]');
+    if (chip) {
+      var cur = $('relay-ips').value.trim();
+      $('relay-ips').value = (cur ? cur + '\n' : '') + chip.getAttribute('data-fav-ip') + ':' + chip.getAttribute('data-fav-port');
+    }
+  });
+  $('relay-tbody').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-relay-copy]');
+    if (btn) {
+      copyServerConfig(btn.getAttribute('data-relay-copy'), btn.getAttribute('data-relay-port'));
+      return;
+    }
+    var fav = e.target.closest('[data-relay-fav]');
+    if (fav) {
+      var fip = fav.getAttribute('data-relay-fav');
+      var fport = Number(fav.getAttribute('data-relay-port'));
+      var l = favsList();
+      if (l.some(function (f) { return f.ip === fip && Number(f.port) === fport; })) { toast(t.relayFavExists); return; }
+      l.push({ ip: fip, port: fport });
+      favsSave(l);
+      favsRender();
+      toast(t.relayFavSaved);
+    }
+  });
+  $('scan-send-relay').addEventListener('click', function () {
+    if (!scanner.results.length) return;
+    switchScanTab('relay');
+    var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 20);
+    $('relay-ips').value = best.map(function (r) { return r.ip + (r.port && r.port !== 443 ? ':' + r.port : ''); }).join('\n');
+    relayStart();
+  });
+
+  favsRender();
 
   /* ═══════════ سراسری ═══════════ */
   document.addEventListener('keydown', function (e) {

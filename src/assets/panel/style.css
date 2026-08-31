@@ -455,11 +455,39 @@
 .empty-hint { color: var(--muted); font-size: 12.5px; text-align: center; padding: 26px 10px; }
 
 /* ─────────── اسکنر ─────────── */
-.scan-options { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.scan-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.scan-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 18px;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.scan-tab:hover { color: var(--text); border-color: var(--accent); }
+.scan-tab.active {
+  background: var(--accent-soft);
+  border-color: var(--ring);
+  color: var(--accent);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
+}
+.stab { display: none; }
+.stab.active { display: block; animation: viewIn 0.3s ease both; }
+.scan-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.scan-actions .ghost-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.chip-btn.passive { cursor: default; color: var(--muted); background: var(--card-2); }
+
+.scan-options { display: flex; align-items: flex-start; justify-content: space-between; gap: 26px; flex-wrap: wrap; }
 .scan-opts { display: flex; gap: 16px; flex-wrap: wrap; flex: 1; }
 .scan-opts .field { min-width: 120px; }
 .scan-opts select { width: 100%; }
-.scan-progress { flex: 1.2; min-width: 260px; display: flex; align-items: center; gap: 18px; }
+.scan-progress { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+.scan-progress[hidden] { display: none; }
 .scan-ring { position: relative; width: 74px; height: 74px; flex-shrink: 0; }
 .scan-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .scan-ring circle { fill: none; stroke-width: 3.2; }
@@ -487,8 +515,7 @@
 .scan-meta .ok { color: var(--ok); }
 .scan-meta .bad { color: var(--danger); }
 
-.scan-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
-.scan-row {
+.scan-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }.scan-row {
   display: flex; align-items: center; gap: 12px;
   padding: 10px 13px;
   border-radius: 13px;
@@ -513,6 +540,157 @@
 .scan-rt { font-size: 12px; font-weight: 700; color: var(--ok); direction: ltr; font-variant-numeric: tabular-nums; }
 .scan-copy-btn { flex-shrink: 0; }
 .scan-bad .scan-rt { color: var(--danger); }
+
+/* ─────────── تست رله‌ها ─────────── */
+.relay-inputs { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; margin-bottom: 16px; }
+.relay-inputs textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 88px;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  direction: ltr;
+  text-align: left;
+}
+.relay-quick { display: flex; gap: 7px; margin-top: 9px; flex-wrap: wrap; }
+.relay-quick input {
+  flex: 1; min-width: 150px;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 12px; direction: ltr;
+}
+.relay-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+.relay-actions { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; border-top: 1px dashed var(--line); padding-top: 15px; }
+
+.relay-summary {
+  margin-top: 14px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  border: 1px dashed var(--ring);
+  font-size: 12.5px;
+  line-height: 2;
+  animation: cardIn 0.35s ease both;
+}
+.relay-summary b { color: var(--accent); }
+.relay-summary .ok { color: var(--ok); }
+.relay-summary .bad { color: var(--danger); }
+
+/* کنسول ترمینال */
+.relay-console {
+  background: #060d1a;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  padding: 13px 15px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 11.8px;
+  line-height: 1.85;
+  color: #9fb3d1;
+  direction: ltr;
+  text-align: left;
+}
+.relay-console .console-line { white-space: pre-wrap; word-break: break-all; animation: consoleIn 0.18s ease both; }
+@keyframes consoleIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+.relay-console .dim { color: #4d6082; }
+.relay-console .info { color: #67e8f9; }
+.relay-console .good { color: #34d399; }
+.relay-console .warn { color: #fbbf24; }
+.relay-console .bad { color: #fb7185; }
+.relay-console .ok { color: #34d399; font-weight: 700; }
+.relay-console .time { color: #4d6082; }
+.console-live {
+  width: 9px; height: 9px; border-radius: 99px;
+  background: var(--danger);
+  box-shadow: 0 0 10px var(--danger);
+  animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0.25; } }
+
+/* جدول نتایج رله */
+.relay-table-wrap { overflow-x: auto; }
+.relay-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 720px; }
+.relay-table th {
+  text-align: right;
+  font-size: 10.5px;
+  color: var(--muted);
+  font-weight: 800;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-strong);
+  white-space: nowrap;
+}
+.relay-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.relay-table tr { transition: background 0.15s; }
+.relay-table tbody tr:hover { background: var(--card-2); }
+.relay-table .ip-cell { font-family: 'SF Mono', 'Consolas', monospace; font-size: 12px; font-weight: 700; direction: ltr; text-align: left; }
+.relay-table .num { direction: ltr; text-align: right; font-family: 'SF Mono', 'Consolas', monospace; font-size: 11.8px; }
+.relay-table .rank {
+  width: 24px; height: 24px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800; background: var(--card-2); color: var(--muted);
+}
+.relay-table tr:nth-child(1) .rank { background: linear-gradient(135deg, #fbbf24, #f97316); color: #fff; }
+.relay-table tr:nth-child(2) .rank { background: linear-gradient(135deg, #94a3b8, #64748b); color: #fff; }
+.relay-table tr:nth-child(3) .rank { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; }
+.relay-table .cell-actions { display: flex; gap: 5px; }
+.relay-table .cell-actions .icon-btn { width: 30px; height: 30px; }
+.relay-table .cell-actions .icon-btn svg { width: 14px; height: 14px; }
+
+/* امتیاز کیفیت */
+.score {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 24px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 11px; font-weight: 800;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  letter-spacing: 0.5px;
+}
+.score-A { background: rgba(52, 211, 153, 0.16); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+.score-A-plus { background: rgba(52, 211, 153, 0.22); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.55); box-shadow: 0 0 12px rgba(52, 211, 153, 0.25); }
+.score-B { background: rgba(103, 232, 249, 0.14); color: #67e8f9; border: 1px solid rgba(103, 232, 249, 0.35); }
+.score-C { background: var(--warn-soft); color: var(--warn); border: 1px solid rgba(251, 191, 36, 0.35); }
+.score-D { background: rgba(251, 146, 60, 0.14); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.35); }
+.score-F { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.35); }
+
+/* اسپارکلاین */
+.spark { display: block; }
+.spark polyline { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.spark circle { fill: var(--accent); }
+.spark .sp-line-bad { stroke: var(--danger); }
+
+/* علاقه‌مندی‌ها */
+.relay-favs { display: flex; gap: 8px; flex-wrap: wrap; }
+.fav-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 12px;
+  direction: ltr;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-chip:hover { border-color: var(--accent); transform: translateY(-1px); }
+.fav-chip .fav-port { color: var(--muted); font-size: 10.5px; }
+.fav-chip button {
+  border: none; background: transparent; color: var(--muted);
+  cursor: pointer; font-size: 12px; padding: 0; line-height: 1;
+}
+.fav-chip button:hover { color: var(--danger); }
+
+@media (max-width: 860px) {
+  .relay-inputs { grid-template-columns: 1fr; }
+  .relay-opts { grid-template-columns: 1fr 1fr; }
+}
 
 /* ─────────── اشتراک‌ها ─────────── */
 .subs-list { display: flex; flex-direction: column; gap: 12px; }
