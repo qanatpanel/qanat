@@ -20,7 +20,13 @@ export async function handlePanel(request: Request, env: Env, settings: PanelSet
     }
     return redirect(`/${settings.securePath}/login`);
   }
-  return htmlPage(ASSETS.panel);
+  return htmlPage(panelHtml(settings));
+}
+
+/** پنل با تزریق __SP__ — مسیر مطلق پایه برای API/لاگین/خروج (پنل در /Qanat هم کار کند) */
+export function panelHtml(settings: PanelSettings): string {
+  const tag = `<script>window.__SP__=${JSON.stringify('/' + settings.securePath)};</script>`;
+  return ASSETS.panel.includes('</head>') ? ASSETS.panel.replace('</head>', tag + '</head>') : ASSETS.panel + tag;
 }
 
 export async function handleMe(request: Request, env: Env, settings: PanelSettings): Promise<Response> {

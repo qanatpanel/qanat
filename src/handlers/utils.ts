@@ -13,6 +13,7 @@ export function json(data: unknown, status = 200): Response {
 const HTML_HEADERS: Record<string, string> = {
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
+  'cache-control': 'no-store, no-cache, must-revalidate',
   'referrer-policy': 'no-referrer',
   // بدون frame-ancestors تا پیش‌نمایش iframe بشکند
   // connect-src شامل wss: است تا اسکنر IP بتواند از مرورگر به IP های کلودفلر وصل شود

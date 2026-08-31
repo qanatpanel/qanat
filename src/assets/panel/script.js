@@ -274,7 +274,7 @@
   /* ═══════════ API ═══════════ */
   function api(path, opts) {
     opts = opts || {};
-    return fetch('panel/api/' + path, {
+    return fetch((window.__SP__ || '') + '/panel/api/' + path, {
       method: opts.method || 'GET',
       headers: opts.body ? { 'Content-Type': 'application/json' } : undefined,
       body: opts.body ? JSON.stringify(opts.body) : undefined,
@@ -724,7 +724,7 @@
       if (!item) { $('qr-title').textContent = user.username; toast(t.noSubs); return; }
       qrItem = item;
       $('qr-title').textContent = user.username;
-      $('qr-img').src = 'panel/api/qr?text=' + encodeURIComponent(item.vless);
+      $('qr-img').src = (window.__SP__ || '') + '/panel/api/qr?text=' + encodeURIComponent(item.vless);
     });
   }
   function closeQrModal() { $('qr-modal').hidden = true; }
@@ -921,7 +921,7 @@
     });
   });
 
-  $('logout-btn').addEventListener('click', function () { window.location.href = 'logout'; });
+  $('logout-btn').addEventListener('click', function () { window.location.href = (window.__SP__ || '') + '/logout'; });
 
   /* ═══════════ اسکنر IP تمیز کلودفلر ═══════════ */
   var CF_RANGES = [
@@ -1829,9 +1829,9 @@
       loadUsers();
       loadStats();
     } else {
-      window.location.href = 'login';
+      window.location.href = (window.__SP__ || '') + '/login';
     }
   }).catch(function () {
-    window.location.href = 'login';
+    window.location.href = (window.__SP__ || '') + '/login';
   });
 })();

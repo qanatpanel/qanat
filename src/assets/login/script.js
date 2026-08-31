@@ -104,7 +104,7 @@
     submitBtn.disabled = true;
     submitBtn.textContent = '…';
 
-    fetch('login', {
+    fetch(window.__LOGIN_POST__ || 'login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: password, next: window.__NEXT__ || null }),
