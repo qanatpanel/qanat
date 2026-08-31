@@ -78,20 +78,28 @@
 
       <!-- ─────────── داشبورد ─────────── -->
       <section id="view-overview" class="view active">
-        <div class="page-head">
-          <div>
-            <h2 data-i18n="dashTitle">داشبورد</h2>
-            <p class="page-sub" id="dash-date">—</p>
-          </div>
-          <div class="page-actions">
-            <button id="refresh-all" class="ghost-btn" data-i18n="refresh">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-              <span data-i18n="refresh">تازه‌سازی</span>
-            </button>
-            <button id="add-user" class="btn-glow" data-i18n="addUser">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span data-i18n="addUser">کاربر جدید</span>
-            </button>
+        <div class="dash-hero">
+          <div class="hero-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="hero-row">
+            <div class="hero-txt">
+              <div class="hero-greet"><span id="dash-greet">🌊</span></div>
+              <h2 class="hero-title" data-i18n="dashTitle">داشبورد</h2>
+              <p class="hero-sub" id="dash-date">—</p>
+            </div>
+            <div class="hero-clock">
+              <div class="clock-time" id="dash-clock">--:--</div>
+              <div class="clock-date" id="dash-clock-date">—</div>
+            </div>
+            <div class="page-actions hero-actions">
+              <button id="refresh-all" class="ghost-btn" data-i18n="refresh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                <span data-i18n="refresh">تازه‌سازی</span>
+              </button>
+              <button id="add-user" class="btn-glow" data-i18n="addUser">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span data-i18n="addUser">کاربر جدید</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -100,7 +108,7 @@
         <div class="dash-cols">
           <div class="card chart-card">
             <div class="card-head">
-              <h3 data-i18n="chartTitle">مصرف ۷ روز اخیر</h3>
+              <h3 data-i18n="chartTitle">مصرف ۱۴ روز اخیر</h3>
               <div class="legend"><i class="dot"></i><span data-i18n="chartLegend">ترافیک</span></div>
             </div>
             <div id="chart-box" class="chart-box"><div class="empty-hint" data-i18n="loading">در حال بارگذاری…</div></div>
@@ -196,6 +204,15 @@
           <div class="card scan-options">
             <div class="scan-opts">
               <div class="field">
+                <label for="scan-source" data-i18n="scanSource">منبع IP</label>
+                <select id="scan-source">
+                  <option value="clean" selected data-i18n="srcClean">🔥 IP تمیز کلودفلر</option>
+                  <option value="random" data-i18n="srcRandom">🎲 تصادفی از رنج‌ها</option>
+                  <option value="saved" data-i18n="srcSaved">⭐ لیست ذخیره‌شده</option>
+                </select>
+                <p class="hint" data-i18n="scanSourceHint">لیست تمیز شامل IP های شناخته‌شده‌ی هرکست کلودفلر با شانس بالای عبور است</p>
+              </div>
+              <div class="field">
                 <label for="scan-count" data-i18n="scanCount">تعداد IP</label>
                 <select id="scan-count">
                   <option value="50">50</option>
@@ -239,6 +256,7 @@
                 <span data-i18n="scanStart">شروع اسکن</span>
               </button>
               <button id="scan-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
+              <button id="scan-save" class="ghost-btn" title="ذخیره در لیست تمیز">⭐ ذخیره نتایج</button>
               <button id="scan-send-relay" class="ghost-btn" disabled>
                 🧪 <span data-i18n="scanSendRelay">تست رله روی نتایج</span>
               </button>

@@ -202,6 +202,62 @@
 .card-head h3 { font-size: 15px; font-weight: 800; letter-spacing: -0.2px; display: flex; align-items: center; gap: 7px; }
 
 /* ─────────── کارت‌های آمار ─────────── */
+/* ─────────── هیرو داشبورد ─────────── */
+.dash-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(11, 35, 64, 0.92), rgba(8, 47, 73, 0.85) 55%, rgba(10, 32, 60, 0.92));
+  border: 1px solid rgba(103, 232, 249, 0.14);
+  box-shadow: 0 18px 50px rgba(8, 47, 73, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+[data-theme="light"] .dash-hero {
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.95), rgba(204, 251, 241, 0.85) 55%, rgba(224, 242, 254, 0.95));
+  border-color: rgba(8, 145, 178, 0.2);
+}
+.hero-aurora { position: absolute; inset: 0; pointer-events: none; }
+.hero-aurora i {
+  position: absolute; border-radius: 50%; filter: blur(46px); opacity: 0.5;
+  animation: auroraFloat 11s ease-in-out infinite;
+}
+.hero-aurora i:nth-child(1) { width: 300px; height: 300px; left: -80px; top: -120px; background: radial-gradient(circle, #22d3ee, transparent 70%); }
+.hero-aurora i:nth-child(2) { width: 260px; height: 260px; right: 8%; bottom: -140px; background: radial-gradient(circle, #14b8a6, transparent 70%); animation-delay: -4s; }
+.hero-aurora i:nth-child(3) { width: 180px; height: 180px; left: 38%; top: -90px; background: radial-gradient(circle, #818cf8, transparent 70%); animation-delay: -7s; opacity: 0.35; }
+@keyframes auroraFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(26px, 18px) scale(1.08); }
+  66% { transform: translate(-18px, 12px) scale(0.95); }
+}
+.hero-row { position: relative; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.hero-txt { flex: 1; min-width: 220px; }
+.hero-greet { font-size: 15px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+.hero-title { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin: 0; }
+.hero-sub { color: var(--muted); font-size: 12.5px; margin-top: 5px; }
+.hero-clock {
+  text-align: center;
+  padding: 10px 22px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(103, 232, 249, 0.16);
+  direction: ltr;
+}
+[data-theme="light"] .hero-clock { background: rgba(255, 255, 255, 0.6); }
+.clock-time { font-family: 'SF Mono', 'Consolas', monospace; font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+.clock-date { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* اسپارکلاین کارت‌ها */
+.stat-spark { width: 100%; height: 26px; margin-top: 8px; display: block; opacity: 0.9; }
+.stat-spark polyline { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* چارت جدید */
+.chart-line { fill: none; stroke: url(#cg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.chart-area { fill: url(#cga); }
+.bar-dot { fill: var(--card-solid); stroke: #22d3ee; stroke-width: 1.6; }
+.bar-dot.hot { fill: #22d3ee; }
+
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
 .stat-card {
   position: relative;
