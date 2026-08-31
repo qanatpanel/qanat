@@ -22,196 +22,141 @@
     fa: {
       panelTitle: 'قنات', logout: 'خروج',
       tabOverview: 'داشبورد', tabUsers: 'کاربران', tabSubs: 'اشتراک‌ها', tabSettings: 'تنظیمات', tabScanner: 'اسکنر IP',
-      dashTitle: 'داشبورد', usersTitle: 'کاربران', subsTitle: 'اشتراک کاربران', scanTitle: '📡 اسکنر IP تمیز کلودفلر',
+      dashTitle: 'داشبورد', usersTitle: 'کاربران', subsTitle: 'اشتراک کاربران', scanTitle: '📡 اسکنر هوشمند',
       setSub: 'امنیت، پروکسی و رمز عبور',
-      loading: 'در حال بارگذاری…', refresh: 'تازه‌سازی', addUser: '+ کاربر جدید',
-      stActive: 'فعال', stDisabled: 'غیرفعال', stExpired: 'منقضی', stFull: 'پر',
-      unlimited: 'نامحدود', never: 'بدون انقضا', days: 'روز',
-      infoTitle: 'اطلاعات پنل',
-      statUsers: 'کل کاربران', statActive: 'کاربران فعال', statToday: 'مصرف امروز', statTotal: 'مصرف کل',
-      tbYesterday: 'دیروز', tbQuota: 'کوتای کل', tbExpired: 'منقضی', tbDisabled: 'غیرفعال',
-      chartTitle: 'مصرف ۷ روز اخیر', chartLegend: 'ترافیک', noData: 'هنوز داده‌ای ثبت نشده — بعد از اولین اتصال نمودار پر می‌شود.',
-      topUsersTitle: 'پر مصرف‌ترین کاربران', recentTitle: 'آخرین کاربران', seeAll: 'مشاهده همه',
-      searchPh: 'جستجوی نام، UUID یا یادداشت…',
-      fAll: 'همه', fActive: 'فعال', fExpired: 'منقضی', fDisabled: 'غیرفعال', fFull: 'پر',
-      noUsersTitle: 'هنوز کاربری ساخته نشده', noUsers: 'با دکمه‌ی «کاربر جدید» شروع کنید — هر کاربر کانفیگ اختصاصی VLESS و Trojan می‌گیرد.',
-      noMatch: 'کاربری با این جستجو پیدا نشد.',
-      usedShort: 'مصرف', quotaShort: 'کوتا', expiryShort: 'انقضا',
-      copyUuid: 'کپی UUID', showQr: 'کانفیگ و QR', delete: 'حذف',
-      addUserTitle: 'کاربر جدید', uUsername: 'نام کاربری', uUsernameHint: '۳ تا ۳۲ حرف — حروف، اعداد، _ و -',
-      uQuota: 'کوتای حجم (GB) — ۰ = نامحدود', uExpiry: 'انقضا (روز) — ۰ = بدون انقضا',
-      uNote: 'یادداشت (اختیاری)', cancel: 'انصراف', save: 'ذخیره',
-      saved: 'ذخیره شد ✓', deleted: 'حذف شد', sureDelete: 'مطمئنی؟', copied: 'کپی شد ✓',
-      passChanged: 'رمز عبور تغییر کرد ✓', wrongCurrent: 'رمز فعلی اشتباه است',
-      weakPass: 'رمز جدید حداقل ۸ کاراکتر باشد', passMismatch: 'رمزهای جدید یکسان نیستند',
-      pathRegenerated: 'مسیر مخفی بازسازی شد — لینک جدید را ذخیره کنید',
-      errNetwork: 'خطا در ارتباط با سرور', errUnauthorized: 'نشست منقضی شده — دوباره وارد شوید',
-      invalidUsername: 'نام کاربری نامعتبر است', taken: 'این نام کاربری قبلاً استفاده شده',
-      confirmDel: 'این کاربر حذف شود؟',
-      delUserTitle: 'حذف کاربر', delUserText: 'کاربر «{name}» برای همیشه حذف می‌شود؟ این عمل قابل بازگشت نیست.',
-      confirmYes: 'بله، حذف کن', confirmNo: 'انصراف',
-      subsTitle2: 'اشتراک کاربران', subsHint: 'هر کاربر لینک اختصاصی خودش را دارد — با دانستن UUID قابل دسترسی است.',
-      noSubs: 'کاربری وجود ندارد — اول کاربر بسازید.',
-      copyUri: 'کپی', openSubPage: 'صفحه‌ی اشتراک', txtSub: 'اشتراک متنی', clashSub: 'Clash', singboxSub: 'sing-box',
-      copyVless: 'کپی VLESS', copyTrojan: 'کپی Trojan', copySubLink: 'کپی لینک اشتراک', copySubTxt: 'کپی اشتراک متنی',
-      qrAppsTitle: 'نصب سریع — اشتراک مستقیم در اپ (همین دستگاه)', appHiddify: 'Hiddify', appV2rayng: 'v2rayNG', appV2box: 'V2Box', appHapp: 'Happ',
-      qrLoading: 'در حال آماده‌سازی…',
-      secTitle: 'امنیت', securePathLabel: 'مسیر مخفی پنل', regenerate: 'بازسازی',
-      securePathHint: 'بعد از بازسازی، آدرس پنل عوض می‌شود. لینک جدید را ذخیره کنید.',
-      claimLabel: 'توکن ادعای نصب (Claim Token)', claimOn: 'تنظیم شده ✓', claimOff: 'تنظیم نشده',
-      claimHint: 'اگر تنظیم شده باشد، اولین نصب فقط با این توکن امکان‌پذیر است.',
-      verLabel: 'نسخه', hostLabel: 'دامنه',
-      passTitle: 'تغییر رمز عبور', curPass: 'رمز فعلی', newPass: 'رمز جدید (حداقل ۸ کاراکتر)',
-      confPass: 'تکرار رمز جدید', changePass: 'تغییر رمز عبور',
-      proxyTitle: 'تنظیمات پروکسی', pHost: 'هاست (خالی = خودکار)', pPort: 'پورت',
-      pProtocols: 'پروتکل‌ها', pBoth: 'هر دو (VLESS + Trojan)', pVless: 'فقط VLESS', pTrojan: 'فقط Trojan',
-      pTls: 'TLS', pTlsHint: 'اگر پشت دامنه‌ی خودتان است روشن باشد', pSni: 'SNI (خالی = هاست)',
-      pPathLabel: 'مسیر مخفی پروکسی', pPathHint: 'کلاینت‌ها با این مسیر وصل می‌شوند — بعد از تغییر، کانفیگ‌ها را به‌روز کنید.', pUpstreams: 'بالادست‌ها (هاپ) — اختیاری', pUpstreamsHint: 'وقتی سایت‌ها اتصال مستقیم کلودفلر را می‌بندند (ERR_CONNECTION_CLOSED)، ترافیک از این‌ها رد می‌شود — مثل کانفیگ edgetunnel خودتان. هر خط یک کانفیگ؛ به ترتیب امتحان می‌شوند.', pFailover: 'مهلت fallback (میلی‌ثانیه)', pFailoverHint: 'اگر اتصال مستقیم تا این مدت پاسخ نداد، سراغ بالادست‌ها می‌رود.',
-      saveProxy: 'ذخیره تنظیمات پروکسی', proxySaved: 'تنظیمات پروکسی ذخیره شد ✓', proxyPathRegen: 'مسیر پروکسی بازسازی شد ✓',
-      errProxy: 'خطا در ذخیره تنظیمات پروکسی',
-      usageOf: 'مصرف:', noLimit: 'نامحدود',
-      scanHint: 'IP های تصادفی کلودفلر از مرورگر شما تست می‌شوند — پینگ واقعی RTT از دستگاه شما. IP های «زنده» معمولاً تمیز و قابل استفاده‌اند.',
-      scanStart: 'شروع اسکن', scanStop: 'توقف', scanCount: 'تعداد IP', scanTimeout: 'مهلت اتصال', scanConc: 'همزمانی', scanPort: 'پورت', scanPortHint: 'اگر ۴۴۳ وصل نشد، پورت‌های جایگزین را امتحان کنید',
-      scanResults: 'نتایج', scanIdle: 'اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.', scanCopyBest: 'کپی کانفیگ ۵ IP برتر',
+      scanHint: 'تشخیص خودکار بهترین IP برای اتصال — یک کلیک، همه‌چیز.',
+      scanStart: 'شروع اسکن هوشمند', scanStartSub: 'پینگ شبکه از مرورگر + تأیید پورت از سرور — چند ثانیه', scanStop: '⏹ توقف', scanAdvanced: 'تنظیمات پیشرفته', scanAdvHint: 'اسکن هوشمند بعداً همهٔ پورت‌ها را روی کاندیدهای برتر تست می‌کند',
+      scanCount: 'تعداد IP', scanTimeout: 'مهلت اتصال', scanConc: 'همزمانی', scanPort: 'پورت پایه',
+      scanResults: 'نتایج هوشمند', scanIdle: 'اسکن را شروع کنید — بهترین IP ها اینجا نمایش داده می‌شوند.', scanCopyBest: 'کپی ۵ کانفیگ برتر', scanSetBest: 'ست بهترین روی کانفیگ‌ها',
       scanProgress: 'در حال اسکن…', scanFound: 'زنده', scanAlive: 'زنده', scanBest: 'بهترین',
-      scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.', scanCalibFail: 'تشخیص خودکار شبکه ممکن نشد — از آستانه‌ی پیش‌فرض استفاده شد.',
+      scanNoResult: 'IP قابل‌استفاده‌ای پیدا نشد — دوباره تلاش کن یا تعداد را در تنظیمات پیشرفته زیاد کن.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.', scanCalibFail: 'تشخیص خودکار شبکه ممکن نشد — از آستانهٔ پیش‌فرض استفاده شد.',
       scanCopy: 'کپی',
       scanSetIp: '🎯 ست کردن IP روی کانفیگ‌ها',
       scanSetIpBtn: 'ست کردن IP روی کانفیگ‌ها',
       relaySetBest: 'ست کردن IP برتر روی کانفیگ‌ها',
       scanSetDone: 'IP روی کانفیگ‌ها ست شد — کانفیگ‌ها و لینک اشتراک از این به بعد به این IP وصل می‌شوند',
       scanSetCleared: 'IP ست‌شده پاک شد — کانفیگ‌ها دوباره به دامنه وصل می‌شوند',
-      scanSetEmpty: 'اول اسکن کنید یا از نتایج رله استفاده کنید',
+      scanSetEmpty: 'اول اسکن کنید',
       scanSetBadge: 'ست‌شده روی کانفیگ‌ها',
-
+      stabSmart: 'اسکن هوشمند', stabManual: 'تست دستی',
+      scanStatusDomain: 'اتصال از طریق دامنه', scanStatusDomainSub: 'اسکن کن و بهترین IP را روی کانفیگ‌ها ست کن — Host/SNI همان دامنه می‌ماند',
+      scanStatusIp: 'IP ست‌شده روی کانفیگ‌ها', scanHealth: '🩺 تست سلامت', scanClearIp: '✕ پاک کردن',
+      scanPhaseNet: '📡 اسکن شبکه — پینگ واقعی از مرورگر تو', scanPhaseServer: '🛰 تأیید سرور — تست پورت‌ها از سمت کلودفلر', scanPhaseRank: '🏆 رتبه‌بندی نهایی', scanDone: '✅ کامل شد',
+      scoreA: 'عالی', scoreB: 'خوب', scoreC: 'متوسط', scoreD: 'ضعیف', portOpen: 'باز', portClosed: 'بسته',
+      curIp: 'جاری', favAdd: 'در منتخب‌ها ذخیره شد', favDel: 'از منتخب‌ها حذف شد',
       srcMix: '⚡ همه منابع زنده (پیشنهادی)', srcIrcf: '🌐 IRCF.space — هر اپراتور', srcCf2dns: '📡 cf2dns — روزانه + امتیاز', srcBestcf: '🌏 best-cf-ips — هر ۳ ساعت',
+      srcClean: '🔥 IP تمیز کلودفلر', srcFavs: '⭐ منتخب‌های من',
       liveLoading: 'دریافت لیست زنده…', liveFallback: 'منبع زنده در دسترس نبود — از لیست داخلی استفاده شد',
       liveChip: (e, n, time) => e + ' × ' + n + ' · ' + time,
-
-
-      dashGreetM: '🌅 صبح بخیر، کاپیتان!', dashGreetA: '☀️ ظهر بخیر!', dashGreetE: '🌆 عصر بخیر!', dashGreetN: '🌙 شب بخیر!',
-      scanSource: 'منبع IP', scanSourceHint: 'لیست تمیز شامل IP های شناخته‌شده‌ی هرکست کلودفلر با شانس بالای عبور است',
-      srcClean: '🔥 IP تمیز کلودفلر', srcRandom: '🎲 تصادفی از رنج‌ها', srcSaved: '⭐ لیست ذخیره‌شده',
-      scanSaved: 'نتایج در لیست تمیز ذخیره شد', scanEtc: 'مانده', scanRange: 'رنج فعال', scanSavedEmpty: 'لیست ذخیره‌شده خالی است — اول اسکن کنید و «⭐ ذخیره نتایج» را بزنید',
-
-
-      stabQuick: 'اسکن سریع', stabRelay: 'تست رله‌ها',
-      scanSendRelay: 'تست رله روی نتایج',
-      relayTitle: 'تست رله‌ها', relaySub: 'تأیید چندمرحله‌ای + آمار دقیق',
-      relayIpsLabel: 'آدرس IP ها (هر خط یک IP — یا ip:port)',
-      relayAdd: 'افزودن', relayImport: 'از نتایج اسکن', relayFavs: 'علاقه‌مندی‌ها',
-      relayProbes: 'پینگ به ازای هر IP', relayConc: 'همزمانی', relayTimeout: 'مهلت هر پینگ',
-      relayStart: 'شروع تست رله', relayExport: 'خروجی متن',
-      relayConsole: 'کنترل ترمینال', relayConsoleIdle: '— کنسول آماده است —',
-      relayResults: 'نتایج تست رله', relayEmpty: 'هنوز تستی اجرا نشده — IP اضافه کنید و شروع کنید.',
-      relayFavTitle: 'IP های ذخیره‌شده', relayClearFavs: 'پاک‌سازی', relayNoFavs: 'هنوز چیزی ذخیره نکرده‌اید — روی ⭐ در نتایج بزنید.',
+      manualTitle: 'تست دستی', manualSub: 'آمار دقیق چند پینگ برای کاربران حرفه‌ای',
+      manualIps: 'آدرس IP ها (هر خط یک IP — یا ip:port)',
+      manualAdd: 'افزودن', manualImportScan: '🎯 از نتایج اسکن', manualImportFav: '⭐ از منتخب‌ها',
+      manualProbes: 'پینگ به ازای هر IP', manualConc: 'همزمانی', manualTimeout: 'مهلت هر پینگ',
+      manualStart: 'شروع تست', manualExport: 'خروجی متن', manualSetBest: 'ست IP برتر روی کانفیگ‌ها',
+      manualResults: 'نتایج تست', manualFavTitle: 'منتخب‌های من', manualClearFavs: 'پاک‌سازی', manualNoFavs: 'هنوز چیزی ذخیره نکرده‌اید — روی ⭐ در نتایج بزنید.',
+      relayEmpty: 'هنوز تستی اجرا نشده — IP اضافه کنید و شروع کنید.',
       relayThIp: 'IP', relayThPort: 'پورت', relayThMin: 'min', relayThAvg: 'avg', relayThMax: 'max',
       relayThJitter: 'jitter', relayThLoss: 'loss', relayThScore: 'امتیاز', relayThTrend: 'روند', relayThAct: 'عملیات',
       relayScoreHint: 'A+ تا F بر اساس میانگین پینگ، جیتر و افت بسته',
-      relayLogStart: '⚙️ شروع تست رله — {n} IP × {p} پینگ — پورت {port} (همزمانی {c})',
-      relayLogFinish: '🏁 پایان — {alive} از {total} IP سالم',
-      relayLogStop: '⏹ متوقف شد توسط کاربر',
-      relaySummary: '🏁 تست کامل شد: {alive} از {total} IP سالم ({pct}٪). میانگین پینگ: {avg}. بهترین: {best} با {bestms}. از ۳ IP برتر کانفیگ بسازید — دکمه 📋 در جدول.',
-      relayNoIps: 'اول IP اضافه کنید', relayImported: 'وارد شد', relayFavSaved: 'ذخیره شد — در علاقه‌مندی‌ها', relayFavExists: 'قبلاً ذخیره شده',
-
+      relaySummary: '🏁 تست کامل شد: {alive} از {total} IP سالم ({pct}٪). میانگین پینگ: {avg}. بهترین: {best} با {bestms}. از دکمه‌های 📋 برای کپی کانفیگ استفاده کنید.',
+      relayNoIps: 'اول IP اضافه کنید', relayImported: 'وارد شد', relayFavSaved: 'ذخیره شد — در منتخب‌ها', relayFavExists: 'قبلاً ذخیره شده',
+      dashGreetM: '🌅 صبح بخیر، کاپیتان!', dashGreetA: '☀️ ظهر بخیر!', dashGreetE: '🌆 عصر بخیر!', dashGreetN: '🌙 شب بخیر!',
+      scanSource: 'منبع IP', scanSourceHint: 'لیست تمیز شامل IP های شناخته‌شده‌ی هرکست کلودفلر با شانس بالای عبور است',
+      scanEtc: 'مانده', scanRange: 'رنج فعال',
+      recentTitle: 'آخرین کاربران', seeAll: 'همه',
+      noUsersTitle: 'هنوز کاربری ساخته نشده', noUsers: 'اولین کاربر را بساز — دکمهٔ «+ کاربر جدید»',
+      addUserTitle: 'کاربر جدید', addUser: '+ کاربر جدید', uUsername: 'نام کاربری', uUsernameHint: 'حروف انگلیسی، عدد، _ و - (۳ تا ۳۲ کاراکتر)',
+      uQuota: 'سهمیه (GB)', uExpiry: 'انقضا', uNote: 'یادداشت (اختیاری)', days: 'روز', noLimit: 'نامحدود',
+      invalidUsername: 'نام کاربری نامعتبر است', taken: 'این نام کاربری قبلاً ساخته شده', weakPass: 'رمز عبور حداقل ۸ کاراکتر', wrongCurrent: 'رمز فعلی اشتباه است',
+      passMismatch: 'رمزهای جدید یکی نیستند', passChanged: 'رمز عبور تغییر کرد ✓', passTitle: 'تغییر رمز عبور', curPass: 'رمز فعلی', newPass: 'رمز جدید', confPass: 'تکرار رمز جدید', changePass: 'تغییر رمز',
+      cancel: 'انصراف', save: 'ذخیره', saveProxy: 'ذخیره تنظیمات',
+      fAll: 'همه', fActive: 'فعال', fExpired: 'منقضی', fDisabled: 'غیرفعال', fFull: 'تکمیل', fEmpty: 'خالی',
+      searchPh: 'جستجوی نام کاربری…', deleted: 'کاربر حذف شد ✓', delete: 'حذف', sureDelete: 'مطمئنی؟ این کاربر برای همیشه حذف می‌شود.', delUserTitle: 'حذف کاربر', delUserText: 'کاربر «{name}» با همهٔ کانفیگ‌ها حذف شود؟', confirmYes: 'بله، حذف کن', confirmNo: 'انصراف', confirmDel: 'تأیید حذف',
+      usageOf: 'از', usedShort: 'مصرف', unlimited: 'نامحدود', never: 'هرگز', expired: 'منقضی', stActive: 'فعال', stDisabled: 'غیرفعال', stExpired: 'منقضی', stFull: 'تکمیل', stEmpty: 'خالی',
+      tbQuota: 'سهمیه', tbUsed: 'مصرف', tbExpiry: 'انقضا', tbStatus: 'وضعیت', tbActions: 'عملیات', tbYesterday: 'دیروز',
+      copyUri: 'کپی لینک', copyUuid: 'کپی UUID', copyTrojan: 'کپی پسورد تروجان', copyVless: 'کپی کانفیگ VLESS', copySubLink: 'کپی لینک اشتراک', copied: 'کپی شد ✓', copySubTxt: 'کپی اشتراک',
+      showQr: 'نمایش QR', qrLoading: 'در حال ساخت QR…', qrAppsTitle: 'این اپ‌ها از QR پشتیبانی می‌کنند', appV2rayng: 'v2rayNG', appHiddify: 'Hiddify', appV2box: 'V2Box', appHapp: 'Happ', appStreisand: 'Streisand',
+      subsTitle2: 'اشتراک کاربران', subsHint: 'لینک اشتراک هر کاربر — با مصرف و انقضای خودکار', openSubPage: 'باز کردن صفحهٔ اشتراک', noSubs: 'کاربری نیست — اول کاربر بساز',
+      clashSub: 'دانلود کانفیگ Clash', singboxSub: 'دانلود کانفیگ sing-box', txtSub: 'اشتراک متنی (base64)',
+      settingsTitle: 'تنظیمات', secTitle: 'امنیت و دسترسی', securePathLabel: 'مسیر مخفی پنل', securePathHint: 'آدرس ورود پنل — این لینک را فقط با افراد مطمئن به اشتراک بگذار', regenerate: 'بازسازی', pathRegenerated: 'مسیر مخفی بازسازی شد — لینک جدید را ذخیره کن',
+      proxyTitle: 'پروکسی (VLESS / Trojan)', pHost: 'هاست (دامنهٔ اتصال)', pPort: 'پورت', pTls: 'TLS', pTlsHint: 'TLS را روشن بگذار — کلودفلر نیاز دارد', pSni: 'SNI', pProtocols: 'پروتکل‌ها', pVless: 'VLESS', pTrojan: 'Trojan', pBoth: 'هر دو',
+      pPathLabel: 'مسیر پروکسی', pPathHint: 'مسیر WebSocket — عوض کردنش همهٔ کانفیگ‌های قبلی را باطل می‌کند', proxyPathRegen: 'بازسازی مسیر',
+      pUpstreams: 'بالادست‌ها (upstream)', pUpstreamsHint: 'هر خط یک کانفیگ vless:// یا trojan:// یا host:port شفاف — برای دور زدن بلاک خروجی کلودفلر', pFailover: 'مهلت failover', pFailoverHint: 'چند میلی‌ثانیه صبر برای اولین بایت قبل از رفتن به بالادست بعدی',
+      proxySaved: 'تنظیمات پروکسی ذخیره شد ✓', errNetwork: 'خطای شبکه', errUnauthorized: 'نشست منقضی شده — دوباره وارد شو', errProxy: 'ذخیرهٔ تنظیمات پروکسی ناموفق بود',
+      statUsers: 'کاربر', statActive: 'فعال', statExpired: 'منقضی', statToday: 'مصرف امروز', statTotal: 'مصرف کل', statDisabled: 'غیرفعال',
+      chartTitle: 'مصرف ۷ روز اخیر', chartLegend: 'داده (GB)', topUsersTitle: 'کاربران پرمصرف', ping: 'ms',
+      verLabel: 'نسخه', infoTitle: 'دربارهٔ پنل', best: 'بهترین', usageOf2: 'مصرف',
     },
     en: {
       panelTitle: 'Qanat', logout: 'Logout',
       tabOverview: 'Dashboard', tabUsers: 'Users', tabSubs: 'Subscriptions', tabSettings: 'Settings', tabScanner: 'IP Scanner',
-      dashTitle: 'Dashboard', usersTitle: 'Users', subsTitle: 'User subscriptions', scanTitle: '📡 Cloudflare Clean IP Scanner',
+      dashTitle: 'Dashboard', usersTitle: 'Users', subsTitle: 'User subscriptions', scanTitle: '📡 Smart Scanner',
       setSub: 'Security, proxy & password',
-      loading: 'Loading…', refresh: 'Refresh', addUser: '+ New user',
-      stActive: 'Active', stDisabled: 'Disabled', stExpired: 'Expired', stFull: 'Full',
-      unlimited: 'Unlimited', never: 'No expiry', days: 'days',
-      infoTitle: 'Panel info',
-      statUsers: 'Total users', statActive: 'Active users', statToday: "Today's usage", statTotal: 'Total usage',
-      tbYesterday: 'Yesterday', tbQuota: 'Total quota', tbExpired: 'Expired', tbDisabled: 'Disabled',
-      chartTitle: 'Traffic — last 7 days', chartLegend: 'Traffic', noData: 'No data yet — the chart fills after the first connection.',
-      topUsersTitle: 'Top users', recentTitle: 'Recent users', seeAll: 'See all',
-      searchPh: 'Search name, UUID or note…',
-      fAll: 'All', fActive: 'Active', fExpired: 'Expired', fDisabled: 'Disabled', fFull: 'Full',
-      noUsersTitle: 'No users yet', noUsers: 'Start with "New user" — each user gets a private VLESS & Trojan config.',
-      noMatch: 'No user matches this search.',
-      usedShort: 'Used', quotaShort: 'Quota', expiryShort: 'Expiry',
-      copyUuid: 'Copy UUID', showQr: 'Config & QR', delete: 'Delete',
-      addUserTitle: 'New user', uUsername: 'Username', uUsernameHint: '3-32 chars: letters, digits, _ , -',
-      uQuota: 'Quota (GB) — 0 = unlimited', uExpiry: 'Expiry (days) — 0 = none',
-      uNote: 'Note (optional)', cancel: 'Cancel', save: 'Save',
-      saved: 'Saved ✓', deleted: 'Deleted', sureDelete: 'Sure?', copied: 'Copied ✓',
-      passChanged: 'Password changed ✓', wrongCurrent: 'Current password is wrong',
-      weakPass: 'New password must be at least 8 chars', passMismatch: 'New passwords do not match',
-      pathRegenerated: 'Secret path regenerated — save the new link',
-      errNetwork: 'Server connection error', errUnauthorized: 'Session expired — sign in again',
-      invalidUsername: 'Invalid username', taken: 'This username is already taken',
-      confirmDel: 'Delete this user?',
-      delUserTitle: 'Delete user', delUserText: 'User "{name}" will be permanently deleted. This cannot be undone.',
-      confirmYes: 'Yes, delete', confirmNo: 'Cancel',
-      subsTitle2: 'User subscriptions', subsHint: 'Each user has their own private link — accessible by UUID.',
-      noSubs: 'No users yet — create one first.',
-      copyUri: 'Copy', openSubPage: 'Subscription page', txtSub: 'Text sub', clashSub: 'Clash', singboxSub: 'sing-box',
-      copyVless: 'Copy VLESS', copyTrojan: 'Copy Trojan', copySubLink: 'Copy subscription link', copySubTxt: 'Copy text subscription',
-      qrAppsTitle: 'Quick install — opens the sub directly in the app (this device)', appHiddify: 'Hiddify', appV2rayng: 'v2rayNG', appV2box: 'V2Box', appHapp: 'Happ',
-      qrLoading: 'Preparing…',
-      secTitle: 'Security', securePathLabel: 'Panel secret path', regenerate: 'Regenerate',
-      securePathHint: 'After regeneration the panel URL changes. Save the new link.',
-      claimLabel: 'Install claim token', claimOn: 'Set ✓', claimOff: 'Not set',
-      claimHint: 'When set, first-time setup is only possible with this token.',
-      verLabel: 'Version', hostLabel: 'Host',
-      passTitle: 'Change password', curPass: 'Current password', newPass: 'New password (min 8 chars)',
-      confPass: 'Confirm new password', changePass: 'Change password',
-      proxyTitle: 'Proxy settings', pHost: 'Host (empty = auto)', pPort: 'Port',
-      pProtocols: 'Protocols', pBoth: 'Both (VLESS + Trojan)', pVless: 'VLESS only', pTrojan: 'Trojan only',
-      pTls: 'TLS', pTlsHint: 'Enable if behind your own domain', pSni: 'SNI (empty = host)',
-      pPathLabel: 'Secret proxy path', pPathHint: 'Clients connect through this path — regenerate configs after changing.', pUpstreams: 'Upstreams (hops) — optional', pUpstreamsHint: 'When sites close the direct Cloudflare connection (ERR_CONNECTION_CLOSED), traffic is routed through these — like your own edgetunnel config. One config per line, tried in order.', pFailover: 'Fallback timeout (ms)', pFailoverHint: 'If the direct connection sends nothing within this time, upstreams are tried.',
-      saveProxy: 'Save proxy settings', proxySaved: 'Proxy settings saved ✓', proxyPathRegen: 'Proxy path regenerated ✓',
-      errProxy: 'Error saving proxy settings',
-      usageOf: 'Usage:', noLimit: 'Unlimited',
-      scanHint: 'Random Cloudflare IPs are tested from your browser — real RTT ping from your device. Alive IPs are usually clean and usable.',
-      scanStart: 'Start scan', scanStop: 'Stop', scanCount: 'IP count', scanTimeout: 'Timeout', scanConc: 'Concurrency', scanPort: 'Port', scanPortHint: 'If 443 fails, try alternative ports',
-      scanResults: 'Results', scanIdle: 'Start a scan — results appear here.', scanCopyBest: 'Copy top 5 configs',
+      scanHint: 'Automatic best-IP detection — one click, everything.',
+      scanStart: 'Start smart scan', scanStartSub: 'Browser ping + server port verification — a few seconds', scanStop: '⏹ Stop', scanAdvanced: 'Advanced settings', scanAdvHint: 'Smart scan will test all ports on top candidates afterwards',
+      scanCount: 'IP count', scanTimeout: 'Timeout', scanConc: 'Concurrency', scanPort: 'Base port',
+      scanResults: 'Smart results', scanIdle: 'Start a scan — the best IPs will appear here.', scanCopyBest: 'Copy top 5 configs', scanSetBest: 'Apply best to configs',
       scanProgress: 'Scanning…', scanFound: 'alive', scanAlive: 'Alive', scanBest: 'Best',
-      scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.', scanCalibFail: 'Network auto-calibration failed — using default threshold.',
+      scanNoResult: 'No usable IP found — retry or increase the count in advanced settings.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.', scanCalibFail: 'Network auto-calibration failed — using default threshold.',
       scanCopy: 'Copy',
       scanSetIp: '🎯 Set IP on configs',
       scanSetIpBtn: 'Set IP on configs',
       relaySetBest: 'Set best IP on configs',
       scanSetDone: 'IP applied to configs — configs & subscription links now connect to this IP',
       scanSetCleared: 'Set IP cleared — configs use the domain again',
-      scanSetEmpty: 'Run a scan or use relay results first',
+      scanSetEmpty: 'Run a scan first',
       scanSetBadge: 'applied to configs',
-
+      stabSmart: 'Smart scan', stabManual: 'Manual test',
+      scanStatusDomain: 'Connecting via domain', scanStatusDomainSub: 'Scan and apply the best IP to configs — Host/SNI stays the domain',
+      scanStatusIp: 'IP applied to configs', scanHealth: '🩺 Health test', scanClearIp: '✕ Clear',
+      scanPhaseNet: '📡 Scanning network — real ping from your browser', scanPhaseServer: '🛰 Server verification — port test from Cloudflare', scanPhaseRank: '🏆 Final ranking', scanDone: '✅ Done',
+      scoreA: 'great', scoreB: 'good', scoreC: 'okay', scoreD: 'weak', portOpen: 'open', portClosed: 'closed',
+      curIp: 'current', favAdd: 'Saved to favorites', favDel: 'Removed from favorites',
       srcMix: '⚡ All live sources (recommended)', srcIrcf: '🌐 IRCF.space — per ISP', srcCf2dns: '📡 cf2dns — daily + score', srcBestcf: '🌏 best-cf-ips — every 3h',
-      liveLoading: 'Fetching live list…', liveFallback: 'Live source unavailable — using built-in list',
+      srcClean: '🔥 Clean Cloudflare IPs', srcFavs: '⭐ My favorites',
+      liveLoading: 'Fetching live list…', liveFallback: 'Live source unavailable — using internal list',
       liveChip: (e, n, time) => e + ' × ' + n + ' · ' + time,
-
-
-      dashGreetM: '🌅 Good morning, captain!', dashGreetA: '☀️ Good afternoon!', dashGreetE: '🌆 Good evening!', dashGreetN: '🌙 Good night!',
-      scanSource: 'IP source', scanSourceHint: 'Clean list = well-known Cloudflare anycast IPs with high pass odds',
-      srcClean: '🔥 Cloudflare clean IPs', srcRandom: '🎲 Random from ranges', srcSaved: '⭐ Saved list',
-      scanSaved: 'Results saved to clean list', scanNoResult: 'No alive IP found — increase count or timeout.', scanEtc: 'left', scanRange: 'Active range', scanSavedEmpty: 'Saved list is empty — scan first and hit ⭐',
-
-
-      stabQuick: 'Quick scan', stabRelay: 'Relay test',
-      scanSendRelay: 'Relay-test results',
-      relayTitle: 'Relay Test', relaySub: 'Multi-phase verification + precise stats',
-      relayIpsLabel: 'IP addresses (one per line — or ip:port)',
-      relayAdd: 'Add', relayImport: 'From scan results', relayFavs: 'Favorites',
-      relayProbes: 'Pings per IP', relayConc: 'Concurrency', relayTimeout: 'Per-ping timeout',
-      relayStart: 'Start relay test', relayExport: 'Export text',
-      relayConsole: 'Terminal', relayConsoleIdle: '— console ready —',
-      relayResults: 'Relay test results', relayEmpty: 'No test yet — add IPs and start.',
-      relayFavTitle: 'Saved IPs', relayClearFavs: 'Clear', relayNoFavs: 'Nothing saved yet — press ⭐ in results.',
+      manualTitle: 'Manual test', manualSub: 'Precise multi-ping stats for pros',
+      manualIps: 'IP addresses (one per line — or ip:port)',
+      manualAdd: 'Add', manualImportScan: '🎯 From scan results', manualImportFav: '⭐ From favorites',
+      manualProbes: 'Pings per IP', manualConc: 'Concurrency', manualTimeout: 'Per-ping timeout',
+      manualStart: 'Start test', manualExport: 'Export text', manualSetBest: 'Set best IP on configs',
+      manualResults: 'Test results', manualFavTitle: 'My favorites', manualClearFavs: 'Clear', manualNoFavs: 'Nothing saved yet — press ⭐ in results.',
+      relayEmpty: 'No test yet — add IPs and start.',
       relayThIp: 'IP', relayThPort: 'Port', relayThMin: 'min', relayThAvg: 'avg', relayThMax: 'max',
       relayThJitter: 'jitter', relayThLoss: 'loss', relayThScore: 'Score', relayThTrend: 'Trend', relayThAct: 'Actions',
       relayScoreHint: 'A+ to F based on avg ping, jitter and packet loss',
-      relayLogStart: '⚙️ Relay test started — {n} IPs × {p} pings — port {port} (concurrency {c})',
-      relayLogFinish: '🏁 Done — {alive} of {total} IPs alive',
-      relayLogStop: '⏹ Stopped by user',
-      relaySummary: '🏁 Test finished: {alive} of {total} IPs alive ({pct}%). Avg ping: {avg}. Best: {best} at {bestms}. Build configs from the top 3 — use 📋 in the table.',
+      relaySummary: '🏁 Test finished: {alive} of {total} IPs alive ({pct}%). Avg ping: {avg}. Best: {best} at {bestms}. Use 📋 to copy configs.',
       relayNoIps: 'Add IPs first', relayImported: 'Imported', relayFavSaved: 'Saved — see Favorites', relayFavExists: 'Already saved',
-
+      dashGreetM: 'Good morning, captain!', dashGreetA: 'Good afternoon!', dashGreetE: 'Good evening!', dashGreetN: 'Good night!',
+      scanSource: 'IP source', scanSourceHint: 'Clean list = well-known Cloudflare anycast IPs with high pass odds',
+      scanEtc: 'left', scanRange: 'Active range',
+      recentTitle: 'Recent users', seeAll: 'See all',
+      noUsersTitle: 'No users yet', noUsers: 'Create the first one — press "+ New user"',
+      addUserTitle: 'New user', addUser: '+ New user', uUsername: 'Username', uUsernameHint: 'Latin letters, digits, _ and - (3-32 chars)',
+      uQuota: 'Quota (GB)', uExpiry: 'Expiry', uNote: 'Note (optional)', days: 'days', noLimit: 'unlimited',
+      invalidUsername: 'Invalid username', taken: 'Username already taken', weakPass: 'Password must be at least 8 chars', wrongCurrent: 'Current password is wrong',
+      passMismatch: 'New passwords do not match', passChanged: 'Password changed ✓', passTitle: 'Change password', curPass: 'Current password', newPass: 'New password', confPass: 'Confirm new password', changePass: 'Change password',
+      cancel: 'Cancel', save: 'Save', saveProxy: 'Save settings',
+      fAll: 'All', fActive: 'Active', fExpired: 'Expired', fDisabled: 'Disabled', fFull: 'Full', fEmpty: 'Empty',
+      searchPh: 'Search username…', deleted: 'User deleted ✓', delete: 'Delete', sureDelete: 'Are you sure? This user will be removed forever.', delUserTitle: 'Delete user', delUserText: 'Delete user "{name}" with all configs?', confirmYes: 'Yes, delete', confirmNo: 'Cancel', confirmDel: 'Confirm delete',
+      usageOf: 'of', usedShort: 'used', unlimited: 'unlimited', never: 'never', expired: 'expired', stActive: 'Active', stDisabled: 'Disabled', stExpired: 'Expired', stFull: 'Full', stEmpty: 'Empty',
+      tbQuota: 'Quota', tbUsed: 'Used', tbExpiry: 'Expiry', tbStatus: 'Status', tbActions: 'Actions', tbYesterday: 'Yesterday',
+      copyUri: 'Copy link', copyUuid: 'Copy UUID', copyTrojan: 'Copy trojan password', copyVless: 'Copy VLESS config', copySubLink: 'Copy subscription link', copied: 'Copied ✓', copySubTxt: 'Copy subscription',
+      showQr: 'Show QR', qrLoading: 'Generating QR…', qrAppsTitle: 'Apps that support QR', appV2rayng: 'v2rayNG', appHiddify: 'Hiddify', appV2box: 'V2Box', appHapp: 'Happ', appStreisand: 'Streisand',
+      subsTitle2: 'User subscriptions', subsHint: 'Subscription link per user — with auto usage & expiry', openSubPage: 'Open subscription page', noSubs: 'No users yet — create one first',
+      clashSub: 'Download Clash config', singboxSub: 'Download sing-box config', txtSub: 'Text subscription (base64)',
+      settingsTitle: 'Settings', secTitle: 'Security & access', securePathLabel: 'Panel secret path', securePathHint: 'Panel login URL — share only with trusted people', regenerate: 'Regenerate', pathRegenerated: 'Secret path regenerated — save the new link',
+      proxyTitle: 'Proxy (VLESS / Trojan)', pHost: 'Host (connect domain)', pPort: 'Port', pTls: 'TLS', pTlsHint: 'Keep TLS on — Cloudflare requires it', pSni: 'SNI', pProtocols: 'Protocols', pVless: 'VLESS', pTrojan: 'Trojan', pBoth: 'Both',
+      pPathLabel: 'Proxy path', pPathHint: 'WebSocket path — changing it invalidates all previous configs', proxyPathRegen: 'Regenerate path',
+      pUpstreams: 'Upstreams', pUpstreamsHint: 'One vless:// or trojan:// config or plain host:port per line — to bypass Cloudflare egress blocks', pFailover: 'Failover timeout', pFailoverHint: 'Milliseconds to wait for the first byte before trying the next upstream',
+      proxySaved: 'Proxy settings saved ✓', errNetwork: 'Network error', errUnauthorized: 'Session expired — please re-login', errProxy: 'Failed to save proxy settings',
+      statUsers: 'users', statActive: 'active', statExpired: 'expired', statToday: 'Today usage', statTotal: 'Total usage', statDisabled: 'disabled',
+      chartTitle: 'Last 7 days usage', chartLegend: 'Data (GB)', topUsersTitle: 'Top users', ping: 'ms',
+      verLabel: 'version', infoTitle: 'About panel', best: 'best', usageOf2: 'usage',
     },
   };
+
 
   var lang = store.getItem('panel_lang') || 'fa';
   var theme = store.getItem('panel_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
@@ -939,18 +884,6 @@
     n = (n | r) >>> 0;
     return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
   }
-  function randomCfIps(count) {
-    var seen = {};
-    var out = [];
-    var guard = 0;
-    while (out.length < count && guard < count * 20) {
-      var ip = ipFromRange(CF_RANGES[(Math.random() * CF_RANGES.length) | 0]);
-      if (!seen[ip]) { seen[ip] = 1; out.push(ip); }
-      guard++;
-    }
-    return out;
-  }
-
   // ═══ IP تمیز کلودفلر ═══
   // لیست seed از IP های هرکست شناخته‌شده‌ی کلودفلر با شانس بالای عبور (معمولاً تمیزتر از بقیه)
   var CLEAN_SEED = [
@@ -1100,23 +1033,15 @@
     return out;
   }
 
-  function savedCfIps(count) {
-    try {
-      var list = JSON.parse(store.getItem('panel_clean_ips') || '[]');
-      if (!list.length) { toast(t.scanSavedEmpty); return null; }
-      return list.slice(0, count);
-    } catch (e) { return null; }
-  }
-
   function scanIps(count) {
     count = Number(count) || 100;
-    var src = ($('scan-source') ? $('scan-source').value : 'clean');
-    if (src === 'saved') {
-      var sv = savedCfIps(count);
-      if (sv) return sv;
+    var src = ($('scan-source') ? $('scan-source').value : 'mix');
+    if (src === 'favs') {
+      var l = favsList();
+      if (!l.length) { toast(t.manualNoFavs); return cleanCfIps(count); }
+      return l.map(function (f) { return f.ip; }).slice(0, count);
     }
     if (src === 'clean') return cleanCfIps(count);
-    if (src === 'random') return randomCfIps(count);
     // منابع زنده: mix | ircf | cf2dns | bestcf — خروجی Promise است (async)
     return liveIps(count, src);
   }
@@ -1229,8 +1154,20 @@
     return r;
   }
 
-  var scanner = {
-    running: false, ips: [], results: [], index: 0, active: 0, timer: null,
+  /* ═══════════ اسکنر هوشمند ═══════════ */
+
+  var statusData = null; // وضعیت فعلی اتصال (از /panel/api/scan/status)
+
+  function gradeOf(score) { return score >= 85 ? 'A+' : score >= 70 ? 'A' : score >= 55 ? 'B' : score >= 40 ? 'C' : 'D'; }
+  function gradeTxt(g) { return (g === 'A+' || g === 'A') ? t.scoreA : g === 'B' ? t.scoreB : g === 'C' ? t.scoreC : t.scoreD; }
+
+  var smart = {
+    running: false, ips: [], results: [], index: 0, active: 0, timer: null, threshold: 110, port: 443, t0: 0,
+
+    setPhase: function (txt) {
+      var el = $('scan-phase');
+      if (el) el.textContent = txt;
+    },
 
     start: async function () {
       var count = Number($('scan-count').value) || 100;
@@ -1242,34 +1179,30 @@
       this.active = 0;
       this.results = [];
       this.t0 = Date.now();
-      var sr0 = $('scan-send-relay');
-      if (sr0) sr0.disabled = true;
-      var srcChip = $('scan-source-chip');
-      if (srcChip) srcChip.hidden = true;
       $('scan-start').hidden = true;
       $('scan-stop').hidden = false;
       $('scan-progress').hidden = false;
       $('scan-list').innerHTML = '<div class="empty-hint">' + esc(t.scanProgress) + '</div>';
+      var srcChip = $('scan-source-chip');
+      if (srcChip) srcChip.hidden = true;
+      this.setPhase(t.scanPhaseNet);
       var ips = await scanIps(count);
       if (!this.running) return;
       this.ips = ips;
       this.updateProgress();
-      // کالیبراسیون آستانه بر اساس شبکه‌ی کاربر
       var thr = await calibrateThreshold();
-      if (thr === null) {
-        this.threshold = 110;
-        toast(t.scanCalibFail);
-      } else {
-        this.threshold = thr;
-      }
+      this.threshold = thr === null ? 110 : thr;
       this.tick(timeout, conc);
     },
 
     stop: function () {
       this.running = false;
+      this.endUi();
+    },
+
+    endUi: function () {
       $('scan-start').hidden = false;
       $('scan-stop').hidden = true;
-      this.render();
     },
 
     tick: function (timeout, conc) {
@@ -1282,12 +1215,7 @@
           self.active--;
           if (res.ok && res.ms !== null) self.results.push(res);
           self.updateProgress();
-          if (self.active === 0 && self.index >= self.ips.length) {
-            self.running = false;
-            self.render();
-            $('scan-start').hidden = false;
-            $('scan-stop').hidden = true;
-          }
+          if (self.active === 0 && self.index >= self.ips.length) self.phaseServer();
         });
       }
       if (this.running && (this.index < this.ips.length || this.active > 0)) {
@@ -1295,66 +1223,134 @@
       }
     },
 
+    /** فاز ۲: تأیید چندپورتی — همهٔ پورت‌های TLS روی کاندیدهای برتر، از مرورگر کاربر
+     *  (واقعی‌ترین تست ممکن: پورتی که برای خودِ کاربر باز باشد؛ Workers نمی‌تواند
+     *   به IP های کلودفلر TCP connect کند، پس از مرورگر انجام می‌شود) */
+    phaseServer: function () {
+      var self = this;
+      if (!this.running) return;
+      var cands = this.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 6);
+      if (!cands.length) { this.finish(); return; }
+      this.setPhase(t.scanPhaseServer);
+      var PORTS = [443, 8443, 2053, 2083, 2087, 2096];
+      var chain = Promise.resolve();
+      cands.forEach(function (c) {
+        chain = chain.then(function () {
+          if (!self.running) return;
+          return Promise.all(PORTS.map(function (port) {
+            return pingIp(c.ip, 1800, port, self.threshold).then(function (r) {
+              return { port: port, ok: !!(r.ok && r.ms !== null), ms: r.ms };
+            });
+          })).then(function (tests) {
+            c.ports = tests;
+            c.openCount = tests.filter(function (t) { return t.ok; }).length;
+            var open = tests.filter(function (t) { return t.ok; }).sort(function (a, b) { return (a.ms || 9999) - (b.ms || 9999); });
+            c.bestPort = open.length ? open[0].port : (c.port || 443);
+            self.updateProgress();
+          });
+        });
+      });
+      chain.then(function () { if (self.running) self.finish(); });
+    },
+
+    /** فاز ۳: امتیازدهی ترکیبی (RTT کاربر + پورت‌های باز سرور) + رندر */
+    finish: function () {
+      this.running = false;
+      this.endUi();
+      var self = this;
+      this.results.forEach(function (r) {
+        var portBonus = Math.min(36, (r.openCount || 0) * 6);
+        var rttScore = Math.max(0, 100 - (r.ms || 999) * 0.22);
+        r.score = Math.round(Math.min(100, rttScore + portBonus));
+        r.grade = gradeOf(r.score);
+      });
+      this.results.sort(function (a, b) { return b.score - a.score || (a.ms || 9999) - (b.ms || 9999); });
+      this.setPhase(t.scanDone);
+      this.updateProgress();
+      renderSmartResults();
+      try {
+        store.setItem('panel_last_scan', JSON.stringify({ ts: Date.now(), results: this.results.slice(0, 20) }));
+      } catch (e) {}
+      var best = this.results[0];
+      if (best) {
+        var sr = $('scan-set-best');
+        if (sr) sr.disabled = false;
+      }
+    },
+
     updateProgress: function () {
+      var total = this.ips.length || 1;
       var done = this.index;
-      var total = this.ips.length;
-      var pct = total ? Math.round((done / total) * 100) : 0;
-      $('scan-bar-fill').style.width = pct + '%';
+      var pct = Math.round((done / total) * 100);
+      if (this.running && done >= total) pct = 92; // فاز سرور در حال اجراست
+      if (!this.running && done >= total) pct = 100;
+      var fill = $('scan-bar-fill');
+      if (fill) fill.style.width = pct + '%';
       var eta = '';
-      if (this.t0 && done > 5 && this.running) {
+      if (this.t0 && done > 5 && this.running && done < total) {
         var per = (Date.now() - this.t0) / done;
-        var left = Math.round((total - done) * per / 1000);
+        var left = Math.round(((total - done) * per) / 1000);
         if (left > 0) eta = ' · ⏱ ' + left + 's ' + t.scanEtc;
       }
-      $('scan-counter').textContent = done + ' / ' + total + eta;
-      $('scan-found').textContent = this.results.length + ' ' + t.scanFound + ' ✓';
+      var counter = $('scan-counter');
+      if (counter) counter.textContent = done + ' / ' + total + eta;
+      var found = $('scan-found');
+      if (found) found.textContent = this.results.length + ' ' + t.scanFound + ' ✓';
       var ring = $('scan-ring-fg');
       if (ring) {
         var C = 2 * Math.PI * 15.9;
         ring.style.strokeDasharray = C.toFixed(2);
         ring.style.strokeDashoffset = (C * (1 - pct / 100)).toFixed(2);
       }
-      $('scan-pct').textContent = pct + '%';
-      var sr = $('scan-send-relay');
-      if (sr) sr.disabled = !this.results.length;
-    },
-
-    render: function () {
-      var list = $('scan-list');
-      if (!this.results.length) {
-        list.innerHTML = '<div class="empty-hint">' + esc(t.scanNoResult) + '</div>';
-        return;
-      }
-      var sorted = this.results.slice().sort(function (a, b) { return a.ms - b.ms; });
-      list.innerHTML = sorted.map(function (r, i) {
-        var best = i < 5 ? ' scan-best' : '';
-        return '<div class="scan-row' + (r.ok ? '' : ' scan-bad') + '">' +
-          '<span class="scan-rank">' + (i + 1) + '</span>' +
-          '<span class="scan-ip">' + r.ip + '</span>' +
-          '<span class="scan-rt">' + r.ms + ' ms</span>' +
-          (best ? '<span class="status-pill st-active">★ ' + t.scanBest + '</span>' : '') +
-          '<button class="ghost-btn sm scan-copy-btn" data-ip="' + r.ip + '" data-port="' + r.port + '">' + t.scanCopy + '</button>' +
-          '<button class="ghost-btn sm scan-set-btn" data-set-ip="' + r.ip + '" data-set-port="' + (r.port || 443) + '" title="' + esc(t.scanSetIp) + '">🎯</button>' +
-          '</div>';
-      }).join('');
+      var pctEl = $('scan-pct');
+      if (pctEl) pctEl.textContent = pct + '%';
     },
   };
 
-  $('scan-start').addEventListener('click', function () { scanner.start(); });
-  $('scan-stop').addEventListener('click', function () { scanner.stop(); });
-  $('scan-save').addEventListener('click', function () {
-    var alive = scanner.results.filter(function (r) { return r.ok; });
-    if (!alive.length) { toast(t.scanNoResult); return; }
-    var sorted = alive.slice().sort(function (a, b) { return a.ms - b.ms; });
-    var prev = [];
-    try { prev = JSON.parse(store.getItem('panel_clean_ips') || '[]'); } catch (e) {}
-    var seen = {};
-    prev.forEach(function (x) { seen[x] = 1; });
-    sorted.forEach(function (r) { if (!seen[r.ip]) { seen[r.ip] = 1; prev.push(r.ip); } });
-    store.setItem('panel_clean_ips', JSON.stringify(prev.slice(0, 500)));
-    toast(t.scanSaved + ' — ' + sorted.length);
-  });
+  /* ─── رندر نتایج هوشمند (کارت‌های مدرن) ─── */
+  function renderSmartResults() {
+    var list = $('scan-list');
+    if (!list) return;
+    if (!smart.results.length) {
+      list.innerHTML = '<div class="empty-hint">' + esc(t.scanNoResult) + '</div>';
+      return;
+    }
+    var top = smart.results.slice(0, 20);
+    var maxMs = 1;
+    top.forEach(function (r) { if (r.ms > maxMs) maxMs = r.ms; });
+    var isFav = {};
+    favsList().forEach(function (f) { isFav[f.ip] = 1; });
+    list.innerHTML = top.map(function (r, i) {
+      var rankCls = i === 0 ? 'srank-1' : i === 1 ? 'srank-2' : i === 2 ? 'srank-3' : '';
+      var pct = Math.max(10, Math.round(((r.ms || maxMs) / maxMs) * 100));
+      var barCls = r.ms < 120 ? 'rtt-good' : r.ms < 250 ? 'rtt-mid' : 'rtt-bad';
+      var cur = statusData && statusData.applied && statusData.ip === r.ip ? '<span class="cur-chip">✓ ' + t.curIp + '</span>' : '';
+      var ports = (r.ports || []).map(function (p) {
+        return '<span class="pdot ' + (p.ok ? 'ok' : 'no') + '" title="' + p.port + ' ' + (p.ok ? t.portOpen : t.portClosed) + '">' + p.port + '</span>';
+      }).join('');
+      var gradeCls = (r.grade === 'A+' || r.grade === 'A') ? 'sg-a' : r.grade === 'B' ? 'sg-b' : r.grade === 'C' ? 'sg-c' : 'sg-d';
+      var favStar = isFav[r.ip] ? '★' : '☆';
+      return '<div class="srow">' +
+        '<span class="srank ' + rankCls + '">' + (i + 1) + '</span>' +
+        '<div class="sip-wrap">' +
+          '<code class="sip">' + r.ip + '</code>' + cur +
+          '<span class="sports">' + ports + '</span>' +
+        '</div>' +
+        '<div class="srtt">' +
+          '<span class="srt ' + barCls + '">' + r.ms + ' ms</span>' +
+          '<i class="rtt-bar ' + barCls + '" style="width:' + pct + '%"></i>' +
+        '</div>' +
+        '<span class="sg ' + gradeCls + '" title="' + esc(gradeTxt(r.grade)) + '">' + r.grade + '</span>' +
+        '<div class="sacts">' +
+          '<button class="icon-btn" data-s-ip="' + r.ip + '" data-s-port="' + (r.bestPort || r.port || 443) + '" data-act="copy" title="' + esc(t.copyVless) + '">📋</button>' +
+          '<button class="icon-btn" data-s-ip="' + r.ip + '" data-s-port="' + (r.bestPort || r.port || 443) + '" data-act="set" title="' + esc(t.scanSetIp) + '">🎯</button>' +
+          '<button class="icon-btn" data-s-ip="' + r.ip + '" data-s-port="' + (r.bestPort || r.port || 443) + '" data-act="fav" title="⭐">' + favStar + '</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
 
+  /* ─── کپی کانفیگ یک IP ─── */
   function copyServerConfig(ip, port) {
     api('users').then(function (r) {
       if (!r.data.ok || !r.data.users || !r.data.users.length) { toast(t.scanErr); return; }
@@ -1367,19 +1363,16 @@
       });
     });
   }
-  $('scan-list').addEventListener('click', function (e) {
-    var btn = e.target.closest('.scan-copy-btn');
-    if (btn) copyServerConfig(btn.getAttribute('data-ip'), btn.getAttribute('data-port'));
-  });
-  $('scan-copy-best').addEventListener('click', function () {
-    var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 5);
+
+  /* ─── کپی ۵ کانفیگ برتر ─── */
+  function copyBestConfigs() {
+    var best = smart.results.slice().sort(function (a, b) { return b.score - a.score || (a.ms || 9999) - (b.ms || 9999); }).slice(0, 5);
     if (!best.length) { toast(t.scanErr); return; }
     api('users').then(function (r) {
       if (!r.data.ok || !r.data.users || !r.data.users.length) { toast(t.scanErr); return; }
       var user = r.data.users[0];
       var jobs = best.map(function (b2) {
-        var q = 'config?server=' + encodeURIComponent(b2.ip) + '&uuid=' + encodeURIComponent(user.uuid);
-        if (b2.port) q += '&port=' + b2.port;
+        var q = 'config?server=' + encodeURIComponent(b2.ip) + '&uuid=' + encodeURIComponent(user.uuid) + '&port=' + (b2.bestPort || b2.port || 443);
         return api(q);
       });
       Promise.all(jobs).then(function (resps) {
@@ -1389,7 +1382,7 @@
         copyText(lines.join('\n'));
       });
     });
-  });
+  }
 
   /* ═══════════ ست کردن IP روی کانفیگ‌ها ═══════════ */
   var proxyData = null;
@@ -1397,7 +1390,8 @@
     var badge = $('scan-set-badge');
     if (!badge) return;
     if (proxyData && proxyData.overrideIp) {
-      $('scan-set-badge-text').textContent = proxyData.overrideIp + (proxyData.overridePort ? ':' + proxyData.overridePort : '') + ' · ' + t.scanSetBadge;
+      var txt = $('scan-set-badge-text');
+      if (txt) txt.textContent = proxyData.overrideIp + (proxyData.overridePort ? ':' + proxyData.overridePort : '') + ' · ' + t.scanSetBadge;
       badge.hidden = false;
     } else {
       badge.hidden = true;
@@ -1412,6 +1406,7 @@
       if (r.data.ok) {
         proxyData = r.data.proxy;
         renderSetBadge();
+        loadScanStatus();
         toast(t.scanSetDone + ' — ' + ip + (port ? ':' + port : ''));
       } else {
         toast(errMsg(r) || t.errProxy);
@@ -1423,59 +1418,84 @@
       if (r.data.ok) {
         proxyData = r.data.proxy;
         renderSetBadge();
+        loadScanStatus();
         toast(t.scanSetCleared);
       } else toast(errMsg(r) || t.errProxy);
     }).catch(function () { toast(t.errProxy); });
   }
-  $('scan-set-ip').addEventListener('click', function () {
-    var alive = scanner.results.filter(function (r) { return r.ok; }).slice().sort(function (a, b) { return a.ms - b.ms; });
-    if (!alive.length) { toast(t.scanSetEmpty); return; }
-    setConfigIp(alive[0].ip, alive[0].port || 443);
-  });
-  $('scan-list').addEventListener('click', function (e) {
-    var btn = e.target.closest('.scan-set-btn');
-    if (btn) setConfigIp(btn.getAttribute('data-set-ip'), btn.getAttribute('data-set-port'));
-  });
-  $('scan-set-clear').addEventListener('click', clearConfigIp);
-  $('relay-set-best').addEventListener('click', function () {
-    var alive = relay.results.filter(function (r) { return r.avg != null; }).slice()
-      .sort(function (a, b) { return relayScoreRank(a.score) - relayScoreRank(b.score) || (a.avg - b.avg); });
-    if (!alive.length) { toast(t.scanSetEmpty); return; }
-    setConfigIp(alive[0].ip, alive[0].port || 443);
-  });
-  /* ═══════════ تست رله‌ها (پیشرفته) ═══════════ */
+  function setBestFromResults() {
+    var top = smart.results.slice().sort(function (a, b) { return b.score - a.score || (a.ms || 9999) - (b.ms || 9999); })[0];
+    if (!top) { toast(t.scanSetEmpty); return; }
+    setConfigIp(top.ip, top.bestPort || top.port || 443);
+  }
+
+  /* ─── وضعیت اتصال فعلی ─── */
+  var PORTS6 = [443, 8443, 2053, 2083, 2087, 2096];
+  function loadScanStatus() {
+    api('scan/status').then(function (r) {
+      if (r.data.ok) {
+        statusData = r.data;
+        statusData.tests = null;
+        statusData.openPorts = [];
+        renderStatusCard();
+      }
+    }).catch(function () {});
+  }
+  /** تست سلامت: پینگ همهٔ پورت‌ها روی IP ست‌شده — از مرورگر کاربر */
+  function healthCheck(ip) {
+    var portsBox = $('scan-status-ports');
+    if (!portsBox || !ip) return;
+    portsBox.hidden = false;
+    portsBox.innerHTML = PORTS6.map(function (port) {
+      return '<span class="pdot no" title="…">' + port + '</span>';
+    }).join('') + '<span class="status-note">…</span>';
+    Promise.all(PORTS6.map(function (port) {
+      return pingIp(ip, 1800, port, 90).then(function (r) {
+        return { port: port, ok: !!(r.ok && r.ms !== null), ms: r.ms };
+      });
+    })).then(function (tests) {
+      statusData.tests = tests;
+      statusData.openPorts = tests.filter(function (t) { return t.ok; }).map(function (t) { return t.port; });
+      renderStatusCard();
+    }).catch(function () {});
+  }
+  function renderStatusCard() {
+    var icon = $('scan-status-icon'), title = $('scan-status-title'), sub = $('scan-status-sub');
+    var clearBtn = $('scan-clear-ip'), portsBox = $('scan-status-ports');
+    if (!icon || !title) return;
+    if (statusData && statusData.applied && statusData.ip) {
+      icon.textContent = '🎯';
+      title.textContent = t.scanStatusIp + ': ' + statusData.ip + (statusData.port ? ':' + statusData.port : '');
+      if (sub) sub.textContent = statusData.host || '';
+      if (clearBtn) clearBtn.hidden = false;
+      if (portsBox) {
+        if (statusData.tests) {
+          portsBox.hidden = false;
+          portsBox.innerHTML = statusData.tests.map(function (p) {
+            return '<span class="pdot ' + (p.ok ? 'ok' : 'no') + '" title="' + p.port + ' ' + (p.ok ? t.portOpen : t.portClosed) + '">' + p.port + '</span>';
+          }).join('') +
+            '<span class="status-note">' + (statusData.openPorts.length ? '🟢 ' + statusData.openPorts.length + '/6' : '🔴 0/6') + '</span>';
+        } else {
+          portsBox.hidden = false;
+          portsBox.innerHTML = '<button class="ghost-btn sm" id="scan-health-ports">🩺 ' + esc(t.scanHealth) + '</button>';
+        }
+      }
+    } else {
+      icon.textContent = '🌐';
+      title.textContent = t.scanStatusDomain;
+      if (sub) sub.textContent = t.scanStatusDomainSub;
+      if (clearBtn) clearBtn.hidden = true;
+      if (portsBox) portsBox.hidden = true;
+    }
+    renderSetBadge();
+  }
+
+  /* ═══════════ تست دستی (پیشرفته) ═══════════ */
   var relay = {
     running: false, ips: [], results: [], index: 0, active: 0,
     probeCount: 5, timeoutMs: 2500, conc: 10,
   };
 
-  function switchScanTab(name) {
-    document.querySelectorAll('.scan-tab').forEach(function (b) {
-      b.classList.toggle('active', b.getAttribute('data-stab') === name);
-    });
-    var a = $('stab-ipscan'), b = $('stab-relay');
-    if (a) a.classList.toggle('active', name === 'ipscan');
-    if (b) b.classList.toggle('active', name === 'relay');
-  }
-  $('scan-tabs').addEventListener('click', function (e) {
-    var btn = e.target.closest('.scan-tab');
-    if (btn) switchScanTab(btn.getAttribute('data-stab'));
-  });
-
-  /* ─── لاگ کنسول ─── */
-  function relayLog(cls, msg) {
-    var box = $('relay-console');
-    if (!box) return;
-    var now = new Date().toLocaleTimeString('en-GB', { hour12: false });
-    var line = document.createElement('div');
-    line.className = 'console-line ' + (cls || '');
-    line.innerHTML = '<span class="time">' + now + '</span> ' + msg;
-    box.appendChild(line);
-    while (box.children.length > 220) box.removeChild(box.firstChild);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  /* ─── امتیاز کیفیت ─── */
   function relayScore(avg, loss, jitter) {
     if (loss >= 100 || avg == null) return 'F';
     var pts = 100 - avg * 0.22 - jitter * 0.6 - loss * 1.2;
@@ -1488,7 +1508,6 @@
   }
   function relayScoreRank(sc) { return { 'A+': 0, A: 1, B: 2, C: 3, D: 4, F: 5 }[sc] || 9; }
   function relayScoreClass(sc) { return 'score-' + sc.replace('+', '-plus'); }
-
   function relayStats(probes) {
     var alive = probes.filter(function (m) { return m != null; });
     var loss = Math.round((1 - alive.length / probes.length) * 100);
@@ -1503,8 +1522,6 @@
     }
     return { min: min, max: max, avg: avg, jitter: jitter, loss: loss, score: relayScore(avg, loss, jitter) };
   }
-
-  /* ─── اسپارکلاین ─── */
   function relaySpark(probes) {
     var W = 90, H = 24, pad = 2;
     var alive = [];
@@ -1520,6 +1537,7 @@
         var y = H - pad - (p.m / max) * (H - 2 * pad);
         return { x: x, y: y };
       });
+      cls = 'sp-line';
     }
     var line = pts.map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
     var last = pts[pts.length - 1];
@@ -1528,8 +1546,6 @@
       (alive.length ? '<circle cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="2.2"/>' : '') +
       '</svg>';
   }
-
-  /* ─── پارس IP (پشتیبانی از ip و ip:port) ─── */
   function relayParseIps(text) {
     var out = [], seen = {};
     String(text).split(/[\n,;]+/).forEach(function (line) {
@@ -1550,8 +1566,6 @@
     });
     return out;
   }
-
-  /* ─── اجرای تست ─── */
   function relayStart() {
     var ips = relayParseIps($('relay-ips').value);
     if (!ips.length) { toast(t.relayNoIps); return; }
@@ -1563,21 +1577,14 @@
     relay.probeCount = Number($('relay-probes').value) || 5;
     relay.timeoutMs = Number($('relay-timeout').value) || 2500;
     relay.conc = Number($('relay-conc').value) || 10;
-    $('relay-console').innerHTML = '';
     $('relay-start').hidden = true;
     $('relay-stop').hidden = false;
     $('relay-empty').hidden = true;
     $('relay-summary').hidden = true;
     $('relay-tbody').innerHTML = '';
     $('relay-count').textContent = '';
-    relayLog('info', t.relayLogStart
-      .replace('{n}', ips.length)
-      .replace('{p}', relay.probeCount)
-      .replace('{port}', ips[0].port)
-      .replace('{c}', relay.conc));
     relayTick();
   }
-
   function relayTick() {
     if (!relay.running) return;
     while (relay.active < relay.conc && relay.index < relay.ips.length) {
@@ -1586,36 +1593,24 @@
       relayTestIp(entry);
     }
   }
-
   async function relayTestIp(entry) {
     var probes = [];
     for (var i = 1; i <= relay.probeCount; i++) {
       if (!relay.running) break;
       var r = await pingIp(entry.ip, relay.timeoutMs, entry.port);
-      var alive = !!r.ok;
-      probes.push(alive ? r.ms : null);
-      var tag = r.reason === 'open' ? '✔' : (alive ? '▸' : '✗');
-      var cls = r.reason === 'open' ? 'good' : (alive ? 'info' : 'bad');
-      var note = r.reason === 'open' ? ' رله ✓' : (alive ? ' reachable' : ' TIMEOUT');
-      relayLog(cls, tag + ' ' + esc(entry.ip) + ':' + entry.port + ' — ping ' + i + '/' + relay.probeCount +
-        ': ' + (alive ? r.ms + 'ms' + note : '—'));
+      probes.push(r.ok ? r.ms : null);
     }
     if (!relay.running) { relay.active--; relayRender(); return; }
     var st = relayStats(probes);
-    var result = {
+    relay.results.push({
       ip: entry.ip, port: entry.port, probes: probes,
       min: st.min, max: st.max, avg: st.avg, jitter: st.jitter, loss: st.loss, score: st.score,
-    };
-    relay.results.push(result);
-    relayLog(st.score === 'F' ? 'bad' : 'good',
-      '✔ ' + esc(entry.ip) + ':' + entry.port + ' → avg ' + (st.avg == null ? '—' : st.avg + 'ms') +
-      ' · loss ' + st.loss + '% · score ' + st.score);
+    });
     relayRender();
     relay.active--;
     if (relay.running && relay.active === 0 && relay.index >= relay.ips.length) relayFinish();
     else relayTick();
   }
-
   function relayFinish() {
     relay.running = false;
     $('relay-start').hidden = false;
@@ -1624,7 +1619,6 @@
     var total = relay.results.length;
     var avgAll = alive.length ? Math.round(alive.reduce(function (s, r) { return s + r.avg; }, 0) / alive.length) : null;
     var best = alive.slice().sort(function (a, b) { return a.avg - b.avg; })[0];
-    relayLog('info', t.relayLogFinish.replace('{alive}', alive.length).replace('{total}', total));
     var sum = $('relay-summary');
     sum.innerHTML = t.relaySummary
       .replace('{alive}', '<b class="ok">' + alive.length + '</b>')
@@ -1636,8 +1630,6 @@
     sum.hidden = false;
     relayRender();
   }
-
-  /* ─── رندر جدول ─── */
   function relayRender() {
     var tbody = $('relay-tbody');
     if (!tbody) return;
@@ -1677,7 +1669,7 @@
     $('relay-count').textContent = alive + ' / ' + relay.results.length + ' · avg ' + avg + 'ms';
   }
 
-  /* ─── علاقه‌مندی‌ها ─── */
+  /* ─── منتخب‌ها ─── */
   function favsList() {
     try { var v = JSON.parse(store.getItem('panel_favs') || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; }
   }
@@ -1686,15 +1678,13 @@
     var box = $('relay-favs');
     if (!box) return;
     var l = favsList();
-    if (!l.length) { box.innerHTML = '<div class="empty-hint">' + t.relayNoFavs + '</div>'; return; }
+    if (!l.length) { box.innerHTML = '<div class="empty-hint">' + t.manualNoFavs + '</div>'; return; }
     box.innerHTML = l.map(function (f) {
       return '<span class="fav-chip" data-fav-ip="' + esc(f.ip) + '" data-fav-port="' + f.port + '">' +
         esc(f.ip) + '<span class="fav-port">:' + f.port + '</span>' +
         '<button data-fav-del="' + esc(f.ip) + '" title="del">✕</button></span>';
     }).join('');
   }
-
-  /* ─── خروجی ─── */
   function relayExport() {
     if (!relay.results.length) { toast(t.relayEmpty); return; }
     var sorted = relay.results.slice().sort(function (a, b) {
@@ -1712,10 +1702,52 @@
   }
 
   /* ─── رویدادها ─── */
+  $('scan-start').addEventListener('click', function () { smart.start(); });
+  $('scan-stop').addEventListener('click', function () { smart.stop(); });
+  $('scan-adv-toggle').addEventListener('click', function () {
+    var adv = $('scan-adv');
+    adv.hidden = !adv.hidden;
+  });
+  $('scan-health-btn').addEventListener('click', function () {
+    if (statusData && statusData.applied && statusData.ip) healthCheck(statusData.ip);
+    else loadScanStatus();
+  });
+  $('scan-status-ports').addEventListener('click', function (e) {
+    var btn = e.target.closest('#scan-health-ports');
+    if (btn && statusData && statusData.ip) healthCheck(statusData.ip);
+  });
+  $('scan-clear-ip').addEventListener('click', clearConfigIp);
+  $('scan-set-clear').addEventListener('click', clearConfigIp);
+  $('scan-set-best').addEventListener('click', setBestFromResults);
+  $('scan-copy-best').addEventListener('click', copyBestConfigs);
+
+  $('scan-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-s-ip]');
+    if (!btn) return;
+    var ip = btn.getAttribute('data-s-ip');
+    var port = btn.getAttribute('data-s-port');
+    var act = btn.getAttribute('data-act');
+    if (act === 'copy') copyServerConfig(ip, port);
+    else if (act === 'set') setConfigIp(ip, port);
+    else if (act === 'fav') {
+      var l = favsList();
+      var exists = l.some(function (f) { return f.ip === ip && Number(f.port) === Number(port); });
+      if (exists) {
+        favsSave(l.filter(function (f) { return !(f.ip === ip && Number(f.port) === Number(port)); }));
+        toast(t.favDel);
+      } else {
+        l.push({ ip: ip, port: Number(port) });
+        favsSave(l);
+        toast(t.favAdd);
+      }
+      favsRender();
+      renderSmartResults();
+    }
+  });
+
   $('relay-start').addEventListener('click', relayStart);
   $('relay-stop').addEventListener('click', function () {
     relay.running = false;
-    relayLog('warn', t.relayLogStop);
     $('relay-start').hidden = false;
     $('relay-stop').hidden = true;
   });
@@ -1729,14 +1761,14 @@
   });
   $('relay-ip-add').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('relay-add-ip').click(); });
   $('relay-import-scan').addEventListener('click', function () {
-    if (!scanner.results.length) { toast(t.scanErr); return; }
-    var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 20);
-    $('relay-ips').value = best.map(function (r) { return r.ip + (r.port && r.port !== 443 ? ':' + r.port : ''); }).join('\n');
+    if (!smart.results.length) { toast(t.scanErr); return; }
+    var best = smart.results.slice().sort(function (a, b) { return b.score - a.score || (a.ms - b.ms); }).slice(0, 20);
+    $('relay-ips').value = best.map(function (r) { return r.ip + ':' + (r.bestPort || r.port || 443); }).join('\n');
     toast(t.relayImported + ': ' + best.length);
   });
   $('relay-import-fav').addEventListener('click', function () {
     var l = favsList();
-    if (!l.length) { toast(t.relayNoFavs); return; }
+    if (!l.length) { toast(t.manualNoFavs); return; }
     $('relay-ips').value = l.map(function (f) { return f.ip + ':' + f.port; }).join('\n');
     toast(t.relayImported + ': ' + l.length);
   });
@@ -1779,15 +1811,23 @@
       toast(t.relayFavSaved);
     }
   });
-  $('scan-send-relay').addEventListener('click', function () {
-    if (!scanner.results.length) return;
-    switchScanTab('relay');
-    var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 20);
-    $('relay-ips').value = best.map(function (r) { return r.ip + (r.port && r.port !== 443 ? ':' + r.port : ''); }).join('\n');
-    relayStart();
+
+  /* ─── سوییچ تب‌ها ─── */
+  function switchScanTab(name) {
+    document.querySelectorAll('.scan-tab').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-stab') === name);
+    });
+    var a = $('stab-smart'), b = $('stab-manual');
+    if (a) a.classList.toggle('active', name === 'smart');
+    if (b) b.classList.toggle('active', name === 'manual');
+  }
+  $('scan-tabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.scan-tab');
+    if (btn) switchScanTab(btn.getAttribute('data-stab'));
   });
 
   favsRender();
+  loadScanStatus();
 
   /* ═══════════ سراسری ═══════════ */
   document.addEventListener('keydown', function (e) {

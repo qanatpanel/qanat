@@ -17,12 +17,13 @@
     "@cloudflare/workers-types": "^4.20250601.0",
     "esbuild": "^0.25.0",
     "terser": "^5.51.2",
-    "typescript": "^5.8.0",
+    "typescript": "^5.9.3",
     "wrangler": "^4.0.0",
     "ws": "^8.21.3"
   },
   "dependencies": {
     "jose": "^6.2.10",
+    "playwright": "^1.62.1",
     "qrcode-generator": "^2.0.4"
   }
 }
