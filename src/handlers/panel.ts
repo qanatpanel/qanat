@@ -11,7 +11,15 @@ import { json, htmlPage, redirect } from './utils';
 
 export async function handlePanel(request: Request, env: Env, settings: PanelSettings): Promise<Response> {
   const session = await verifySessionCookie(request, settings.jwtSecret);
-  if (!session) return redirect(`/${settings.securePath}/login`);
+  if (!session) {
+    // اگر کاربر از میانبر /Qanat آمده، بعد از لاگین به همان /Qanat برگردد
+    const path = new URL(request.url).pathname;
+    const lower = path.toLowerCase();
+    if (lower === '/qanat' || lower.startsWith('/qanat/')) {
+      return redirect(`/${settings.securePath}/login?next=${encodeURIComponent(path)}`);
+    }
+    return redirect(`/${settings.securePath}/login`);
+  }
   return htmlPage(ASSETS.panel);
 }
 

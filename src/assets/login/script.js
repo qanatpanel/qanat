@@ -107,7 +107,7 @@
     fetch('login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: password }),
+      body: JSON.stringify({ password: password, next: window.__NEXT__ || null }),
     })
       .then(function (res) {
         return res.json().then(function (data) {
