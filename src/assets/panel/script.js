@@ -74,7 +74,7 @@
       scanStart: 'شروع اسکن', scanStop: 'توقف', scanCount: 'تعداد IP', scanTimeout: 'مهلت اتصال', scanConc: 'همزمانی', scanPort: 'پورت', scanPortHint: 'اگر ۴۴۳ وصل نشد، پورت‌های جایگزین را امتحان کنید',
       scanResults: 'نتایج', scanIdle: 'اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.', scanCopyBest: 'کپی کانفیگ ۵ IP برتر',
       scanProgress: 'در حال اسکن…', scanFound: 'زنده', scanAlive: 'زنده', scanBest: 'بهترین',
-      scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.',
+      scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.', scanCalibFail: 'تشخیص خودکار شبکه ممکن نشد — از آستانه‌ی پیش‌فرض استفاده شد.',
       scanCopy: 'کپی',
 
       srcMix: '⚡ همه منابع زنده (پیشنهادی)', srcIrcf: '🌐 IRCF.space — هر اپراتور', srcCf2dns: '📡 cf2dns — روزانه + امتیاز', srcBestcf: '🌏 best-cf-ips — هر ۳ ساعت',
@@ -163,7 +163,7 @@
       scanStart: 'Start scan', scanStop: 'Stop', scanCount: 'IP count', scanTimeout: 'Timeout', scanConc: 'Concurrency', scanPort: 'Port', scanPortHint: 'If 443 fails, try alternative ports',
       scanResults: 'Results', scanIdle: 'Start a scan — results appear here.', scanCopyBest: 'Copy top 5 configs',
       scanProgress: 'Scanning…', scanFound: 'alive', scanAlive: 'Alive', scanBest: 'Best',
-      scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.',
+      scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.', scanCalibFail: 'Network auto-calibration failed — using default threshold.',
       scanCopy: 'Copy',
 
       srcMix: '⚡ All live sources (recommended)', srcIrcf: '🌐 IRCF.space — per ISP', srcCf2dns: '📡 cf2dns — daily + score', srcBestcf: '🌏 best-cf-ips — every 3h',
@@ -1147,11 +1147,13 @@
     return cleanCfIps(count);
   }
   // پینگ واقعی (RTT) با WebSocket — از مرورگر کاربر
-  // تشخیص «تمیز» بودن: RST های فوری (زیر ~۱۱۰ms) یعنی IP مسدود است؛
-  // خطای سریع‌تر از آستانه = مسدود، خطای بالای آستانه = TLS به کلودفلر رسیده (فقط خطای گواهی).
-  var MIN_ALIVE_MS = 110;
-  function pingIp(ip, timeoutMs, port) {
+  // تشخیص «زنده» بودن: خطای سریع‌تر از آستانه = مسدود (RST تحریم/مرده)،
+  // خطای بالای آستانه = TCP+TLS به کلودفلر رسیده (خطای گواهی/403) → زنده.
+  // آستانه ثابت نمی‌ماند؛ قبل از هر اسکن با «کالیبراسیون شبکه» محاسبه می‌شود
+  // (بر اساس RTT واقعی شبکه‌ی کاربر) تا در اینترنت‌های پرسرعت هم درست کار کند.
+  function pingIp(ip, timeoutMs, port, thresholdMs) {
     port = port || 443;
+    var thr = (typeof thresholdMs === 'number' && thresholdMs > 0) ? thresholdMs : 110;
     return new Promise(function (resolve) {
       var t0 = performance.now();
       var done = false;
@@ -1176,9 +1178,37 @@
         if (done) return; done = true; clearTimeout(timer);
         var ms = Math.round(performance.now() - t0);
         try { ws.close(); } catch (e) {}
-        resolve({ ip: ip, port: port, ok: ms >= MIN_ALIVE_MS, ms: ms, reason: 'reachable' });
+        resolve({ ip: ip, port: port, ok: ms >= thr, ms: ms, reason: 'reachable' });
       };
     });
+  }
+
+  // کالیبراسیون: RTT شبکه‌ی کاربر را با چند IP مرجع کلودفلر می‌سنجد و
+  // آستانه‌ی تشخیص را بر اساس آن تنظیم می‌کند (آستانه‌ی ثابت ۱۱۰ms در
+  // اینترنت‌های پرسرعت همه را «مسدود» نشان می‌داد — رفع شد).
+  var REF_IPS = ['104.16.132.229', '1.1.1.1', '172.64.155.154'];
+  async function calibrateThreshold() {
+    var samples = [];
+    var res = await Promise.all(REF_IPS.map(function (ip) { return pingIp(ip, 2500, 443, 0); }));
+    res.forEach(function (r) { if (r.ms !== null) samples.push(r.ms); });
+    if (!samples.length) return null; // شبکه به کلودفلر دسترسی ندارد
+    samples.sort(function (a, b) { return a - b; });
+    var med = samples[Math.floor(samples.length / 2)];
+    return Math.max(30, Math.min(250, Math.round(med * 0.75)));
+  }
+
+  // تست هوشمند: IP های «زنده‌ی مرزی» (نزدیک آستانه) با یک پورت جایگزین
+  // تأیید می‌شوند تا RTT متغیر، نتیجه را خراب نکند.
+  var ALT_PORTS = { 443: 2053, 2053: 443, 8443: 443, 2096: 443 };
+  async function pingIpSmart(ip, timeoutMs, port, thresholdMs) {
+    var r = await pingIp(ip, timeoutMs, port, thresholdMs);
+    if (!r.ok || r.ms === null) return r;
+    if (r.ms < thresholdMs * 1.6) {
+      var alt = ALT_PORTS[port] || (port === 443 ? 2053 : 443);
+      var r2 = await pingIp(ip, Math.min(timeoutMs, 1500), alt, thresholdMs);
+      if (r2.ok && r2.ms !== null && r2.ms < r.ms) r.ms = r2.ms;
+    }
+    return r;
   }
 
   var scanner = {
@@ -1206,6 +1236,14 @@
       if (!this.running) return;
       this.ips = ips;
       this.updateProgress();
+      // کالیبراسیون آستانه بر اساس شبکه‌ی کاربر
+      var thr = await calibrateThreshold();
+      if (thr === null) {
+        this.threshold = 110;
+        toast(t.scanCalibFail);
+      } else {
+        this.threshold = thr;
+      }
       this.tick(timeout, conc);
     },
 
@@ -1222,7 +1260,7 @@
       while (this.active < conc && this.index < this.ips.length) {
         var ip = this.ips[this.index++];
         this.active++;
-        pingIp(ip, timeout, this.port).then(function (res) {
+        pingIpSmart(ip, timeout, this.port, this.threshold).then(function (res) {
           self.active--;
           if (res.ok && res.ms !== null) self.results.push(res);
           self.updateProgress();

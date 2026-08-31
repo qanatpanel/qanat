@@ -15,8 +15,9 @@ const HTML_HEADERS: Record<string, string> = {
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'no-referrer',
   // بدون frame-ancestors تا پیش‌نمایش iframe بشکند
+  // connect-src شامل wss: است تا اسکنر IP بتواند از مرورگر به IP های کلودفلر وصل شود
   'content-security-policy':
-    "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'",
+    "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' wss:",
 };
 
 export function htmlPage(content: string, status = 200): Response {
