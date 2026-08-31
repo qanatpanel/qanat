@@ -206,12 +206,15 @@
               <div class="field">
                 <label for="scan-source" data-i18n="scanSource">منبع IP</label>
                 <select id="scan-source">
-                  <option value="ircf" selected data-i18n="srcIrcf">🌐 IRCF.space — لیست زنده</option>
+                  <option value="mix" selected data-i18n="srcMix">⚡ همه منابع زنده (پیشنهادی)</option>
+                  <option value="ircf" data-i18n="srcIrcf">🌐 IRCF.space — هر اپراتور</option>
+                  <option value="cf2dns" data-i18n="srcCf2dns">📡 cf2dns — روزانه + امتیاز</option>
+                  <option value="bestcf" data-i18n="srcBestcf">🌏 best-cf-ips — هر ۳ ساعت</option>
                   <option value="clean" data-i18n="srcClean">🔥 لیست داخلی کلودفلر</option>
                   <option value="random" data-i18n="srcRandom">🎲 تصادفی از رنج‌ها</option>
                   <option value="saved" data-i18n="srcSaved">⭐ لیست ذخیره‌شده</option>
                 </select>
-                <p class="hint" data-i18n="scanSourceHint">لیست زنده از سایت ircf.space با DNS رزولوشن می‌شود — IP های تأییدشده‌ی هر اپراتور</p>
+                <p class="hint" data-i18n="scanSourceHint">منابع زنده: ircf.space (DNS هر اپراتور) + cf2dns (روزانه) + best-cf-ips (هر ۳ ساعت) — همه با کش سمت سرور</p>
               </div>
               <div class="field">
                 <label for="scan-count" data-i18n="scanCount">تعداد IP</label>

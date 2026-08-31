@@ -77,9 +77,9 @@
       scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.',
       scanCopy: 'کپی',
 
-      srcIrcf: '🌐 IRCF.space — لیست زنده', ircfLoading: 'دریافت لیست زنده از ircf.space…',
-      ircfFetched: 'IP از ircf.space', ircfFallback: 'ircf.space در دسترس نبود — از لیست داخلی استفاده شد',
-      ircfChip: (n, time) => '🌐 IRCF × ' + n + ' · ' + time,
+      srcMix: '⚡ همه منابع زنده (پیشنهادی)', srcIrcf: '🌐 IRCF.space — هر اپراتور', srcCf2dns: '📡 cf2dns — روزانه + امتیاز', srcBestcf: '🌏 best-cf-ips — هر ۳ ساعت',
+      liveLoading: 'دریافت لیست زنده…', liveFallback: 'منبع زنده در دسترس نبود — از لیست داخلی استفاده شد',
+      liveChip: (e, n, time) => e + ' × ' + n + ' · ' + time,
 
 
       dashGreetM: '🌅 صبح بخیر، کاپیتان!', dashGreetA: '☀️ ظهر بخیر!', dashGreetE: '🌆 عصر بخیر!', dashGreetN: '🌙 شب بخیر!',
@@ -166,9 +166,9 @@
       scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.',
       scanCopy: 'Copy',
 
-      srcIrcf: '🌐 IRCF.space — live list', ircfLoading: 'Fetching live list from ircf.space…',
-      ircfFetched: 'IPs from ircf.space', ircfFallback: 'ircf.space unavailable — using built-in list',
-      ircfChip: (n, time) => '🌐 IRCF × ' + n + ' · ' + time,
+      srcMix: '⚡ All live sources (recommended)', srcIrcf: '🌐 IRCF.space — per ISP', srcCf2dns: '📡 cf2dns — daily + score', srcBestcf: '🌏 best-cf-ips — every 3h',
+      liveLoading: 'Fetching live list…', liveFallback: 'Live source unavailable — using built-in list',
+      liveChip: (e, n, time) => e + ' × ' + n + ' · ' + time,
 
 
       dashGreetM: '🌅 Good morning, captain!', dashGreetA: '☀️ Good afternoon!', dashGreetE: '🌆 Good evening!', dashGreetN: '🌙 Good night!',
@@ -1071,29 +1071,33 @@
     }
     if (src === 'clean') return cleanCfIps(count);
     if (src === 'random') return randomCfIps(count);
-    // ircf — خروجی این تابع یک Promise است (async)
-    return ircfIps(count);
+    // منابع زنده: mix | ircf | cf2dns | bestcf — خروجی Promise است (async)
+    return liveIps(count, src);
   }
 
-  // لیست زنده ircf.space — از API پنل (رزولوشن سمت سرور) با کش محلی مرورگر
-  async function ircfIps(count) {
+  var SRC_EMOJI = { mix: '⚡', ircf: '🌐', cf2dns: '📡', bestcf: '🌏' };
+
+  // لیست زنده — از API پنل (منابع ircf/cf2dns/bestcf با کش سمت سرور) + کش محلی مرورگر
+  async function liveIps(count, src) {
+    var emoji = SRC_EMOJI[src] || '🌐';
     var chip = $('scan-source-chip');
     var showChip = function (txt) { if (chip) { chip.textContent = txt; chip.hidden = false; } };
     var setLoading = function () {
       var l = $('scan-list');
-      if (l) l.innerHTML = '<div class="empty-hint">' + esc(t.ircfLoading) + '</div>';
+      if (l) l.innerHTML = '<div class="empty-hint">' + esc(t.liveLoading) + '</div>';
     };
+    var cacheKey = 'panel_clean_cache_' + src;
     setLoading();
     try {
-      var r = await api('clean-ips');
+      var r = await api('clean-ips?src=' + src);
       if (r.data && r.data.ok && r.data.items && r.data.items.length) {
         var seen = {}, out = [];
         r.data.items.forEach(function (it) { var ip = String(it.ip); if (!seen[ip]) { seen[ip] = 1; out.push(ip); } });
         if (out.length) {
           var ts = r.data.updatedAt || Date.now();
           var timeTxt = new Date(ts).toLocaleTimeString(lang === 'fa' ? 'fa-IR' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
-          showChip(t.ircfChip(out.length, timeTxt));
-          try { store.setItem('panel_ircf_cache', JSON.stringify({ ts: Date.now(), ips: out })); } catch (e) {}
+          showChip(t.liveChip(emoji, out.length, timeTxt));
+          try { store.setItem(cacheKey, JSON.stringify({ ts: Date.now(), ips: out })); } catch (e) {}
           while (out.length < count) {
             var extra = cleanCfIps(count - out.length);
             var added = false;
@@ -1105,13 +1109,13 @@
       }
     } catch (e) { /* fallback */ }
     try {
-      var cached = JSON.parse(store.getItem('panel_ircf_cache') || 'null');
+      var cached = JSON.parse(store.getItem(cacheKey) || 'null');
       if (cached && Array.isArray(cached.ips) && cached.ips.length) {
-        showChip(t.ircfChip(cached.ips.length, 'cache'));
+        showChip(t.liveChip(emoji, cached.ips.length, 'cache'));
         return cached.ips.slice(0, count);
       }
     } catch (e) { /* ignore */ }
-    toast(t.ircfFallback);
+    toast(t.liveFallback);
     return cleanCfIps(count);
   }
   // پینگ واقعی (RTT) با WebSocket — از مرورگر کاربر
