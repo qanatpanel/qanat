@@ -104,7 +104,16 @@ export async function getUserByUuid(env: Env, uuid: string): Promise<User | null
 /** جستجوی کاربر با پسورد تروجان (هگز ۵۶) */
 export async function getUserByTrojanPassword(env: Env, password: string): Promise<User | null> {
   const row = await env.DB.prepare('SELECT * FROM users WHERE trojan_password = ?').bind(password).first<UserRow>();
-  return row ? mapRow(row) : null;
+  if (row) return mapRow(row);
+  // Fallback: پسورد مشتق‌شده از uuid (کانفیگ‌های تولیدی بدون ذخیره‌سازی) —
+  // فقط وقتی جستجوی ذخیره‌شده خالی باشد (هزینه‌ی کم؛ کاربران پنل محدودند)
+  const users = await listUsers(env);
+  const target = password.toLowerCase();
+  for (const u of users) {
+    const hex = u.uuid.replace(/-/g, '');
+    if ((hex + hex).slice(0, 56).toLowerCase() === target) return u;
+  }
+  return null;
 }
 
 export async function listUsers(env: Env): Promise<User[]> {

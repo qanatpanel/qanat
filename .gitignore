@@ -8,3 +8,4 @@ src/generated/
 .DS_Store
 *.db
 *.sqlite
+export-*/

@@ -17,7 +17,7 @@ import { getProxySettings } from './settings/proxy';
 import { handleInstall } from './handlers/install';
 import { handleLogin, handleLogout } from './handlers/login';
 import { handlePanel, handleMe } from './handlers/panel';
-import { handleUsersApi, handleSettingsApi, handleQr, handleServerConfig, handleStats } from './handlers/api';
+import { handleUsersApi, handleSettingsApi, handleQr, handleServerConfig, handleExport, handleStats } from './handlers/api';
 import { handleCleanIps } from './handlers/cleanips';
 import { handleSubscriptionsApi, handlePublicSub } from './handlers/subscription';
 import { handleProxyWs } from './proxy/relay';
@@ -91,6 +91,7 @@ export default {
         if (rest === '/panel/api/subscriptions') return handleSubscriptionsApi(request, env, settings);
         if (rest === '/panel/api/qr') return handleQr(request, env, settings);
         if (rest === '/panel/api/config') return handleServerConfig(request, env, settings);
+        if (rest === '/panel/api/export') return handleExport(request, env, settings);
         if (rest === '/panel/api/stats') return handleStats(request, env, settings);
         if (rest === '/panel/api/clean-ips') return handleCleanIps(request, env, settings);
 

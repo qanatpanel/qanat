@@ -18,8 +18,8 @@ import { createUser, listUsers, deleteUser, setUserActive, getUserByUsername, ty
 import { regenerateSecurePath, setAdminPassword } from '../settings/main';
 import { getProxySettings, saveProxySettings, regenerateProxyPath, protocolsEnabled } from '../settings/proxy';
 import { getUserByUuid, getDailyUsage, getUsageTotal } from '../settings/users';
-import { buildVlessUri, buildTrojanUri, type BuildInput } from '../cores/config';
-import { makeQrSvg } from '../cores/qr';
+import { buildVlessUri, buildTrojanUri, buildUris, buildBase64Sub, buildClashConfig, buildSingboxConfig, ALT_PORTS, type BuildInput } from '../cores/config';
+import { makeQrSvg, makeQrDataUrl } from '../cores/qr';
 import { json } from './utils';
 
 const USERNAME_RE = /^[a-zA-Z0-9_-]{3,32}$/;
@@ -257,6 +257,64 @@ export async function handleServerConfig(request: Request, env: Env, settings: P
     applied: !!proxy.overrideIp && effServer === proxy.overrideIp,
     vless: buildVlessUri(input),
     trojan: buildTrojanUri(input),
+  });
+}
+
+/**
+ * پکیج کامل کانفیگ — GET /panel/api/export?uuid=UUID[&server=IP][&port=N]
+ * خروجی «خفن» برای یک کاربر: URI های اصلی + پورت‌های جایگزین کلودفلر + تروجان،
+ * Clash (url-test خودکار + قوانین ایران)، sing-box (urltest + قوانین ایران)،
+ * اشتراک base64، و QR کد (data URL) برای کانفیگ‌های اصلی.
+ */
+export async function handleExport(request: Request, env: Env, settings: PanelSettings): Promise<Response> {
+  if (request.method !== 'GET') return json({ ok: false, error: 'method' }, 405);
+  const authed = await requireAuth(request, settings);
+  if (!authed) return json({ ok: false, error: 'unauthorized' }, 401);
+
+  const url = new URL(request.url);
+  const uuid = (url.searchParams.get('uuid') || '').trim();
+  if (!uuid) return json({ ok: false, error: 'bad_params' }, 400);
+
+  const user = await getUserByUuid(env, uuid);
+  if (!user) return json({ ok: false, error: 'not_found' }, 404);
+
+  const proxy = await getProxySettings(env, url.hostname);
+  const server = (url.searchParams.get('server') || '').trim();
+  const effServer = server || proxy.overrideIp || '';
+  if (!effServer) return json({ ok: false, error: 'no_server', hint: 'scan_set' }, 400);
+  let serverPort: number | undefined;
+  const portRaw = url.searchParams.get('port');
+  if (portRaw) {
+    serverPort = Number(portRaw);
+    if (!Number.isInteger(serverPort) || serverPort < 1 || serverPort > 65535) {
+      return json({ ok: false, error: 'bad_params' }, 400);
+    }
+  }
+  const effPort = serverPort || proxy.overridePort || 0;
+  const input: BuildInput = { user, proxy, originHost: proxy.host || url.hostname, serverHost: effServer, serverPort: effPort || undefined };
+
+  const uris = buildUris(input);
+  return json({
+    ok: true,
+    user: { username: user.username, uuid: user.uuid, quotaGb: user.quotaGb, usedGb: user.usedGb, expiry: user.expiry },
+    proxy: {
+      server: effServer,
+      port: effPort || proxy.port || (proxy.tls ? 443 : 80),
+      host: proxy.host || url.hostname,
+      sni: proxy.sni || proxy.host || url.hostname,
+      tls: proxy.tls,
+      altPorts: ALT_PORTS,
+      applied: !!proxy.overrideIp && effServer === proxy.overrideIp,
+      upstreams: proxy.upstreams || '',
+    },
+    uris,
+    vlessMain: buildVlessUri(input),
+    trojanMain: buildTrojanUri(input),
+    base64: buildBase64Sub(input),
+    clash: buildClashConfig(input),
+    singbox: buildSingboxConfig(input),
+    qrVless: makeQrDataUrl(buildVlessUri(input), 8, 2),
+    qrTrojan: makeQrDataUrl(buildTrojanUri(input), 8, 2),
   });
 }
 
