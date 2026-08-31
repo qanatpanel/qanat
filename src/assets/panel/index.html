@@ -206,11 +206,12 @@
               <div class="field">
                 <label for="scan-source" data-i18n="scanSource">منبع IP</label>
                 <select id="scan-source">
-                  <option value="clean" selected data-i18n="srcClean">🔥 IP تمیز کلودفلر</option>
+                  <option value="ircf" selected data-i18n="srcIrcf">🌐 IRCF.space — لیست زنده</option>
+                  <option value="clean" data-i18n="srcClean">🔥 لیست داخلی کلودفلر</option>
                   <option value="random" data-i18n="srcRandom">🎲 تصادفی از رنج‌ها</option>
                   <option value="saved" data-i18n="srcSaved">⭐ لیست ذخیره‌شده</option>
                 </select>
-                <p class="hint" data-i18n="scanSourceHint">لیست تمیز شامل IP های شناخته‌شده‌ی هرکست کلودفلر با شانس بالای عبور است</p>
+                <p class="hint" data-i18n="scanSourceHint">لیست زنده از سایت ircf.space با DNS رزولوشن می‌شود — IP های تأییدشده‌ی هر اپراتور</p>
               </div>
               <div class="field">
                 <label for="scan-count" data-i18n="scanCount">تعداد IP</label>
@@ -266,7 +267,7 @@
             <div class="scan-ring"><svg viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="15.9"/><circle class="ring-fg" id="scan-ring-fg" cx="18" cy="18" r="15.9"/></svg><span id="scan-pct">0%</span></div>
             <div class="scan-status">
               <div class="scan-bar"><i id="scan-bar-fill" style="width:0%"></i></div>
-              <div class="scan-meta"><span id="scan-counter">0 / 0</span><span id="scan-found" class="ok">0 ✓</span></div>
+              <div class="scan-meta"><span id="scan-counter">0 / 0</span><span id="scan-source-chip" class="scan-src-chip" hidden></span><span id="scan-found" class="ok">0 ✓</span></div>
             </div>
           </div>
 

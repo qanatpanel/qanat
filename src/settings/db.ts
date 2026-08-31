@@ -17,6 +17,7 @@ const SCHEMA = [
   'CREATE TABLE IF NOT EXISTS login_attempts (ip TEXT PRIMARY KEY, failed INTEGER NOT NULL DEFAULT 0, locked_until INTEGER NOT NULL DEFAULT 0, updated_at INTEGER NOT NULL)',
   'CREATE TABLE IF NOT EXISTS usage_logs (user_id INTEGER NOT NULL, day TEXT NOT NULL, bytes INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (user_id, day))',
   'CREATE INDEX IF NOT EXISTS idx_usage_logs_day ON usage_logs(day)',
+  'CREATE TABLE IF NOT EXISTS kv_cache (k TEXT PRIMARY KEY, v TEXT NOT NULL, ts INTEGER NOT NULL)',
 ].join(';\n');
 
 let schemaReady = false;
@@ -109,4 +110,18 @@ export async function isIpLocked(env: Env, ip: string): Promise<{ locked: boolea
     return { locked: false, retryAfterMs: 0 };
   }
   return { locked: true, retryAfterMs: remaining };
+}
+
+/* ─────────────── کش key-value با TTL ─────────────── */
+
+export async function cacheGet(env: Env, key: string): Promise<string | null> {
+  const row = await env.DB.prepare('SELECT v FROM kv_cache WHERE k = ?').bind(key).first<{ v: string }>();
+  return row?.v ?? null;
+}
+
+export async function cacheSet(env: Env, key: string, value: string): Promise<void> {
+  await env.DB
+    .prepare('INSERT INTO kv_cache (k, v, ts) VALUES (?, ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, ts = excluded.ts')
+    .bind(key, value, Date.now())
+    .run();
 }
