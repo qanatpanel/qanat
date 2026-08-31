@@ -59,10 +59,21 @@ export default {
         return new Response('Not Found', { status: 404 });
       }
 
-      // ─── مسیرهای امن پنل ───
+      // ─── میانبر /Qanat → پنل (URL ثابت می‌ماند؛ مسیر مخفی لو نمی‌رود) ───
       const prefix = `/${settings.securePath}`;
-      if (pathname === prefix || pathname.startsWith(prefix + '/')) {
-        const rest = pathname.slice(prefix.length) || '/';
+      let route = pathname;
+      const lowerPath = pathname.toLowerCase();
+      if (lowerPath === '/qanat') {
+        if (!settings.installed) return new Response(null, { status: 302, headers: { location: '/install' } });
+        route = `${prefix}/panel`;
+      } else if (lowerPath.startsWith('/qanat/')) {
+        if (!settings.installed) return new Response(null, { status: 302, headers: { location: '/install' } });
+        route = prefix + pathname.slice(6); // '/Qanat/panel/api/me' → '/{sp}/panel/api/me'
+      }
+
+      // ─── مسیرهای امن پنل ───
+      if (route === prefix || route.startsWith(prefix + '/')) {
+        const rest = route.slice(prefix.length) || '/';
 
         if (rest === '/login') return handleLogin(request, env, settings);
         if (rest === '/logout') return handleLogout(request, env, settings);
