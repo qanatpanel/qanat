@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-label="Qanat — modern multi-user proxy panel for Cloudflare Workers">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070f21"/>
+      <stop offset="0.5" stop-color="#0a1c38"/>
+      <stop offset="1" stop-color="#062a3c"/>
+    </linearGradient>
+    <linearGradient id="stream" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#57e6ff"/>
+      <stop offset="0.5" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="logoglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#57e6ff" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#57e6ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur8" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.2" fill="#ffffff" opacity="0.05"/>
+    </pattern>
+    <clipPath id="round"><rect width="1280" height="640" rx="28"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="1280" height="640" fill="url(#bg)"/>
+    <rect width="1280" height="640" fill="url(#glow)"/>
+    <rect width="1280" height="640" fill="url(#dots)"/>
+    <circle cx="1100" cy="120" r="220" fill="#22d3ee" opacity="0.10" filter="url(#blur8)"/>
+    <circle cx="180" cy="560" r="200" fill="#14b8a6" opacity="0.12" filter="url(#blur8)"/>
+    <rect width="1280" height="2" fill="#ffffff" opacity="0.08"/>
+
+    <!-- logo -->
+    <g transform="translate(70, 84) scale(0.92)">
+      <circle cx="256" cy="256" r="250" fill="url(#logoglow)" filter="url(#blur8)"/>
+      <image href="assets/logo-mark.svg" width="512" height="512"/>
+    </g>
+
+    <text x="545" y="200" font-family="'Segoe UI', Inter, sans-serif" font-size="104" font-weight="800" fill="#e8f6ff" letter-spacing="1">
+      <tspan>QANAT</tspan>
+    </text>
+    <text x="760" y="196" font-family="Vazirmatn, 'Segoe UI', Tahoma, sans-serif" font-size="104" font-weight="800" fill="url(#stream)">
+      <tspan>قنات</tspan>
+    </text>
+
+    <text x="548" y="276" font-family="'Segoe UI', Inter, sans-serif" font-size="30" font-weight="500" fill="#9fd8ef">
+      <tspan>Modern multi-user VLESS / Trojan proxy panel</tspan>
+    </text>
+    <text x="548" y="318" font-family="'Segoe UI', Inter, sans-serif" font-size="30" font-weight="500" fill="#9fd8ef">
+      <tspan>built on Cloudflare Workers · TypeScript · D1 · WebSocket</tspan>
+    </text>
+
+    <!-- feature chips -->
+    <g font-family="'Segoe UI', Inter, sans-serif" font-size="21" font-weight="600">
+      <g transform="translate(548, 380)">
+        <rect width="236" height="48" rx="24" fill="#22d3ee" opacity="0.13" stroke="#22d3ee" stroke-opacity="0.5" stroke-width="1.3"/>
+        <text x="118" y="31" text-anchor="middle" fill="#67e8f9">⚡ Real WS→TCP relay</text>
+      </g>
+      <g transform="translate(800, 380)">
+        <rect width="210" height="48" rx="24" fill="#14b8a6" opacity="0.12" stroke="#14b8a6" stroke-opacity="0.5" stroke-width="1.3"/>
+        <text x="105" y="31" text-anchor="middle" fill="#5eead4">📱 Persian dashboard</text>
+      </g>
+      <g transform="translate(548, 444)">
+        <rect width="206" height="48" rx="24" fill="#2dd4bf" opacity="0.10" stroke="#2dd4bf" stroke-opacity="0.45" stroke-width="1.3"/>
+        <text x="103" y="31" text-anchor="middle" fill="#7df3e2">📡 Clean-IP scanner</text>
+      </g>
+      <g transform="translate(770, 444)">
+        <rect width="240" height="48" rx="24" fill="#57e6ff" opacity="0.10" stroke="#57e6ff" stroke-opacity="0.45" stroke-width="1.3"/>
+        <text x="120" y="31" text-anchor="middle" fill="#a5f0ff">🔐 PBKDF2 · JWT · brute-force guard</text>
+      </g>
+    </g>
+
+    <text x="1240" y="600" text-anchor="end" font-family="'JetBrains Mono', Consolas, monospace" font-size="17" font-weight="600" fill="#57e6ff" opacity="0.5" letter-spacing="5">
+      <tspan>github.com/qanatpanel/qanat</tspan>
+    </text>
+  </g>
+</svg>

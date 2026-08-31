@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" width="1600" height="400" role="img" aria-label="قنات — Qanat">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070f21"/>
+      <stop offset="0.5" stop-color="#0a1c38"/>
+      <stop offset="1" stop-color="#062a3c"/>
+    </linearGradient>
+    <linearGradient id="stream" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#57e6ff"/>
+      <stop offset="0.5" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="logoglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#57e6ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#57e6ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur8" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="blur2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2"/></filter>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.2" fill="#ffffff" opacity="0.045"/>
+    </pattern>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#57e6ff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <clipPath id="round"><rect width="1600" height="400" rx="28"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="1600" height="400" fill="url(#bg)"/>
+    <rect width="1600" height="400" fill="url(#glow)"/>
+    <rect width="1600" height="400" fill="url(#dots)"/>
+    <rect width="1600" height="400" fill="url(#grid)"/>
+
+    <!-- top sheen -->
+    <rect width="1600" height="2" fill="#ffffff" opacity="0.08"/>
+    <rect y="398" width="1600" height="2" fill="#14b8a6" opacity="0.25"/>
+
+    <!-- ambient orbs -->
+    <circle cx="1300" cy="90" r="180" fill="#22d3ee" opacity="0.10" filter="url(#blur8)"/>
+    <circle cx="260" cy="330" r="160" fill="#14b8a6" opacity="0.12" filter="url(#blur8)"/>
+
+    <!-- flowing stream line from logo to text -->
+    <path d="M 300 200 C 430 200 470 240 560 240 S 700 200 780 205" fill="none" stroke="url(#stream)" stroke-width="3" opacity="0.55" stroke-linecap="round"/>
+    <circle cx="300" cy="200" r="4" fill="#67e8f9"/>
+    <circle cx="440" cy="225" r="2.6" fill="#57e6ff" opacity="0.8"/>
+    <circle cx="585" cy="232" r="2" fill="#2dd4bf" opacity="0.7"/>
+    <circle cx="700" cy="208" r="1.6" fill="#14b8a6" opacity="0.6"/>
+
+    <!-- logo -->
+    <g transform="translate(70, 100) scale(0.78)">
+      <circle cx="256" cy="256" r="260" fill="url(#logoglow)" filter="url(#blur8)"/>
+      <image href="assets/logo-mark.svg" width="512" height="512"/>
+    </g>
+
+    <!-- title -->
+    <text x="480" y="128" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="92" font-weight="800" fill="#e8f6ff">
+      <tspan>قنات</tspan>
+    </text>
+    <text x="618" y="128" font-family="'Segoe UI', Inter, sans-serif" font-size="92" font-weight="800" fill="url(#stream)" letter-spacing="2">
+      <tspan>QANAT</tspan>
+    </text>
+
+    <!-- tagline fa -->
+    <text x="482" y="190" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="27" font-weight="500" fill="#9fd8ef">
+      <tspan>پنل پروکسی چندکاربره روی Cloudflare&nbsp;Workers — از دل فیلترینگ، بی‌صدا عبور کن</tspan>
+    </text>
+
+    <!-- tags -->
+    <g font-family="'JetBrains Mono', 'Fira Code', Consolas, monospace" font-size="19" font-weight="600">
+      <g transform="translate(482, 250)">
+        <rect width="128" height="40" rx="20" fill="#22d3ee" opacity="0.13" stroke="#22d3ee" stroke-opacity="0.45" stroke-width="1.2"/>
+        <text x="64" y="26" text-anchor="middle" fill="#67e8f9">TypeScript</text>
+      </g>
+      <g transform="translate(626, 250)">
+        <rect width="104" height="40" rx="20" fill="#14b8a6" opacity="0.12" stroke="#14b8a6" stroke-opacity="0.45" stroke-width="1.2"/>
+        <text x="52" y="26" text-anchor="middle" fill="#5eead4">Cloudflare D1</text>
+      </g>
+      <g transform="translate(746, 250)">
+        <rect width="120" height="40" rx="20" fill="#2dd4bf" opacity="0.10" stroke="#2dd4bf" stroke-opacity="0.4" stroke-width="1.2"/>
+        <text x="60" y="26" text-anchor="middle" fill="#7df3e2">WebSocket</text>
+      </g>
+      <g transform="translate(882, 250)">
+        <rect width="92" height="40" rx="20" fill="#57e6ff" opacity="0.10" stroke="#57e6ff" stroke-opacity="0.4" stroke-width="1.2"/>
+        <text x="46" y="26" text-anchor="middle" fill="#a5f0ff">VLESS · Trojan</text>
+      </g>
+      <g transform="translate(990, 250)">
+        <rect width="70" height="40" rx="20" fill="#0ea5e9" opacity="0.10" stroke="#0ea5e9" stroke-opacity="0.4" stroke-width="1.2"/>
+        <text x="35" y="26" text-anchor="middle" fill="#7dd3fc">Zero&nbsp;DB</text>
+      </g>
+    </g>
+
+    <!-- watermark -->
+    <text x="1520" y="372" text-anchor="end" font-family="'Segoe UI', Inter, sans-serif" font-size="15" font-weight="600" fill="#57e6ff" opacity="0.35" letter-spacing="6">
+      <tspan>QANAT · CLOUDFLARE WORKERS</tspan>
+    </text>
+  </g>
+</svg>

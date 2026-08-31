@@ -1,194 +1,218 @@
-# قنات — Qanat
+<p align="center">
+  <img src="assets/banner.svg" alt="قنات — Qanat" width="100%"/>
+</p>
 
-<p align="center"><img src="assets/logo-mark.svg" width="120" alt="لوگوی قنات"/></p>
+<p align="center">
+  <a href="README-en.md"><img src="https://img.shields.io/badge/Language-English-blue?style=flat-square&logo=readme" alt="English"/></a>
+  <img src="https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Cloudflare%20Workers-deploy--ready-f6821f?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Workers"/>
+  <img src="https://img.shields.io/badge/D1-SQLite%20at%20the%20Edge-22d3ee?style=flat-square" alt="D1"/>
+  <img src="https://img.shields.io/badge/tests-95%20passing-14b8a6?style=flat-square" alt="tests"/>
+  <img src="https://img.shields.io/badge/VLESS%20%2F%20Trojan-native-57e6ff?style=flat-square" alt="VLESS/Trojan"/>
+  <img src="https://img.shields.io/badge/license-MIT-0ea5e9?style=flat-square" alt="MIT"/>
+  <img src="https://img.shields.io/badge/PRs-welcome-2dd4bf?style=flat-square" alt="PRs welcome"/>
+</p>
 
-پنل چندکاربره و هسته‌ی پروکسی روی **Cloudflare Workers** — TypeScript + D1 + esbuild
-
-> **قنات** — کانال زیرزمینی که آب را از دل کویر عبور می‌دهد؛ همین کار را این پنل با داده‌ها می‌کند:
-> داده را از دل فیلترینگ، بی‌صدا و زیر رادار عبور می‌دهد.
-
-> معماری بر اساس تحلیل ۴ پروژهی مشابه (BPB / Nahan / ZEUS / Nova):
-> ماژولار مثل **BPB**، مدل داده و امکانات چندکاربره مثل **ZEUS/Nova**، امنیت نصب مثل **Nova**.
-
----
-
-## 🚀 اجرای محلی
-
-```bash
-npm install          # نصب وابستگی‌ها
-npm run check        # تایپ‌چک
-npm run build        # بیلد → dist/_worker.js (تک‌فایل)
-npm run dev          # بیلد + سرور محلی wrangler روی :8787
-```
-
-پیش‌نمایش زنده در مرورگر: پورت `8788` (پراکسی → wrangler).
-
-## ☁️ دیپلوی روی Cloudflare
-
-```bash
-# ۱. ساخت دیتابیس D1 (یک‌بار)
-npx wrangler d1 create panel-db
-#    → شناسه‌ی تولیدشده را در wrangler.jsonc قرار بده
-
-# ۲. اعمال اسکیما
-npm run db:remote
-
-# ۳. دیپلوی
-npm run deploy
-```
-
-> اسکیما همچنین به‌صورت خودکار و idempotent در اولین استفاده اعمال می‌شود (`src/settings/db.ts`).
+<p align="center">
+  <b>قنات</b> — کانال زیرزمینی که آب را از دل کویر عبور می‌دهد؛
+  <br/>
+  این پنل هم داده را از دل فیلترینگ، بی‌صدا و زیر رادار عبور می‌دهد.
+</p>
 
 ---
 
-## 📁 ساختار پروژه
+## ✨ چرا قنات؟
 
-```
-panel/
-├── wrangler.jsonc          # کانفیگ Wrangler + بایند D1
-├── schema.sql              # اسکیمای دیتابیس (مرجع دستی)
-├── scripts/
-│   ├── build.mjs           # بیلد: assets → TS → dist/_worker.js (الگوی BPB)
-│   ├── preview-proxy.mjs   # پراکسی پیش‌نمایش (۰.۰.۰.۰:8788)
-│   ├── test-auth.sh        # تست خودکار ۱۸ سناریوی احراز هویت
-│   ├── test-panel.sh       # تست خودکار ۲۲ سناریوی داشبورد
-│   ├── test-parser.sh      # تست واحد پارسرهای VLESS/Trojan (۱۴ مورد)
-│   └── test-proxy.sh       # تست E2E پروکسی: VLESS + Trojan + مصرف + اشتراک
-└── src/
-    ├── worker.ts           # ورودی + روتینگ اصلی
-    ├── types/              # تایپ‌های Env و سراسری
-    ├── auth/               # 🔐 password (PBKDF2) + session (JWT) + guard (بروت‌فورس)
-    ├── settings/           # db (D1) + main (تنظیمات امنیتی) + users (چندکاربره)
-    ├── proxy/              # 🚀 هسته‌ی پروکسی: parse (VLESS/Trojan) + relay (WS→TCP)
-    ├── cores/              # qr — تولید QR سمت سرور (SVG)
-    ├── handlers/           # install / login / panel / api (کاربران+تنظیمات) / subscription
-    ├── assets/             # صفحات HTML (login / install / panel) + shared.css
-    └── generated/          # (خودکار) صفحات مینی‌فای‌شده — gitignore
-```
-
-## 🎛️ داشبورد (قدم ۳)
-
-سه بخش با تب‌های ساده (بدون وابستگی خارجی):
-
-| بخش | امکانات |
+| | |
 |---|---|
-| **نمای کلی** | ۴ کارت آمار (کل کاربران، فعال، مصرف، کوتای کل) + دسترسی سریع + اطلاعات پنل |
-| **کاربران** | جدول کامل: وضعیت، کوتا با نوار پیشرفت، انقضا — ساخت/فعال‌سازی/حذف/کپی UUID |
-| **تنظیمات** | تغییر رمز (با تأیید رمز فعلی) + نمایش/بازسازی مسیر مخفی + وضعیت کلایم توکن |
+| 🚀 **هسته‌ی پروکسی واقعی** | رله‌ی WebSocket → TCP با پروتکل‌های استاندارد **VLESS** و **Trojan** — سازگار با v2rayNG، Hiddify، Streisand، sing-box، Clash و هر کلاینتی که VLESS بلد باشد |
+| 🌍 **رایگان تا ابد** | روی **Cloudflare Workers** با طرح رایگان اجرا می‌شود؛ هزینه‌ی زیرساخت: **صفر** |
+| 🧮 **چندکاربره با دیتابیس** | کاربران، کوتای مصرف (GB)، تاریخ انقضا و وضعیت فعال/غیرفعال — همه روی **Cloudflare D1** |
+| 🔐 **امنیت درجه‌یک** | پسورد **PBKDF2** (۱۰۰هزار تکرار)، سشن **JWT** در کوکی HttpOnly، محافظ **بروت‌فورس**، کلایم توکن برای نصب امن، چک **CSRF** |
+| 📱 **داشبورد فارسی** | رابط کاربری راست‌چین، تاریک و بدون هیچ وابستگی خارجی — بدون CDN، بدون کتابخانه، بدون track شدن |
+| 📡 **اسکنر IP تمیز** | تست پینگ واقعی از مرورگر شما روی رنج‌های رسمی Cloudflare + سه منبع به‌روزرسانی‌شده‌ی روزانه |
+| 🔗 **صفحه‌ی اشتراک اختصاصی** | برای هر کاربر یک صفحه‌ی زیبا با **QR کد**، دکمه‌ی کپی و لینک‌های عمیق (deep-link) برای نصب یک‌کلیکی در اپ‌ها |
+| 🎛️ **پیکربندی هوشمند** | کانفیگ‌ها با **Fragment و SNI** مطابق تنظیمات پروکسی شما ساخته می‌شوند؛ خروجی URI، Clash، sing-box و Xray |
 
-API های جدید (همه با سشن):
-```
-GET    /{securePath}/panel/api/users
-POST   /{securePath}/panel/api/users
-POST   /{securePath}/panel/api/users/:id/toggle
-DELETE /{securePath}/panel/api/users/:id
-GET    /{securePath}/panel/api/settings
-POST   /{securePath}/panel/api/settings/password
-POST   /{securePath}/panel/api/settings/secure-path
-```
+---
 
-## 🔐 احراز هویت (قدم ۲)
+## 📸 یک نگاه
 
-## 🗄️ مدل داده (D1)
+<details open>
+<summary><b>🖥️ داشبورد مدیریت</b></summary>
+<br/>
 
-| جدول | نقش |
+| | |
 |---|---|
-| `settings` | تنظیمات پنل (key-value): پسورد، مسیر مخفی، کلایم توکن و... |
-| `users` | کاربران: `uuid`، `trojan_password`، کوتای GB، انقضا، وضعیت |
-| `login_attempts` | محافظ بروت‌فورس (قفل موقت IP بعد از N تلاش ناموفق) |
+| ![نمای کلی](assets/screenshots/02-dashboard.jpg) | ![مدیریت کاربران](assets/screenshots/03-users.jpg) |
+| ![اسکنر IP تمیز](assets/screenshots/04-scanner.jpg) | ![اشتراک‌ها](assets/screenshots/05-subscription-page.jpg) |
 
-## 🗺️ نقشه‌ی راه
+</details>
 
-- [x] **قدم ۰** — اسکلت پروژه: TS + بیلد + wrangler + D1
-- [x] **قدم ۱** — لایه‌ی ذخیره‌سازی: اسکیما + تنظیمات + کاربران + بروت‌فورس
-- [x] **قدم ۲** — 🔐 احراز هویت: JWT (jose) + PBKDF2 + مسیر مخفی + کلایم توکن
-- [x] **قدم ۳** — پوسته‌ی داشبورد: ناوبری + نمای کلی + مدیریت کاربران CRUD + تنظیمات
-- [x] **قدم ۴** — تنظیمات پروکسی (فیلدهای پیشرفته: پروتکل، دامنه، Fragment و...) + بکاپ/رستور
-- [x] **قدم ۵** — تولید اشتراک/کانفیگ: vless:// + Clash + sing-box + Xray
-- [x] **قدم ۶** — هسته‌ی پروکسی: WebSocket + VLESS/Trojan
-- [ ] **قدم ۷** — ربات تلگرام + آپدیت خودکار (با healthz و احتیاط Nova)
+<details>
+<summary><b>📱 صفحه‌ی اشتراک کاربر (دسکتاپ و موبایل)</b></summary>
+<br/>
 
-## 🚀 هسته‌ی پروکسی (قدم ۶)
-
-رله‌ی واقعی WebSocket → TCP با پشتیبانی از دو پروتکل:
-
-| ویژگی | جزئیات |
+| | |
 |---|---|
-| **VLESS** | پارس هدر کامل (UUID + آدرس + پورت + command)، پاسخ `[0,0]`، پشتیبانی از داده‌ی هم‌فریم |
-| **Trojan** | پارس پسورد (۵۶ هگز) + هدر (CRLF)، پاسخ `\r\n`، پشتیبانی از داده‌ی هم‌فریم |
-| **مسیر اتصال** | `/api/{proxyPath}/{uuid-or-password}` — بدون نیاز به هیچ هدر اضافه |
-| **مصرف** | ثبت خودکار ترافیک (up+down) روی کاربر در D1 — فقط برای کاربران دارای کوتا |
-| **نرخ‌دهی** | فقط کاربران `active` با کوتای باقی‌مانده مجازند |
-| **رله** | non-blocking با `WebSocketPair` + حلقه‌ی پس‌زمینه؛ بستن کامل دوطرفه |
-| **اعتبارسنجی** | UUID نامعتبر / پسورد نامعتبر → بستن اتصال |
+| ![اشتراک دسکتاپ](assets/screenshots/06-subscription-desktop.jpg) | ![اشتراک موبایل](assets/screenshots/07-subscription-mobile.jpg) |
+| ![ورود](assets/screenshots/01-login.jpg) | |
 
-### اشتراک و کانفیگ (قدم ۵)
+</details>
 
-- `/{securePath}/sub/{uuid}` — صفحه‌ی زیبای اشتراک با **QR سمت سرور** (SVG) و دکمه‌ی کپی
-- `/{securePath}/sub/{uuid}/txt` — اشتراک متنی base64 (سازگار با v2rayN و...)
-- `?format=clash` — کانفیگ YAML برای Clash Meta
-- `?format=singbox` — کانفیگ JSON برای sing-box
-- کانفیگ‌ها بر اساس تنظیمات پروکسی (host/port/tls/sni) بازسازی می‌شوند
+---
 
-### 🔧 سازگاری کامل با کلاینتهای واقعی
+## 🚀 شروع سریع — دیپلوی در ۳ دقیقه
 
-پروتکل پروکسی **استاندارد رسمی VLESS/Trojan** است (سازگار با v2rayNG، Hiddify، Streisand، sing-box، Clash):
-- مسیر WebSocket: `/{proxyPath}/{uuid|password}` — الگوی BPB
-- هدر VLESS کاملاً استاندارد: `version | uuid | addonLen | cmd | port | atype | addr`
-- `alpn=http/1.1` (نه h2 — WebSocket روی h2 با کلودفلر خراب میشود)
-- `fp=chrome`، `sni`، `host` کامل
+**پیش‌نیاز:** یک حساب [Cloudflare](https://dash.cloudflare.com) (رایگان) و [Node.js 18+](https://nodejs.org).
 
-تأیید شده با تست E2E روی کلودفلر واقعی: **IP تمیز → worker → یوتیوب → HTTP 200** (285ms)
+```bash
+# ۱. کلون و نصب
+git clone https://github.com/qanatpanel/qanat.git
+cd qanat && npm install
 
-### 📡 اسکنر IP تمیز کلودفلر (جدید)
+# ۲. ساخت دیتابیس D1 و دیپلوی
+npx wrangler login
+npx wrangler d1 create qanat-db
+#    شناسه‌ی d1 تولیدشده را در wrangler.jsonc قرار بده:
+#    "database_id": "شناسه‌ی-تولیدشده"
 
-تب «اسکنر» در داشبورد — پیدا کردن IP های تمیز کلودفلر از مرورگر خودتان:
+npm run deploy        # دیپلوی worker
+npm run db:remote     # اعمال اسکیما روی D1 (اختیاری — خودکار هم می‌شود)
+```
 
-- **پینگ واقعی (RTT)**: هر IP با WebSocket روی پورت 443 از مرورگر شما تست می‌شود — نتیجه، تأخیر واقعی دستگاه شماست
-- **رنج‌های رسمی Cloudflare**: تولید IP تصادفی از ۱۵ رنج IPv4 رسمی (۱۶۰+ میلیون آدرس)
-- **همزمانی قابل تنظیم**: ۱۵/۳۰/۶۰ اتصال موازی + مهلت ۱–۳ ثانیه
-- **رتبه‌بندی**: بهترین IP ها بر اساس کمترین پینگ با نشان ★
-- **کانفیگ با IP تمیز**: با دکمه‌ی «کپی» روی هر IP، کانفیگی ساخته می‌شود که به آن IP وصل می‌شود ولی Host/SNI همچنان دامنه‌ی شماست — این کانفیگ واقعاً کار می‌کند (اتصال به IP تمیز + احراز هویت با دامنه)
+تمام! آدرس worker شما: `https://<نام-worker>.workers.dev` — اولین بازدید، صفحه‌ی نصب را نشان می‌دهد.
 
-### تست‌ها
+> 🔒 **نکته‌ی امنیتی:** برای جلوگیری از تصاحب پنل، می‌توانی هنگام اولین نصب یک **کلایم توکن** (Claim Token) تنظیم کنی: `?claim=توکن-شما` — بدون آن، نصب فقط از همان IP باز اول ممکن است.
+
+### اجرای محلی
+
+```bash
+npm run dev    # بیلد + سرور محلی روی :8787
+```
+
+---
+
+## 🧬 معماری
+
+```
+قنات (کلودفلر ورکر — تک‌فایل ۷۳۵KB)
+│
+├── 🛡️ لایه‌ی امنیتی
+│   ├── PBKDF2 (100k)          ← هش پسورد
+│   ├── JWT + HttpOnly Cookie  ← سشن
+│   ├── login_attempts (D1)    ← قفل ۱۰ دقیقه بعد از ۵ تلاش ناموفق
+│   └── Origin/CSRF Check      ← روی همه‌ی POST ها
+│
+├── 🗄️ لایه‌ی داده (Cloudflare D1)
+│   ├── settings        ← تنظیمات پنل (مسیر مخفی، کلایم و…)
+│   ├── users           ← کاربران + کوتا + انقضا + مصرف
+│   └── login_attempts  ← محافظ بروت‌فورس
+│
+├── 🚀 هسته‌ی پروکسی
+│   ├── VLESS parser    ← هدر استاندارد رسمی (version/uuid/port/…)
+│   ├── Trojan parser   ← پسورد + هدر CRLF
+│   └── WS → TCP relay  ← WebSocketPair + حلقه‌ی پس‌زمینه
+│
+├── 📡 ماژول‌های کاربری
+│   ├── اسکنر IP تمیز (۳ منبع + پینگ مرورگر)
+│   ├── صفحه‌ی اشتراک با QR (SVG سمت سرور)
+│   └── تولید کانفیگ: URI / Clash / sing-box / Xray
+│
+└── 📁 ساختار پوشه‌ها
+    ├── src/auth/        🔐 احراز هویت
+    ├── src/settings/    🗄️ داده
+    ├── src/proxy/       🚀 هسته‌ی پروکسی
+    ├── src/handlers/    📡 مسیرها (install/login/panel/api/sub)
+    ├── src/cores/       QR و تولید کانفیگ
+    └── src/assets/      صفحات HTML + استایل
+```
+
+---
+
+## 🗝️ API
+
+### مدیریت (همه با سشن — `/{securePath}/panel/api/...`)
+
+```
+GET    /api/users              لیست کاربران
+POST   /api/users              ساخت کاربر جدید
+POST   /api/users/:id/toggle   فعال/غیرفعال
+DELETE /api/users/:id          حذف کاربر
+GET    /api/settings           تنظیمات پنل
+POST   /api/settings/password  تغییر رمز (با تأیید رمز فعلی)
+POST   /api/settings/secure-path   بازسازی مسیر مخفی
+GET    /api/clean-ips?src=…    لیست IP تمیز از ۳ منبع (ircf/cf2dns/bestcf/mix)
+```
+
+### اشتراک کاربر
+
+```
+GET  /{securePath}/sub/{uuid}          صفحه‌ی زیبای اشتراک (QR + کپی + deep-link)
+GET  /{securePath}/sub/{uuid}/txt      اشتراک متنی (سازگار با v2rayN و…)
+GET  /{securePath}/sub/{uuid}?format=clash     کانفیگ Clash Meta
+GET  /{securePath}/sub/{uuid}?format=singbox   کانفیگ sing-box
+GET  /{securePath}/sub/{uuid}?format=xray      کانفیگ Xray
+```
+
+### اتصال کلاینت‌ها
+
+```
+ws://your-worker.workers.dev/{proxyPath}/{uuid-or-trojan-password}
+```
+
+پروتکل **کاملاً استاندارد** — بدون هدر اضافه، بدون دستکاری. `alpn=http/1.1`، `fp=chrome`، SNI و Host کامل از تنظیمات شما.
+
+---
+
+## 🧪 کیفیت
 
 | اسکریپت | پوشش | نتیجه |
 |---|---|---|
 | `scripts/test-parser.sh` | ۱۴ تست واحد پارسر VLESS/Trojan | ✅ |
-| `scripts/test-config.sh` | ۲۲ تست واحد تولید کانفیگ (URI/Clash/sing-box/IP تمیز) | ✅ |
-| `scripts/test-proxy.sh` | E2E: VLESS echo، Trojan echo، UUID نامعتبر، مصرف، ۴ endpoint اشتراک (۱۱ تست) | ✅ |
-| `scripts/test-panel.sh` | ۲۲ سناریوی داشبورد و API کاربران | ✅ |
-| `scripts/test-auth.sh` | ۱۸ سناریوی احراز هویت و بروت‌فورس | ✅ |
+| `scripts/test-config.sh` | ۲۴ تست تولید کانفیگ (URI/Clash/sing-box/IP تمیز) | ✅ |
+| `scripts/test-auth.sh` | ۱۸ سناریوی احراز هویت + بروت‌فورس | ✅ |
+| `scripts/test-panel.sh` | ۲۸ سناریوی داشبورد و API کاربران | ✅ |
+| `scripts/test-proxy.sh` | ۱۱ تست E2E پروکسی (VLESS/Trojan/مصرف/اشتراک) | ✅ |
 
-## 🔐 احراز هویت (قدم ۲)
+**۹۵ تست خودکار — همه سبز. ✅**
 
-| مؤلفه | پیاده‌سازی | برگرفته از |
-|---|---|---|
-| هش پسورد | PBKDF2 — ۱۰۰هزار تکرار، salt تصادفی، مقایسه‌ی زمان‌ثابت | ⚠️ بهتر از SHA-256 خام ZEUS |
-| سشن | JWT (HS256) با `jose` — ۷ روز، کوکی HttpOnly + SameSite=Lax | BPB |
-| مسیر مخفی | `secure_path` تصادفی ۱۴ حرفی — تولید خودکار در D1 | BPB |
-| بروت‌فورس | جدول `login_attempts` در D1 — ۵ تلاش = قفل ۱۰ دقیقه | ZEUS (ولی ماندگار) |
-| امنیت نصب | کلایم توکن (`?claim=...` یا env `CLAIM_TOKEN`) | Nova |
-| CSRF | چک Origin روی POST ها + SameSite=Lax | — |
+تأیید شده با تست E2E روی کلودفلر واقعی: **IP تمیز → ورکر → یوتیوب → HTTP 200** (۲۸۵ms).
 
-### جریان نصب و ورود
-```
-GET  /install                    → فرم تعیین پسورد
-POST /install (با کلایم در صورت تنظیم) → ذخیره‌ی hash + ساخت securePath
-GET  /{securePath}/login         → فرم ورود
-POST /{securePath}/login         → بررسی قفل بروت‌فورس → JWT → کوکی
-GET  /{securePath}/panel         → پنل (بدون کوکی: ریدایرکت به login)
-GET  /{securePath}/panel/api/me  → اطلاعات سشن
-GET  /{securePath}/logout        → پاک‌سازی کوکی
-```
+---
 
-## 📐 تصمیم‌های پایه (ثبت‌شده)
+## 🗺️ نقشه‌ی راه
 
-| موضوع | تصمیم | دلیل |
-|---|---|---|
-| زبان | TypeScript | مثل BPB — امن‌تر و مقیاس‌پذیر |
-| ذخیره‌سازی | D1 | چندکاربره + کوئری‌های پیچیده (ZEUS/Nova) |
-| سشن | JWT بدون-state (قدم ۲) | مثل BPB — با `jose` |
-| هش پسورد | PBKDF2 (Web Crypto) | ⚠️ نه SHA-256 خام مثل ZEUS |
-| بروت‌فورس | جدول `login_attempts` در D1 | ماندگار بین ایزوله‌ها (بهتر از Map در حافظه) |
-| امنیت نصب | کلایم توکن (قدم ۲) | ایده‌ی Nova — جلوگیری از تصاحب پنل |
+- [x] اسکلت TypeScript + بیلد تک‌فایل + Wrangler + D1
+- [x] لایه‌ی داده: تنظیمات + کاربران + بروت‌فورس
+- [x] احراز هویت: JWT + PBKDF2 + مسیر مخفی + کلایم توکن
+- [x] داشبورد: نمای کلی + CRUD کاربران + تنظیمات
+- [x] تنظیمات پیشرفته‌ی پروکسی (Fragment/SNI/…) + بکاپ/رستور
+- [x] تولید اشتراک/کانفیگ: vless:// + Clash + sing-box + Xray
+- [x] هسته‌ی پروکسی: WebSocket + VLESS/Trojan
+- [x] اسکنر IP تمیز: ۳ منبع + پینگ مرورگر + کانفیگ با IP تمیز
+- [ ] ربات تلگرام + آپدیت خودکار
+- [ ] پشتیبانی IPv6
+- [ ] محدودیت سرعت per-user
+
+---
+
+## 🤝 مشارکت
+
+ایده‌ها، باگ‌ها و PR ها با آغوش باز! قبل از PR:
+
+1. کد را با `npm run check` (تایپ‌چک) چک کن
+2. تست‌ها را اجرا کن: `bash scripts/test-*.sh`
+3. برای تغییرات UI، اسکرین‌شات هم اضافه کن
+
+[راهنمای مشارکت](CONTRIBUTING.md) · [گزارش باگ امنیتی](SECURITY.md)
+
+---
+
+## 📜 لایسنس
+
+[MIT](LICENSE) © 2026 [qanatpanel](https://github.com/qanatpanel)
+
+<p align="center">
+  <sub>ساخته‌شده با 💧 برای عبور از هر کویری</sub>
+</p>
