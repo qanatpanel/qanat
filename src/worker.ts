@@ -17,7 +17,7 @@ import { getProxySettings } from './settings/proxy';
 import { handleInstall } from './handlers/install';
 import { handleLogin, handleLogout } from './handlers/login';
 import { handlePanel, handleMe } from './handlers/panel';
-import { handleUsersApi, handleSettingsApi, handleQr, handleServerConfig } from './handlers/api';
+import { handleUsersApi, handleSettingsApi, handleQr, handleServerConfig, handleStats } from './handlers/api';
 import { handleSubscriptionsApi, handlePublicSub } from './handlers/subscription';
 import { handleProxyWs } from './proxy/relay';
 import { json, htmlPage } from './handlers/utils';
@@ -74,6 +74,7 @@ export default {
         if (rest === '/panel/api/subscriptions') return handleSubscriptionsApi(request, env, settings);
         if (rest === '/panel/api/qr') return handleQr(request, env, settings);
         if (rest === '/panel/api/config') return handleServerConfig(request, env, settings);
+        if (rest === '/panel/api/stats') return handleStats(request, env, settings);
 
         // اشتراک عمومی کاربر
         const subMatch = rest.match(/^\/sub\/([0-9a-f-]{36})(\/txt)?(\?.*)?$/i);

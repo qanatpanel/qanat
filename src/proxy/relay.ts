@@ -7,7 +7,7 @@ import type { Env } from '../types/global';
 import type { ProxySettings } from '../settings/proxy';
 import { protocolsEnabled } from '../settings/proxy';
 import { getUserByUuid, getUserByTrojanPassword } from '../settings/users';
-import { addUsage } from '../settings/users';
+import { addUsage, recordDailyUsage } from '../settings/users';
 import { parseVlessHeader, parseTrojanPassword, parseTrojanRequest, type Target } from './parse';
 
 const WS_OPEN = 1;
@@ -226,10 +226,11 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
         /* ignore */
       }
       closeWs(ws);
-      // ثبت مصرف — فقط اگر کاربر کوتا داشته باشد
-      if (user.quotaGb > 0 && userId > 0) {
+      // ثبت مصرف — همیشه (برای نمودارها حتی بدون کوتا)
+      if (userId > 0) {
         try {
           await addUsage(env, userId, bytesUp + bytesDown);
+          await recordDailyUsage(env, userId, bytesUp + bytesDown);
         } catch {
           /* ignore */
         }

@@ -130,6 +130,35 @@ export async function addUsage(env: Env, userId: number, bytes: number): Promise
     .run();
 }
 
+/** ثبت مصرف روزانه (برای نمودار داشبورد) — upsert بر اساس (user_id, day) */
+export async function recordDailyUsage(env: Env, userId: number, bytes: number): Promise<void> {
+  if (bytes <= 0) return;
+  const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  await env.DB.prepare(
+    'INSERT INTO usage_logs (user_id, day, bytes) VALUES (?, ?, ?) ' +
+    'ON CONFLICT (user_id, day) DO UPDATE SET bytes = usage_logs.bytes + excluded.bytes',
+  )
+    .bind(userId, day, Math.round(bytes))
+    .run();
+}
+
+/** مصرف کلِ روزهای اخیر: [{day, bytes}] — تا N روز گذشته */
+export async function getDailyUsage(env: Env, days = 7): Promise<Array<{ day: string; bytes: number }>> {
+  const since = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
+  const rows = await env.DB.prepare(
+    'SELECT day, SUM(bytes) AS bytes FROM usage_logs WHERE day >= ? GROUP BY day ORDER BY day ASC',
+  ).bind(since).all<{ day: string; bytes: number }>();
+  return rows.results.map((r) => ({ day: r.day, bytes: r.bytes }));
+}
+
+/** مجموع مصرف ثبت‌شده برای یک بازه (امروز/دیروز و...) */
+export async function getUsageTotal(env: Env, days = 1): Promise<number> {
+  const since = new Date(Date.now() - (days - 1) * 86400000).toISOString().slice(0, 10);
+  const row = await env.DB.prepare('SELECT COALESCE(SUM(bytes), 0) AS b FROM usage_logs WHERE day >= ?')
+    .bind(since).first<{ b: number }>();
+  return row?.b ?? 0;
+}
+
 /**
  * بازنشانی خودکار کوتاها — باید در مسیر ترافیک یا کرون صدا زده شود.
  * ایده‌ی ساده‌تر و درست‌تر: بازنشانی بر اساس آخرین بازنشانی (و نه created_at).

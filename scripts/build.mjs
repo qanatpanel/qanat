@@ -34,6 +34,13 @@ async function buildAssets() {
     let html = readFileSync(indexPath, 'utf8');
     html = html.replace('/* SHARED_CSS_PLACEHOLDER */', () => sharedCss);
 
+    // فونت امبدشده فقط برای پنل (برای حجم باندل)
+    const fontCssPath = join(ASSETS_DIR, 'font.css');
+    if (existsSync(fontCssPath)) {
+      html = html.replace('/* FONT_PLACEHOLDER */', () => readFileSync(fontCssPath, 'utf8'));
+    }
+    html = html.replace('/* FONT_PLACEHOLDER */', () => '');
+
     const cssPath = join(base, 'style.css');
     if (existsSync(cssPath)) {
       html = html.replace('/* CSS_PLACEHOLDER */', () => readFileSync(cssPath, 'utf8'));

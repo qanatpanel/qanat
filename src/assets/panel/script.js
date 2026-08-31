@@ -21,22 +21,23 @@
   var I18N = {
     fa: {
       panelTitle: 'قنات', logout: 'خروج',
-      tabOverview: 'نمای کلی', tabUsers: 'کاربران', tabSubs: 'اشتراک‌ها', tabSettings: 'تنظیمات',
-      loading: 'در حال بارگذاری…', noUsers: 'هنوز کاربری ساخته نشده — با دکمه‌ی «کاربر جدید» شروع کنید.',
-      thUser: 'کاربر', thStatus: 'وضعیت', thQuota: 'کوتا (GB)', thUsed: 'مصرف', thExpiry: 'انقضا', thActions: 'عملیات',
-      stActive: 'فعال', stDisabled: 'غیرفعال', stExpired: 'منقضی',
+      tabOverview: 'داشبورد', tabUsers: 'کاربران', tabSubs: 'اشتراک‌ها', tabSettings: 'تنظیمات', tabScanner: 'اسکنر IP',
+      dashTitle: 'داشبورد', usersTitle: 'کاربران', subsTitle: 'اشتراک کاربران', scanTitle: '📡 اسکنر IP تمیز کلودفلر',
+      setSub: 'امنیت، پروکسی و رمز عبور',
+      loading: 'در حال بارگذاری…', refresh: 'تازه‌سازی', addUser: '+ کاربر جدید',
+      stActive: 'فعال', stDisabled: 'غیرفعال', stExpired: 'منقضی', stFull: 'پر',
       unlimited: 'نامحدود', never: 'بدون انقضا', days: 'روز',
-      quickTitle: 'دسترسی سریع', quickUsers: 'مدیریت کاربران', quickSettings: 'تنظیمات پنل',
       infoTitle: 'اطلاعات پنل',
-      statUsers: 'کل کاربران', statActive: 'کاربران فعال', statUsed: 'مصرف کل', statQuota: 'کوتای کل',
-      usersTitle: 'کاربران', refresh: 'تازه‌سازی', addUser: '+ کاربر جدید',
-      secTitle: 'امنیت', securePathLabel: 'مسیر مخفی پنل', regenerate: 'بازسازی',
-      securePathHint: 'بعد از بازسازی، آدرس پنل عوض می‌شود. لینک جدید را ذخیره کنید.',
-      claimLabel: 'توکن ادعای نصب (Claim Token)', claimOn: 'تنظیم شده ✓', claimOff: 'تنظیم نشده',
-      claimHint: 'اگر تنظیم شده باشد، اولین نصب فقط با این توکن امکان‌پذیر است.',
-      verLabel: 'نسخه',
-      passTitle: 'تغییر رمز عبور', curPass: 'رمز فعلی', newPass: 'رمز جدید (حداقل ۸ کاراکتر)',
-      confPass: 'تکرار رمز جدید', changePass: 'تغییر رمز عبور',
+      statUsers: 'کل کاربران', statActive: 'کاربران فعال', statToday: 'مصرف امروز', statTotal: 'مصرف کل',
+      tbYesterday: 'دیروز', tbQuota: 'کوتای کل', tbExpired: 'منقضی', tbDisabled: 'غیرفعال',
+      chartTitle: 'مصرف ۷ روز اخیر', chartLegend: 'ترافیک', noData: 'هنوز داده‌ای ثبت نشده — بعد از اولین اتصال نمودار پر می‌شود.',
+      topUsersTitle: 'پر مصرف‌ترین کاربران', recentTitle: 'آخرین کاربران', seeAll: 'مشاهده همه',
+      searchPh: 'جستجوی نام، UUID یا یادداشت…',
+      fAll: 'همه', fActive: 'فعال', fExpired: 'منقضی', fDisabled: 'غیرفعال', fFull: 'پر',
+      noUsersTitle: 'هنوز کاربری ساخته نشده', noUsers: 'با دکمه‌ی «کاربر جدید» شروع کنید — هر کاربر کانفیگ اختصاصی VLESS و Trojan می‌گیرد.',
+      noMatch: 'کاربری با این جستجو پیدا نشد.',
+      usedShort: 'مصرف', quotaShort: 'کوتا', expiryShort: 'انقضا',
+      copyUuid: 'کپی UUID', showQr: 'کانفیگ و QR', delete: 'حذف',
       addUserTitle: 'کاربر جدید', uUsername: 'نام کاربری', uUsernameHint: '۳ تا ۳۲ حرف — حروف، اعداد، _ و -',
       uQuota: 'کوتای حجم (GB) — ۰ = نامحدود', uExpiry: 'انقضا (روز) — ۰ = بدون انقضا',
       uNote: 'یادداشت (اختیاری)', cancel: 'انصراف', save: 'ذخیره',
@@ -47,10 +48,20 @@
       errNetwork: 'خطا در ارتباط با سرور', errUnauthorized: 'نشست منقضی شده — دوباره وارد شوید',
       invalidUsername: 'نام کاربری نامعتبر است', taken: 'این نام کاربری قبلاً استفاده شده',
       confirmDel: 'این کاربر حذف شود؟',
-      subsTitle: 'اشتراک کاربران', subsHint: 'هر کاربر لینک اختصاصی خودش را دارد — با دانستن UUID قابل دسترسی است.',
+      delUserTitle: 'حذف کاربر', delUserText: 'کاربر «{name}» برای همیشه حذف می‌شود؟ این عمل قابل بازگشت نیست.',
+      confirmYes: 'بله، حذف کن', confirmNo: 'انصراف',
+      subsTitle2: 'اشتراک کاربران', subsHint: 'هر کاربر لینک اختصاصی خودش را دارد — با دانستن UUID قابل دسترسی است.',
       noSubs: 'کاربری وجود ندارد — اول کاربر بسازید.',
-      copyUri: 'کپی', copiedUri: '✓ کپی شد',
-      openSubPage: 'صفحه‌ی اشتراک', txtSub: 'اشتراک متنی', clashSub: 'Clash', singboxSub: 'sing-box',
+      copyUri: 'کپی', openSubPage: 'صفحه‌ی اشتراک', txtSub: 'اشتراک متنی', clashSub: 'Clash', singboxSub: 'sing-box',
+      copyVless: 'کپی VLESS', copyTrojan: 'کپی Trojan', copySubLink: 'کپی لینک اشتراک', copySubTxt: 'کپی اشتراک متنی',
+      qrLoading: 'در حال آماده‌سازی…',
+      secTitle: 'امنیت', securePathLabel: 'مسیر مخفی پنل', regenerate: 'بازسازی',
+      securePathHint: 'بعد از بازسازی، آدرس پنل عوض می‌شود. لینک جدید را ذخیره کنید.',
+      claimLabel: 'توکن ادعای نصب (Claim Token)', claimOn: 'تنظیم شده ✓', claimOff: 'تنظیم نشده',
+      claimHint: 'اگر تنظیم شده باشد، اولین نصب فقط با این توکن امکان‌پذیر است.',
+      verLabel: 'نسخه', hostLabel: 'دامنه',
+      passTitle: 'تغییر رمز عبور', curPass: 'رمز فعلی', newPass: 'رمز جدید (حداقل ۸ کاراکتر)',
+      confPass: 'تکرار رمز جدید', changePass: 'تغییر رمز عبور',
       proxyTitle: 'تنظیمات پروکسی', pHost: 'هاست (خالی = خودکار)', pPort: 'پورت',
       pProtocols: 'پروتکل‌ها', pBoth: 'هر دو (VLESS + Trojan)', pVless: 'فقط VLESS', pTrojan: 'فقط Trojan',
       pTls: 'TLS', pTlsHint: 'اگر پشت دامنه‌ی خودتان است روشن باشد', pSni: 'SNI (خالی = هاست)',
@@ -58,32 +69,32 @@
       saveProxy: 'ذخیره تنظیمات پروکسی', proxySaved: 'تنظیمات پروکسی ذخیره شد ✓', proxyPathRegen: 'مسیر پروکسی بازسازی شد ✓',
       errProxy: 'خطا در ذخیره تنظیمات پروکسی',
       usageOf: 'مصرف:', noLimit: 'نامحدود',
-      tabScanner: 'اسکنر', scanTitle: '📡 اسکنر IP تمیز کلودفلر',
       scanHint: 'IP های تصادفی کلودفلر از مرورگر شما تست می‌شوند — پینگ واقعی RTT از دستگاه شما. IP های «زنده» معمولاً تمیز و قابل استفاده‌اند.',
-      scanStart: 'شروع اسکن', scanStop: 'توقف', scanCount: 'تعداد IP', scanTimeout: 'مهلت اتصال', scanConc: 'همزمانی',
+      scanStart: 'شروع اسکن', scanStop: 'توقف', scanCount: 'تعداد IP', scanTimeout: 'مهلت اتصال', scanConc: 'همزمانی', scanPort: 'پورت', scanPortHint: 'اگر ۴۴۳ وصل نشد، پورت‌های جایگزین را امتحان کنید',
       scanResults: 'نتایج', scanIdle: 'اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.', scanCopyBest: 'کپی کانفیگ ۵ IP برتر',
-      scanProgress: 'در حال اسکن...', scanFound: 'زنده', scanAlive: 'زنده', scanDead: 'مرده/فیلتر', scanBest: 'بهترین',
+      scanProgress: 'در حال اسکن…', scanFound: 'زنده', scanAlive: 'زنده', scanBest: 'بهترین',
       scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.',
-      scanIpCol: 'IP', scanPingCol: 'پینگ (ms)', scanStatusCol: 'وضعیت', scanActionCol: 'کانفیگ', scanCopy: 'کپی',
+      scanCopy: 'کپی',
     },
     en: {
       panelTitle: 'Qanat', logout: 'Logout',
-      tabOverview: 'Overview', tabUsers: 'Users', tabSubs: 'Subscriptions', tabSettings: 'Settings',
-      loading: 'Loading…', noUsers: 'No users yet — create one with "New user".',
-      thUser: 'User', thStatus: 'Status', thQuota: 'Quota (GB)', thUsed: 'Usage', thExpiry: 'Expiry', thActions: 'Actions',
-      stActive: 'Active', stDisabled: 'Disabled', stExpired: 'Expired',
+      tabOverview: 'Dashboard', tabUsers: 'Users', tabSubs: 'Subscriptions', tabSettings: 'Settings', tabScanner: 'IP Scanner',
+      dashTitle: 'Dashboard', usersTitle: 'Users', subsTitle: 'User subscriptions', scanTitle: '📡 Cloudflare Clean IP Scanner',
+      setSub: 'Security, proxy & password',
+      loading: 'Loading…', refresh: 'Refresh', addUser: '+ New user',
+      stActive: 'Active', stDisabled: 'Disabled', stExpired: 'Expired', stFull: 'Full',
       unlimited: 'Unlimited', never: 'No expiry', days: 'days',
-      quickTitle: 'Quick actions', quickUsers: 'Manage users', quickSettings: 'Panel settings',
       infoTitle: 'Panel info',
-      statUsers: 'Total users', statActive: 'Active users', statUsed: 'Total usage', statQuota: 'Total quota',
-      usersTitle: 'Users', refresh: 'Refresh', addUser: '+ New user',
-      secTitle: 'Security', securePathLabel: 'Panel secret path', regenerate: 'Regenerate',
-      securePathHint: 'After regeneration the panel URL changes. Save the new link.',
-      claimLabel: 'Install claim token', claimOn: 'Set ✓', claimOff: 'Not set',
-      claimHint: 'When set, first-time setup is only possible with this token.',
-      verLabel: 'Version',
-      passTitle: 'Change password', curPass: 'Current password', newPass: 'New password (min 8 chars)',
-      confPass: 'Confirm new password', changePass: 'Change password',
+      statUsers: 'Total users', statActive: 'Active users', statToday: "Today's usage", statTotal: 'Total usage',
+      tbYesterday: 'Yesterday', tbQuota: 'Total quota', tbExpired: 'Expired', tbDisabled: 'Disabled',
+      chartTitle: 'Traffic — last 7 days', chartLegend: 'Traffic', noData: 'No data yet — the chart fills after the first connection.',
+      topUsersTitle: 'Top users', recentTitle: 'Recent users', seeAll: 'See all',
+      searchPh: 'Search name, UUID or note…',
+      fAll: 'All', fActive: 'Active', fExpired: 'Expired', fDisabled: 'Disabled', fFull: 'Full',
+      noUsersTitle: 'No users yet', noUsers: 'Start with "New user" — each user gets a private VLESS & Trojan config.',
+      noMatch: 'No user matches this search.',
+      usedShort: 'Used', quotaShort: 'Quota', expiryShort: 'Expiry',
+      copyUuid: 'Copy UUID', showQr: 'Config & QR', delete: 'Delete',
       addUserTitle: 'New user', uUsername: 'Username', uUsernameHint: '3-32 chars: letters, digits, _ , -',
       uQuota: 'Quota (GB) — 0 = unlimited', uExpiry: 'Expiry (days) — 0 = none',
       uNote: 'Note (optional)', cancel: 'Cancel', save: 'Save',
@@ -94,10 +105,20 @@
       errNetwork: 'Server connection error', errUnauthorized: 'Session expired — sign in again',
       invalidUsername: 'Invalid username', taken: 'This username is already taken',
       confirmDel: 'Delete this user?',
-      subsTitle: 'User subscriptions', subsHint: 'Each user has their own private link — accessible by UUID.',
+      delUserTitle: 'Delete user', delUserText: 'User "{name}" will be permanently deleted. This cannot be undone.',
+      confirmYes: 'Yes, delete', confirmNo: 'Cancel',
+      subsTitle2: 'User subscriptions', subsHint: 'Each user has their own private link — accessible by UUID.',
       noSubs: 'No users yet — create one first.',
-      copyUri: 'Copy', copiedUri: '✓ Copied',
-      openSubPage: 'Subscription page', txtSub: 'Text sub', clashSub: 'Clash', singboxSub: 'sing-box',
+      copyUri: 'Copy', openSubPage: 'Subscription page', txtSub: 'Text sub', clashSub: 'Clash', singboxSub: 'sing-box',
+      copyVless: 'Copy VLESS', copyTrojan: 'Copy Trojan', copySubLink: 'Copy subscription link', copySubTxt: 'Copy text subscription',
+      qrLoading: 'Preparing…',
+      secTitle: 'Security', securePathLabel: 'Panel secret path', regenerate: 'Regenerate',
+      securePathHint: 'After regeneration the panel URL changes. Save the new link.',
+      claimLabel: 'Install claim token', claimOn: 'Set ✓', claimOff: 'Not set',
+      claimHint: 'When set, first-time setup is only possible with this token.',
+      verLabel: 'Version', hostLabel: 'Host',
+      passTitle: 'Change password', curPass: 'Current password', newPass: 'New password (min 8 chars)',
+      confPass: 'Confirm new password', changePass: 'Change password',
       proxyTitle: 'Proxy settings', pHost: 'Host (empty = auto)', pPort: 'Port',
       pProtocols: 'Protocols', pBoth: 'Both (VLESS + Trojan)', pVless: 'VLESS only', pTrojan: 'Trojan only',
       pTls: 'TLS', pTlsHint: 'Enable if behind your own domain', pSni: 'SNI (empty = host)',
@@ -105,13 +126,12 @@
       saveProxy: 'Save proxy settings', proxySaved: 'Proxy settings saved ✓', proxyPathRegen: 'Proxy path regenerated ✓',
       errProxy: 'Error saving proxy settings',
       usageOf: 'Usage:', noLimit: 'Unlimited',
-      tabScanner: 'Scanner', scanTitle: '📡 Cloudflare Clean IP Scanner',
       scanHint: 'Random Cloudflare IPs are tested from your browser — real RTT ping from your device. Alive IPs are usually clean and usable.',
-      scanStart: 'Start scan', scanStop: 'Stop', scanCount: 'IP count', scanTimeout: 'Timeout', scanConc: 'Concurrency',
+      scanStart: 'Start scan', scanStop: 'Stop', scanCount: 'IP count', scanTimeout: 'Timeout', scanConc: 'Concurrency', scanPort: 'Port', scanPortHint: 'If 443 fails, try alternative ports',
       scanResults: 'Results', scanIdle: 'Start a scan — results appear here.', scanCopyBest: 'Copy top 5 configs',
-      scanProgress: 'Scanning...', scanFound: 'alive', scanAlive: 'Alive', scanDead: 'Dead/Filtered', scanBest: 'Best',
+      scanProgress: 'Scanning…', scanFound: 'alive', scanAlive: 'Alive', scanBest: 'Best',
       scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.',
-      scanIpCol: 'IP', scanPingCol: 'Ping (ms)', scanStatusCol: 'Status', scanActionCol: 'Config', scanCopy: 'Copy',
+      scanCopy: 'Copy',
     },
   };
 
@@ -120,11 +140,21 @@
   var t = I18N[lang] || I18N.fa;
   var users = [];
   var info = null;
-  var modalOpen = false;
-  var pendingDelete = null;
+  var stats = null;
+  var subsData = null;
+  var userFilter = 'all';
+  var qrItem = null;
 
+  /* ═══════════ ابزارها ═══════════ */
   function $(id) { return document.getElementById(id); }
-  function fmtNum(n) { return n.toLocaleString(lang === 'fa' ? 'en-US' : 'en-US'); }
+  function fmtNum(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '٬').replace(/[0-9]/g, function (d) { return lang === 'fa' ? '۰۱۲۳۴۵۶۷۸۹'[d] : d; }); }
+  function fmtBytes(b) {
+    if (!b || b <= 0) return '0 B';
+    var u = ['B', 'KB', 'MB', 'GB', 'TB'];
+    var i = Math.min(u.length - 1, Math.floor(Math.log(b) / Math.log(1024)));
+    var v = b / Math.pow(1024, i);
+    return (v >= 100 ? v.toFixed(0) : v.toFixed(1)) + ' ' + u[i];
+  }
   function fmtGb(gb) {
     if (gb >= 1000) return (gb / 1024).toFixed(2) + ' TB';
     if (gb >= 100) return Math.round(gb) + ' GB';
@@ -139,7 +169,6 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-
   function toast(msg) {
     var el = $('toast');
     el.textContent = msg;
@@ -147,7 +176,6 @@
     clearTimeout(el._tm);
     el._tm = setTimeout(function () { el.hidden = true; }, 2600);
   }
-
   function copyText(text) {
     function fallback() {
       var ta = document.createElement('textarea');
@@ -192,11 +220,16 @@
       var k = el.getAttribute('data-i18n');
       if (t[k] != null) el.textContent = t[k];
     });
-    $('lang-btn').textContent = lang === 'fa' ? 'English' : 'فارسی';
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-ph');
+      if (t[k] != null) el.placeholder = t[k];
+    });
+    $('lang-btn').textContent = lang === 'fa' ? 'EN' : 'فا';
+    updateMobileTitle();
   }
   function applyTheme() {
     document.documentElement.setAttribute('data-theme', theme);
-    $('theme-btn').textContent = theme === 'dark' ? '☀️' : '🌙';
+    $('theme-btn').textContent = theme === 'dark' ? '🌙' : '☀️';
   }
   $('lang-btn').addEventListener('click', function () {
     lang = lang === 'fa' ? 'en' : 'fa';
@@ -211,172 +244,317 @@
   });
 
   /* ═══════════ ناوبری ═══════════ */
+  var VIEW_KEYS = { overview: 'tabOverview', users: 'tabUsers', subs: 'tabSubs', scanner: 'tabScanner', settings: 'tabSettings' };
+  function updateMobileTitle() {
+    var v = currentView;
+    $('mobile-page').textContent = t[VIEW_KEYS[v]] || '';
+  }
+  var currentView = 'overview';
   function switchView(name) {
+    currentView = name;
     ['overview', 'users', 'subs', 'scanner', 'settings'].forEach(function (v) {
-      $('view-' + v).hidden = v !== name;
+      var el = $('view-' + v);
+      if (el) el.classList.toggle('active', v === name);
     });
-    document.querySelectorAll('.tab').forEach(function (el) {
+    document.querySelectorAll('.nav-item, .bn-item').forEach(function (el) {
       el.classList.toggle('active', el.getAttribute('data-view') === name);
     });
+    updateMobileTitle();
     if (name === 'users') loadUsers();
     if (name === 'subs') loadSubs();
-    if (name === 'settings') loadSettings();
+    if (name === 'settings') { loadSettings(); loadProxySettings(); }
   }
-  document.querySelectorAll('.tab').forEach(function (el) {
+  document.querySelectorAll('.nav-item, .bn-item').forEach(function (el) {
     el.addEventListener('click', function () { switchView(el.getAttribute('data-view')); });
   });
   document.querySelectorAll('[data-goto]').forEach(function (el) {
     el.addEventListener('click', function () { switchView(el.getAttribute('data-goto')); });
   });
+  document.querySelectorAll('.view').forEach(function (el) {
+    el.classList.remove('active');
+  });
+  $('view-overview').classList.add('active');
 
-  /* ═══════════ نمای کلی ═══════════ */
-  function renderOverview() {
-    var now = Date.now();
-    var total = users.length;
-    var active = users.filter(function (u) { return u.status === 'active'; }).length;
-    var used = users.reduce(function (s, u) { return s + u.usedGb; }, 0);
-    var quota = users.reduce(function (s, u) { return s + u.quotaGb; }, 0);
+  /* ═══════════ مودال تأیید ═══════════ */
+  var confirmCb = null;
+  function openConfirm(title, text, okLabel, cb) {
+    $('confirm-title').textContent = title;
+    $('confirm-text').textContent = text;
+    $('confirm-ok').textContent = okLabel || t.confirmYes;
+    confirmCb = cb;
+    $('confirm-modal').hidden = false;
+  }
+  function closeConfirm() { $('confirm-modal').hidden = true; confirmCb = null; }
+  $('confirm-cancel').addEventListener('click', closeConfirm);
+  $('confirm-modal').addEventListener('click', function (e) { if (e.target === $('confirm-modal')) closeConfirm(); });
+  $('confirm-ok').addEventListener('click', function () {
+    var cb = confirmCb;
+    closeConfirm();
+    if (cb) cb();
+  });
+
+  /* ═══════════ داشبورد ═══════════ */
+  var AV_COLORS = ['av-cyan', 'av-violet', 'av-amber', 'av-emerald', 'av-rose', 'av-indigo'];
+  function avatarCls(id) { return AV_COLORS[Math.abs(Number(id) || 0) % AV_COLORS.length]; }
+  function statusPill(u) {
+    var full = u.quotaGb > 0 && u.usedGb >= u.quotaGb;
+    var cls = full ? 'st-full' : u.status === 'active' ? 'st-active' : u.status === 'expired' ? 'st-expired' : 'st-disabled';
+    var lbl = full ? t.stFull : u.status === 'active' ? t.stActive : u.status === 'expired' ? t.stExpired : t.stDisabled;
+    return '<span class="status-pill ' + cls + '">' + lbl + '</span>';
+  }
+  function progressHtml(pct, extraCls) {
+    var c = pct >= 100 ? ' full' : pct >= 85 ? ' warn' : '';
+    if (extraCls) c += ' ' + extraCls;
+    return '<div class="progress' + c + '"><i style="width:' + Math.min(100, pct).toFixed(1) + '%"></i></div>';
+  }
+
+  function loadStats() {
+    api('stats').then(function (r) {
+      if (!r.data.ok) { toast(errMsg(r)); return; }
+      stats = r.data;
+      renderStats();
+    }).catch(function () { toast(t.errNetwork); });
+  }
+
+  function renderStats() {
+    if (!stats) return;
+    var c = stats.counts || {};
+    var u = stats.usage || {};
 
     var cards = [
-      { n: fmtNum(total), l: t.statUsers },
-      { n: fmtNum(active), l: t.statActive },
-      { n: fmtGb(used), l: t.statUsed },
-      { n: quota === 0 ? '∞' : fmtGb(quota), l: t.statQuota },
+      { ic: 'ic-cyan', emoji: '👥', label: t.statUsers, value: fmtNum(c.total), sub: '', glow: 'rgba(34,211,238,0.16)' },
+      { ic: 'ic-emerald', emoji: '✅', label: t.statActive, value: fmtNum(c.active),
+        sub: '<span class="down">' + fmtNum(c.expired) + ' ' + t.tbExpired + '</span> · <span class="up">' + fmtNum(c.disabled) + ' ' + t.tbDisabled + '</span>', glow: 'rgba(52,211,153,0.15)' },
+      { ic: 'ic-violet', emoji: '⚡', label: t.statToday, value: fmtBytes(u.todayBytes), sub: t.tbYesterday + ': ' + fmtBytes(u.yesterdayBytes), glow: 'rgba(139,92,246,0.15)' },
+      { ic: 'ic-amber', emoji: '🌊', label: t.statTotal, value: fmtBytes(u.totalBytes),
+        sub: u.totalQuotaBytes ? t.tbQuota + ': ' + fmtBytes(u.totalQuotaBytes) : '', glow: 'rgba(251,191,36,0.14)' },
     ];
-    $('stat-cards').innerHTML = cards.map(function (c) {
-      return '<div class="stat acc"><div class="lbl">' + esc(c.l) + '</div><div class="num">' + c.n + '</div></div>';
+    $('stat-cards').innerHTML = cards.map(function (card) {
+      return '<div class="stat-card" style="--glow-c:' + card.glow + '">' +
+        '<div class="stat-top"><span class="stat-ico ' + card.ic + '">' + card.emoji + '</span>' +
+        '<span class="stat-label">' + esc(card.label) + '</span></div>' +
+        '<div class="stat-value">' + card.value + '</div>' +
+        (card.sub ? '<div class="stat-sub">' + card.sub + '</div>' : '') +
+        '</div>';
     }).join('');
 
-    var rows = [
-      ['🏷️ ' + t.securePathLabel, '/' + (info ? info.securePath : '…') + '/panel'],
-      ['📦 ' + t.verLabel, 'v' + (info ? info.version : '…')],
-      ['🔑 ' + t.claimLabel, info ? (info.claimTokenSet ? t.claimOn : t.claimOff) : '…'],
-    ];
-    $('info-list').innerHTML = rows.map(function (r) {
-      return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
+    renderChart(u.daily || []);
+    renderTopUsers(stats.topUsers || []);
+    renderInfoList(stats.panel);
+    renderRecent(stats.recent || []);
+  }
+
+  function renderChart(daily) {
+    var box = $('chart-box');
+    if (!daily || !daily.length || daily.every(function (d) { return d.bytes <= 0; })) {
+      box.innerHTML = '<div class="empty-hint">' + t.noData + '</div>';
+      return;
+    }
+    var W = 640, H = 220, padB = 34, padT = 26;
+    var max = Math.max.apply(null, daily.map(function (d) { return d.bytes; })) * 1.15;
+    var n = daily.length;
+    var slot = W / n;
+    var bw = Math.min(46, slot * 0.52);
+    var bars = daily.map(function (d, i) {
+      var h = Math.max(3, (d.bytes / max) * (H - padB - padT));
+      var x = i * slot + (slot - bw) / 2;
+      var y = H - padB - h;
+      var label = new Date(d.day + 'T00:00:00').toLocaleDateString(lang === 'fa' ? 'fa-IR' : 'en-GB', { weekday: 'short' });
+      return '<rect class="bar" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="7">' +
+        '<title>' + d.day + ' — ' + fmtBytes(d.bytes) + '</title></rect>' +
+        '<text x="' + (x + bw / 2).toFixed(1) + '" y="' + Math.max(14, y - 7).toFixed(1) + '" class="bar-val" text-anchor="middle">' + esc(fmtBytes(d.bytes)) + '</text>' +
+        '<text x="' + (x + bw / 2).toFixed(1) + '" y="' + (H - 10).toFixed(1) + '" class="bar-lbl" text-anchor="middle">' + esc(label) + '</text>';
+    }).join('');
+    box.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="chart-svg" preserveAspectRatio="xMidYMid meet">' +
+      '<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#14b8a6"/></linearGradient></defs>' +
+      '<line x1="0" y1="' + (H - padB) + '" x2="' + W + '" y2="' + (H - padB) + '" class="grid-line"/>' +
+      bars + '</svg>';
+  }
+
+  function renderTopUsers(list) {
+    var box = $('top-users');
+    if (!list.length) { box.innerHTML = '<div class="empty-hint">' + t.noUsersTitle + '</div>'; return; }
+    box.innerHTML = list.map(function (u, i) {
+      var pct = u.quotaGb > 0 ? Math.min(100, (u.usedGb / u.quotaGb) * 100) : 0;
+      var full = u.quotaGb > 0 && u.usedGb >= u.quotaGb;
+      var cls = full ? 'st-full' : u.status === 'active' ? 'st-active' : u.status === 'expired' ? 'st-expired' : 'st-disabled';
+      var lbl = full ? t.stFull : u.status === 'active' ? t.stActive : u.status === 'expired' ? t.stExpired : t.stDisabled;
+      return '<div class="mini-row">' +
+        '<div class="mini-avatar ' + avatarCls(u.id) + '">' + esc((u.username[0] || '?').toUpperCase()) + '</div>' +
+        '<div class="mini-meta">' +
+        '<div class="mini-name">' + esc(u.username) + '</div>' +
+        '<div class="mini-sub">' + fmtGb(u.usedGb) + ' / ' + (u.quotaGb > 0 ? fmtGb(u.quotaGb) : '∞') + '</div>' +
+        (u.quotaGb > 0 ? progressHtml(pct) : '') +
+        '</div>' +
+        '<span class="status-pill ' + cls + '">' + lbl + '</span>' +
+        '</div>';
     }).join('');
   }
+
+  function renderInfoList(panel) {
+    if (!panel) return;
+    var rows = [
+      ['🏷️ ' + t.securePathLabel, '/' + panel.securePath + '/panel'],
+      ['🌐 ' + t.hostLabel, location.host],
+      ['📦 ' + t.verLabel, 'v' + panel.version],
+      ['🔑 ' + t.claimLabel, panel.claimTokenSet ? t.claimOn : t.claimOff],
+    ];
+    $('info-list').innerHTML = rows.map(function (r) {
+      return '<div class="info-row"><span class="info-key">' + r[0] + '</span><span class="info-val" title="' + esc(r[1]) + '">' + esc(r[1]) + '</span></div>';
+    }).join('');
+  }
+
+  function renderRecent(list) {
+    var box = $('recent-users');
+    if (!list.length) { box.innerHTML = '<div class="empty-hint">' + t.noUsersTitle + '</div>'; return; }
+    box.innerHTML = list.map(function (u) {
+      return '<div class="mini-row">' +
+        '<div class="mini-avatar ' + avatarCls(u.id) + '">' + esc((u.username[0] || '?').toUpperCase()) + '</div>' +
+        '<div class="mini-meta"><div class="mini-name">' + esc(u.username) + '</div>' +
+        '<div class="mini-sub">' + fmtDate(u.createdAt) + '</div></div>' +
+        '<span class="status-pill ' + (u.status === 'active' ? 'st-active' : u.status === 'expired' ? 'st-expired' : 'st-disabled') + '">' +
+        (u.status === 'active' ? t.stActive : u.status === 'expired' ? t.stExpired : t.stDisabled) + '</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  $('refresh-all').addEventListener('click', function () { loadStats(); loadUsers(); });
 
   /* ═══════════ کاربران ═══════════ */
   function loadUsers() {
-    var body = $('users-body');
-    body.innerHTML = '<tr><td colspan="6" class="empty">' + t.loading + '</td></tr>';
     api('users').then(function (r) {
-      if (!r.data.ok) { body.innerHTML = '<tr><td colspan="6" class="empty">' + errMsg(r) + '</td></tr>'; return; }
+      if (!r.data.ok) { toast(errMsg(r)); return; }
       users = r.data.users || [];
-      $('users-empty-hint').hidden = users.length > 0;
       renderUsers();
-      renderOverview();
-    }).catch(function () {
-      body.innerHTML = '<tr><td colspan="6" class="empty">' + t.errNetwork + '</td></tr>';
+      $('nav-users-badge').hidden = users.length === 0;
+      $('nav-users-badge').textContent = fmtNum(users.length);
+    }).catch(function () { toast(t.errNetwork); });
+  }
+
+  function filteredUsers() {
+    var q = ($('user-search').value || '').trim().toLowerCase();
+    return users.filter(function (u) {
+      if (userFilter !== 'all') {
+        var full = u.quotaGb > 0 && u.usedGb >= u.quotaGb;
+        if (userFilter === 'active' && u.status !== 'active') return false;
+        if (userFilter === 'expired' && u.status !== 'expired') return false;
+        if (userFilter === 'disabled' && u.status !== 'disabled') return false;
+        if (userFilter === 'full' && !full) return false;
+      }
+      if (!q) return true;
+      return (u.username || '').toLowerCase().indexOf(q) !== -1 ||
+        (u.uuid || '').toLowerCase().indexOf(q) !== -1 ||
+        (u.note || '').toLowerCase().indexOf(q) !== -1;
     });
-  }
-
-  function statusBadge(u) {
-    var cls = u.status === 'active' ? 'ok' : u.status === 'expired' ? 'bad' : 'neutral';
-    var lbl = u.status === 'active' ? t.stActive : u.status === 'expired' ? t.stExpired : t.stDisabled;
-    return '<span class="badge ' + cls + '">' + lbl + '</span>';
-  }
-
-  function quotaCell(u) {
-    if (u.quotaGb === 0) return '<span>' + t.unlimited + '</span>';
-    var pct = u.quotaGb > 0 ? Math.min(100, (u.usedGb / u.quotaGb) * 100) : 0;
-    var full = pct >= 100 ? ' full' : '';
-    return '<div class="progress"><div class="bar"><i class="' + full + '" style="width:' + pct.toFixed(1) + '%"></i></div><div class="txt">' + fmtGb(u.usedGb) + ' / ' + fmtGb(u.quotaGb) + '</div></div>';
   }
 
   function renderUsers() {
-    var body = $('users-body');
-    if (users.length === 0) {
-      body.innerHTML = '<tr><td colspan="6" class="empty">' + t.noUsers + '</td></tr>';
+    var grid = $('users-grid');
+    var empty = $('users-empty');
+    empty.hidden = users.length > 0;
+    $('users-count').textContent = users.length ? fmtNum(users.length) + ' ' + t.tabUsers : '—';
+
+    if (!users.length) { grid.innerHTML = ''; return; }
+    var list = filteredUsers();
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-hint">' + t.noMatch + '</div>';
       return;
     }
-    body.innerHTML = users.map(function (u) {
-      var initial = (u.username[0] || '?').toUpperCase();
-      var expiryTxt = u.expiryDaysLeft == null ? t.never : (u.expiryDaysLeft === 0 ? '—' : u.expiryDaysLeft + ' ' + t.days);
-      return '<tr data-id="' + u.id + '">' +
-        '<td><div class="u-cell"><div class="u-avatar">' + esc(initial) + '</div>' +
-        '<div><div class="u-name">' + esc(u.username) + '</div>' +
-        '<div class="u-sub" title="' + esc(u.uuid) + '">' + esc(u.uuid) + '</div></div></div></td>' +
-        '<td>' + statusBadge(u) + '</td>' +
-        '<td>' + (u.quotaGb === 0 ? t.unlimited : fmtNum(u.quotaGb)) + '</td>' +
-        '<td>' + quotaCell(u) + '</td>' +
-        '<td>' + (u.expiryDaysLeft == null ? '—' : expiryTxt) + '</td>' +
-        '<td><div class="row-actions">' +
+    grid.innerHTML = list.map(function (u) {
+      var pct = u.quotaGb > 0 ? Math.min(100, (u.usedGb / u.quotaGb) * 100) : 0;
+      var expiryTxt = u.expiryDaysLeft == null ? '∞' : (u.expiryDaysLeft === 0 ? '—' : fmtNum(u.expiryDaysLeft) + ' ' + t.days);
+      return '<div class="user-card" data-id="' + u.id + '">' +
+        '<div class="uc-top">' +
+        '<div class="mini-avatar ' + avatarCls(u.id) + '">' + esc((u.username[0] || '?').toUpperCase()) + '</div>' +
+        '<div class="uc-name"><strong title="' + esc(u.username) + '">' + esc(u.username) + '</strong>' +
+        (u.note ? '<span class="uc-note">' + esc(u.note) + '</span>' : '') + '</div>' +
+        statusPill(u) +
+        '</div>' +
+        '<div class="uc-stats">' +
+        '<div class="uc-stat"><span class="k">' + t.usedShort + '</span><span class="v">' + fmtGb(u.usedGb) + ' / ' + (u.quotaGb > 0 ? fmtGb(u.quotaGb) : '∞') + '</span>' +
+        (u.quotaGb > 0 ? progressHtml(pct) : '') + '</div>' +
+        '<div class="uc-stat"><span class="k">' + t.expiryShort + '</span><span class="v">' + expiryTxt + '</span>' +
+        '<span class="k" style="margin-top:6px">UUID</span><span class="v" style="font-size:10.5px" title="' + esc(u.uuid) + '">' + esc(u.uuid.slice(0, 13)) + '…</span></div>' +
+        '</div>' +
+        '<div class="uc-actions">' +
         '<label class="switch" title="toggle"><input type="checkbox" data-act="toggle" ' + (u.status === 'active' ? 'checked' : '') + '><span class="track"></span></label>' +
-        '<button class="btn-danger" data-act="delete">🗑</button>' +
-        '<button class="ghost-btn" data-act="copy" title="UUID">📋</button>' +
-        '</div></td></tr>';
+        '<button class="ghost-btn" data-act="qr" title="' + t.showQr + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21v.01M21 21h-3"/></svg>' +
+        t.showQr + '</button>' +
+        '<button class="ghost-btn" data-act="copy" title="' + t.copyUuid + '">📋</button>' +
+        '<button class="ghost-btn uc-del" data-act="delete" title="' + t.delete + '">🗑</button>' +
+        '</div>' +
+        '</div>';
     }).join('');
   }
 
-  $('users-body').addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-act]');
+  $('user-search').addEventListener('input', renderUsers);
+  $('filter-chips').addEventListener('click', function (e) {
+    var btn = e.target.closest('.chip-btn');
     if (!btn) return;
-    var tr = btn.closest('tr');
-    var id = Number(tr.getAttribute('data-id'));
-    var user = users.find(function (u) { return u.id === id; });
-    if (!user) return;
-
-    if (btn.getAttribute('data-act') === 'delete') {
-      if (pendingDelete !== id) {
-        pendingDelete = id;
-        btn.textContent = t.sureDelete;
-        btn.classList.add('confirm');
-        setTimeout(function () {
-          if (pendingDelete === id) {
-            pendingDelete = null;
-            btn.textContent = '🗑';
-            btn.classList.remove('confirm');
-          }
-        }, 2500);
-        return;
-      }
-      pendingDelete = null;
-      api('users/' + id, { method: 'DELETE' }).then(function (r) {
-        if (r.data.ok) { toast(t.deleted); loadUsers(); }
-        else toast(errMsg(r));
-      });
-    }
-    if (btn.getAttribute('data-act') === 'copy') {
-      copyText(user.uuid);
-    }
+    userFilter = btn.getAttribute('data-filter');
+    document.querySelectorAll('.chip-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
+    renderUsers();
   });
 
-  $('users-body').addEventListener('change', function (e) {
+  $('users-grid').addEventListener('change', function (e) {
     var box = e.target;
     if (box.getAttribute('data-act') !== 'toggle') return;
-    var tr = box.closest('tr');
-    var id = Number(tr.getAttribute('data-id'));
+    var card = box.closest('.user-card');
+    if (!card) return;
+    var id = Number(card.getAttribute('data-id'));
     api('users/' + id + '/toggle', { method: 'POST', body: { active: box.checked } }).then(function (r) {
-      if (r.data.ok) toast(r.data.active ? '✓' : '—');
-      else { box.checked = !box.checked; toast(errMsg(r)); }
-      loadUsers();
-    });
+      if (r.data.ok) {
+        toast(r.data.active ? t.stActive : t.stDisabled);
+        loadUsers();
+      } else { box.checked = !box.checked; toast(errMsg(r)); }
+    }).catch(function () { box.checked = !box.checked; toast(t.errNetwork); });
+  });
+
+  $('users-grid').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    var card = btn.closest('.user-card');
+    if (!card) return;
+    var id = Number(card.getAttribute('data-id'));
+    var user = users.find(function (u) { return u.id === id; });
+    if (!user) return;
+    var act = btn.getAttribute('data-act');
+
+    if (act === 'delete') {
+      openConfirm(t.delUserTitle, t.delUserText.replace('{name}', user.username), t.confirmYes, function () {
+        api('users/' + id, { method: 'DELETE' }).then(function (r) {
+          if (r.data.ok) { toast(t.deleted); loadUsers(); loadStats(); }
+          else toast(errMsg(r));
+        });
+      });
+    }
+    if (act === 'copy') copyText(user.uuid);
+    if (act === 'qr') openQrModal(user);
   });
 
   /* ─── مودال ساخت کاربر ─── */
-  function openModal() {
-    modalOpen = true;
-    $('modal').hidden = false;
-    $('modal-error').classList.remove('show');
+  function openUserModal() {
+    $('user-modal-error').classList.remove('show');
     $('u-username').value = '';
     $('u-quota').value = '0';
     $('u-expiry').value = '0';
     $('u-note').value = '';
-    $('u-username').focus();
+    $('user-modal').hidden = false;
+    setTimeout(function () { $('u-username').focus(); }, 60);
   }
-  function closeModal() {
-    modalOpen = false;
-    $('modal').hidden = true;
-  }
-  $('add-user').addEventListener('click', openModal);
-  $('modal-close').addEventListener('click', closeModal);
-  $('modal-cancel').addEventListener('click', closeModal);
-  $('modal').addEventListener('click', function (e) { if (e.target === $('modal')) closeModal(); });
+  function closeUserModal() { $('user-modal').hidden = true; }
+  ['add-user', 'add-user-2', 'add-user-mobile', 'empty-add'].forEach(function (id) {
+    var el = $(id);
+    if (el) el.addEventListener('click', openUserModal);
+  });
+  $('user-modal-close').addEventListener('click', closeUserModal);
+  $('user-modal-cancel').addEventListener('click', closeUserModal);
+  $('user-modal').addEventListener('click', function (e) { if (e.target === $('user-modal')) closeUserModal(); });
 
-  $('modal-save').addEventListener('click', function () {
-    var errBox = $('modal-error');
+  $('user-modal-save').addEventListener('click', function () {
+    var errBox = $('user-modal-error');
     errBox.classList.remove('show');
     var body = {
       username: $('u-username').value.trim(),
@@ -385,7 +563,7 @@
       note: $('u-note').value.trim(),
     };
     api('users', { method: 'POST', body: body }).then(function (r) {
-      if (r.data.ok) { toast(t.saved); closeModal(); loadUsers(); }
+      if (r.data.ok) { toast(t.saved); closeUserModal(); loadUsers(); loadStats(); }
       else if (r.data.error === 'invalid_username') { errBox.textContent = t.invalidUsername; errBox.classList.add('show'); }
       else if (r.data.error === 'username_taken') { errBox.textContent = t.taken; errBox.classList.add('show'); }
       else { errBox.textContent = errMsg(r); errBox.classList.add('show'); }
@@ -394,66 +572,96 @@
       errBox.classList.add('show');
     });
   });
-  $('u-username').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('modal-save').click(); });
+  $('u-username').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('user-modal-save').click(); });
 
-  $('refresh-users').addEventListener('click', loadUsers);
+  $('refresh-users').addEventListener('click', function () { loadUsers(); loadStats(); });
+
+  /* ─── مودال QR / کانفیگ ─── */
+  function openQrModal(user) {
+    qrItem = null;
+    $('qr-title').textContent = user.username + ' — ' + t.qrLoading;
+    $('qr-img').src = '';
+    $('qr-modal').hidden = false;
+    var ensure = subsData ? Promise.resolve(subsData) : loadSubs(true);
+    Promise.resolve(ensure).then(function () {
+      var item = (subsData && subsData.items || []).find(function (it) { return it.id === user.id; });
+      if (!item) { $('qr-title').textContent = user.username; toast(t.noSubs); return; }
+      qrItem = item;
+      $('qr-title').textContent = user.username;
+      $('qr-img').src = 'panel/api/qr?text=' + encodeURIComponent(item.vless);
+    });
+  }
+  function closeQrModal() { $('qr-modal').hidden = true; }
+  $('qr-modal-close').addEventListener('click', closeQrModal);
+  $('qr-modal').addEventListener('click', function (e) { if (e.target === $('qr-modal')) closeQrModal(); });
+  $('qr-modal').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-qr-copy]');
+    if (!btn || !qrItem) return;
+    var kind = btn.getAttribute('data-qr-copy');
+    if (kind === 'vless') copyText(qrItem.vless);
+    if (kind === 'trojan') copyText(qrItem.trojan);
+    if (kind === 'sub') copyText(qrItem.subUrl);
+    if (kind === 'subtxt') copyText(qrItem.subTxt);
+  });
 
   /* ═══════════ اشتراک‌ها ═══════════ */
-  var subsData = null;
-
-  function loadSubs() {
+  function loadSubs(silent) {
     var list = $('subs-list');
-    list.innerHTML = '<div class="empty-hint">' + t.loading + '</div>';
-    api('subscriptions').then(function (r) {
-      if (!r.data.ok) { list.innerHTML = '<div class="empty-hint">' + errMsg(r) + '</div>'; return; }
+    if (!silent) list.innerHTML = '<div class="empty-hint">' + t.loading + '</div>';
+    return api('subscriptions').then(function (r) {
+      if (!r.data.ok) {
+        if (!silent) list.innerHTML = '<div class="empty-hint">' + errMsg(r) + '</div>';
+        return null;
+      }
       subsData = r.data;
-      renderSubs();
+      if (!silent) renderSubs();
+      return subsData;
     }).catch(function () {
-      list.innerHTML = '<div class="empty-hint">' + t.errNetwork + '</div>';
+      if (!silent) list.innerHTML = '<div class="empty-hint">' + t.errNetwork + '</div>';
+      return null;
     });
   }
 
   function renderSubs() {
     var list = $('subs-list');
     var items = (subsData && subsData.items) || [];
-    if (items.length === 0) {
+    if (!items.length) {
       list.innerHTML = '<div class="empty-hint">' + t.noSubs + '</div>';
       return;
     }
     list.innerHTML = items.map(function (it) {
-      var statusCls = it.status === 'active' ? 'ok' : it.status === 'expired' ? 'bad' : 'neutral';
-      var statusLbl = it.status === 'active' ? t.stActive : it.status === 'expired' ? t.stExpired : t.stDisabled;
       var usage = it.quotaGb > 0 ? fmtGb(it.usedGb) + ' / ' + fmtGb(it.quotaGb) : fmtGb(it.usedGb) + ' / ∞';
-      var uriRows = (it.uris || []).map(function (uri) {
-        return '<div class="sub-link"><code>' + esc(uri) + '</code>' +
-          '<button class="icon-btn" data-copy-uri="' + esc(uri) + '" title="' + t.copyUri + '">📋</button></div>';
-      }).join('');
-      return '<div class="sub-card" id="sub-' + it.id + '">' +
-        '<div class="sub-head"><div class="sub-name"><div class="u-avatar">' + esc((it.username[0] || '?').toUpperCase()) + '</div>' +
-        '<span>' + esc(it.username) + '</span> <span class="badge ' + statusCls + '">' + statusLbl + '</span></div>' +
-        '<span class="mini">' + t.usageOf + ' ' + usage + '</span></div>' +
-        uriRows +
-        '<div class="sub-qr-row">' +
-        '<div class="qr-img"><img src="panel/api/qr?text=' + encodeURIComponent(it.vless) + '" alt="QR" loading="lazy"/></div>' +
-        '<div class="sub-urls">' +
-        '<a href="' + esc(it.subUrl) + '" target="_blank" rel="noopener">🔗 ' + t.openSubPage + '</a>' +
-        '<a href="' + esc(it.subTxt) + '" target="_blank" rel="noopener">📄 ' + t.txtSub + '</a>' +
-        '<a href="' + esc(it.clashUrl) + '" target="_blank" rel="noopener">⚡ ' + t.clashSub + '</a>' +
-        '<a href="' + esc(it.singboxUrl) + '" target="_blank" rel="noopener">📦 ' + t.singboxSub + '</a>' +
-        '</div></div>' +
-        '</div>';
+      var stCls = it.status === 'active' ? 'st-active' : it.status === 'expired' ? 'st-expired' : 'st-disabled';
+      var stLbl = it.status === 'active' ? t.stActive : it.status === 'expired' ? t.stExpired : t.stDisabled;
+      return '<div class="sub-row" id="sub-' + it.id + '">' +
+        '<div class="sub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>' +
+        '<div class="sub-meta"><strong>' + esc(it.username) + '</strong>' +
+        '<small dir="ltr">' + esc(it.subUrl) + '</small></div>' +
+        '<span class="status-pill ' + stCls + '">' + stLbl + '</span>' +
+        '<div class="sub-actions">' +
+        '<button class="ghost-btn sm" data-open-sub="' + it.id + '">🔗 ' + t.openSubPage + '</button>' +
+        '<button class="ghost-btn sm" data-copy-uri="' + esc(it.vless) + '">' + t.copyVless + '</button>' +
+        '<button class="ghost-btn sm" data-copy-uri="' + esc(it.trojan) + '">' + t.copyTrojan + '</button>' +
+        '<button class="ghost-btn sm" data-copy-uri="' + esc(it.subTxt) + '">📄 ' + t.txtSub + '</button>' +
+        '<a class="ghost-btn sm" href="' + esc(it.clashUrl) + '" target="_blank" rel="noopener">⚡ ' + t.clashSub + '</a>' +
+        '<a class="ghost-btn sm" href="' + esc(it.singboxUrl) + '" target="_blank" rel="noopener">📦 ' + t.singboxSub + '</a>' +
+        '</div></div>';
     }).join('');
   }
 
   $('subs-list').addEventListener('click', function (e) {
     var btn = e.target.closest('[data-copy-uri]');
-    if (!btn) return;
-    copyText(btn.getAttribute('data-copy-uri'));
-    btn.textContent = '✓';
-    setTimeout(function () { btn.textContent = '📋'; }, 1500);
+    if (btn) {
+      copyText(btn.getAttribute('data-copy-uri'));
+      return;
+    }
+    var opener = e.target.closest('[data-open-sub]');
+    if (opener) {
+      var item = (subsData && subsData.items || []).find(function (it) { return it.id === Number(opener.getAttribute('data-open-sub')); });
+      if (item) window.open(item.subUrl, '_blank', 'noopener');
+    }
   });
-
-  $('refresh-subs').addEventListener('click', loadSubs);
+  $('refresh-subs').addEventListener('click', function () { loadSubs(false); });
 
   /* ═══════════ تنظیمات ═══════════ */
   function loadSettings() {
@@ -463,12 +671,10 @@
       $('secure-path').value = '/' + info.securePath + '/panel';
       $('claim-status').textContent = info.claimTokenSet ? t.claimOn : t.claimOff;
       $('ver-status').textContent = 'v' + info.version;
-      renderOverview();
     });
   }
   $('copy-path').addEventListener('click', function () {
-    var v = $('secure-path').value;
-    copyText(location.origin + v);
+    copyText(location.origin + $('secure-path').value);
   });
   $('regenerate-path').addEventListener('click', function () {
     var btn = $('regenerate-path');
@@ -486,7 +692,7 @@
     });
   });
 
-  /* ═══════════ تنظیمات پروکسی ═══════════ */
+  /* ─── تنظیمات پروکسی ─── */
   function fillProxyForm(p) {
     $('p-host').value = p.host || '';
     $('p-port').value = p.port || 443;
@@ -495,13 +701,11 @@
     $('p-sni').value = p.sni || '';
     $('p-path').value = '/' + (p.proxyPath || '');
   }
-
   function loadProxySettings() {
     api('settings/proxy').then(function (r) {
       if (r.data.ok) fillProxyForm(r.data.proxy);
     });
   }
-
   $('save-proxy').addEventListener('click', function () {
     var errBox = $('proxy-error');
     errBox.classList.remove('show');
@@ -521,7 +725,6 @@
       errBox.textContent = t.errProxy; errBox.classList.add('show');
     });
   });
-
   $('regenerate-proxy-path').addEventListener('click', function () {
     var btn = $('regenerate-proxy-path');
     if (btn.getAttribute('data-arm') !== '1') {
@@ -536,6 +739,7 @@
     });
   });
 
+  /* ─── تغییر رمز ─── */
   $('change-pass').addEventListener('click', function () {
     var errBox = $('pass-error');
     errBox.classList.remove('show');
@@ -566,16 +770,13 @@
 
   $('logout-btn').addEventListener('click', function () { window.location.href = 'logout'; });
 
-
   /* ═══════════ اسکنر IP تمیز کلودفلر ═══════════ */
-  // رنج‌های IPv4 رسمی Cloudflare
   var CF_RANGES = [
     '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22',
     '141.101.64.0/18', '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20',
     '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/13',
     '104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22',
   ];
-
   function ipFromRange(range) {
     var parts = range.split('/');
     var base = parts[0].split('.').map(Number);
@@ -585,7 +786,6 @@
     n = (n | r) >>> 0;
     return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
   }
-
   function randomCfIps(count) {
     var seen = {};
     var out = [];
@@ -597,9 +797,12 @@
     }
     return out;
   }
-
-  // پینگ واقعی (RTT) با WebSocket به پورت 443 — از مرورگر کاربر
-  function pingIp(ip, timeoutMs) {
+  // پینگ واقعی (RTT) با WebSocket — از مرورگر کاربر
+  // تشخیص «تمیز» بودن: RST های فوری (زیر ~۱۱۰ms) یعنی IP مسدود است؛
+  // خطای سریع‌تر از آستانه = مسدود، خطای بالای آستانه = TLS به کلودفلر رسیده (فقط خطای گواهی).
+  var MIN_ALIVE_MS = 110;
+  function pingIp(ip, timeoutMs, port) {
+    port = port || 443;
     return new Promise(function (resolve) {
       var t0 = performance.now();
       var done = false;
@@ -607,41 +810,36 @@
       var timer = setTimeout(function () {
         if (done) return; done = true;
         try { ws && ws.close(); } catch (e) {}
-        resolve({ ip: ip, ok: false, ms: null, reason: 'timeout' });
+        resolve({ ip: ip, port: port, ok: false, ms: null, reason: 'timeout' });
       }, timeoutMs);
-      try { ws = new WebSocket('wss://' + ip + ':443'); } catch (e) {
+      try { ws = new WebSocket('wss://' + ip + ':' + port); } catch (e) {
         if (done) return; done = true; clearTimeout(timer);
-        resolve({ ip: ip, ok: false, ms: null, reason: 'error' });
+        resolve({ ip: ip, port: port, ok: false, ms: null, reason: 'error' });
         return;
       }
       ws.onopen = function () {
         if (done) return; done = true; clearTimeout(timer);
         var ms = Math.round(performance.now() - t0);
         try { ws.close(); } catch (e) {}
-        resolve({ ip: ip, ok: true, ms: ms, reason: 'open' });
+        resolve({ ip: ip, port: port, ok: true, ms: ms, reason: 'open' });
       };
       ws.onerror = function () {
-        // خطای سریع = IP باز و در دسترس (فقط گواهی mismatch) — برای اتصال با SNI دامنه قابل استفاده است
         if (done) return; done = true; clearTimeout(timer);
         var ms = Math.round(performance.now() - t0);
         try { ws.close(); } catch (e) {}
-        resolve({ ip: ip, ok: ms < 3000, ms: ms, reason: 'reachable' });
+        resolve({ ip: ip, port: port, ok: ms >= MIN_ALIVE_MS, ms: ms, reason: 'reachable' });
       };
     });
   }
 
   var scanner = {
-    running: false,
-    ips: [],
-    results: [],
-    index: 0,
-    active: 0,
-    timer: null,
+    running: false, ips: [], results: [], index: 0, active: 0, timer: null,
 
     start: function () {
       var count = Number($('scan-count').value);
       var timeout = Number($('scan-timeout').value);
       var conc = Number($('scan-conc').value);
+      this.port = Number($('scan-port').value) || 443;
       this.running = true;
       this.index = 0;
       this.active = 0;
@@ -651,6 +849,7 @@
       $('scan-stop').hidden = false;
       $('scan-progress').hidden = false;
       $('scan-list').innerHTML = '<div class="empty-hint">' + esc(t.scanProgress) + '</div>';
+      this.updateProgress();
       this.tick(timeout, conc);
     },
 
@@ -667,7 +866,7 @@
       while (this.active < conc && this.index < this.ips.length) {
         var ip = this.ips[this.index++];
         this.active++;
-        pingIp(ip, timeout).then(function (res) {
+        pingIp(ip, timeout, this.port).then(function (res) {
           self.active--;
           if (res.ok && res.ms !== null) self.results.push(res);
           self.updateProgress();
@@ -691,52 +890,54 @@
       $('scan-bar-fill').style.width = pct + '%';
       $('scan-counter').textContent = done + ' / ' + total;
       $('scan-found').textContent = this.results.length + ' ' + t.scanFound + ' ✓';
+      var ring = $('scan-ring-fg');
+      if (ring) {
+        var C = 2 * Math.PI * 15.9;
+        ring.style.strokeDasharray = C.toFixed(2);
+        ring.style.strokeDashoffset = (C * (1 - pct / 100)).toFixed(2);
+      }
+      $('scan-pct').textContent = pct + '%';
     },
 
     render: function () {
       var list = $('scan-list');
-      var t2 = t;
       if (!this.results.length) {
-        list.innerHTML = '<div class="empty-hint">' + esc(t2.scanNoResult) + '</div>';
+        list.innerHTML = '<div class="empty-hint">' + esc(t.scanNoResult) + '</div>';
         return;
       }
       var sorted = this.results.slice().sort(function (a, b) { return a.ms - b.ms; });
-      var rows = sorted.map(function (r, i) {
-        var badge = i < 5
-          ? '<span class="badge scan-best">★ ' + esc(t2.scanBest) + '</span>'
-          : '<span class="badge scan-alive">' + esc(t2.scanAlive) + '</span>';
-        return '<div class="scan-row">' +
+      list.innerHTML = sorted.map(function (r, i) {
+        var best = i < 5 ? ' scan-best' : '';
+        return '<div class="scan-row' + (r.ok ? '' : ' scan-bad') + '">' +
           '<span class="scan-rank">' + (i + 1) + '</span>' +
-          '<code class="scan-ip" dir="ltr">' + r.ip + '</code>' +
-          '<span class="scan-ms" dir="ltr">' + r.ms + ' ms</span>' +
-          '<span>' + badge + '</span>' +
-          '<button class="ghost-btn scan-copy" data-ip="' + r.ip + '">' + esc(t2.scanCopy) + '</button>' +
+          '<span class="scan-ip">' + r.ip + '</span>' +
+          '<span class="scan-rt">' + r.ms + ' ms</span>' +
+          (best ? '<span class="status-pill st-active">★ ' + t.scanBest + '</span>' : '') +
+          '<button class="ghost-btn sm scan-copy-btn" data-ip="' + r.ip + '" data-port="' + r.port + '">' + t.scanCopy + '</button>' +
           '</div>';
       }).join('');
-      list.innerHTML = '<div class="scan-head"><span>#</span><span>' + esc(t2.scanIpCol) + '</span><span>' + esc(t2.scanPingCol) + '</span><span>' + esc(t2.scanStatusCol) + '</span><span>' + esc(t2.scanActionCol) + '</span></div>' + rows;
     },
   };
 
   $('scan-start').addEventListener('click', function () { scanner.start(); });
   $('scan-stop').addEventListener('click', function () { scanner.stop(); });
 
-  // کپی کانفیگ برای یک IP (سرور کانفیگ با server=IP می‌سازد)
-  function copyServerConfig(ip) {
+  function copyServerConfig(ip, port) {
     api('users').then(function (r) {
       if (!r.data.ok || !r.data.users || !r.data.users.length) { toast(t.scanErr); return; }
       var user = r.data.users[0];
-      api('config?server=' + encodeURIComponent(ip) + '&uuid=' + encodeURIComponent(user.uuid)).then(function (c) {
+      var q = 'config?server=' + encodeURIComponent(ip) + '&uuid=' + encodeURIComponent(user.uuid);
+      if (port) q += '&port=' + port;
+      api(q).then(function (c) {
         if (!c.data.ok) { toast(c.data.error || t.scanErr); return; }
         copyText(c.data.vless + '\n' + c.data.trojan);
       });
     });
   }
-
   $('scan-list').addEventListener('click', function (e) {
-    var btn = e.target.closest('.scan-copy');
-    if (btn) copyServerConfig(btn.getAttribute('data-ip'));
+    var btn = e.target.closest('.scan-copy-btn');
+    if (btn) copyServerConfig(btn.getAttribute('data-ip'), btn.getAttribute('data-port'));
   });
-
   $('scan-copy-best').addEventListener('click', function () {
     var best = scanner.results.slice().sort(function (a, b) { return a.ms - b.ms; }).slice(0, 5);
     if (!best.length) { toast(t.scanErr); return; }
@@ -744,7 +945,9 @@
       if (!r.data.ok || !r.data.users || !r.data.users.length) { toast(t.scanErr); return; }
       var user = r.data.users[0];
       var jobs = best.map(function (b2) {
-        return api('config?server=' + encodeURIComponent(b2.ip) + '&uuid=' + encodeURIComponent(user.uuid));
+        var q = 'config?server=' + encodeURIComponent(b2.ip) + '&uuid=' + encodeURIComponent(user.uuid);
+        if (b2.port) q += '&port=' + b2.port;
+        return api(q);
       });
       Promise.all(jobs).then(function (resps) {
         var lines = [];
@@ -755,9 +958,23 @@
     });
   });
 
+  /* ═══════════ سراسری ═══════════ */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeUserModal(); closeQrModal(); closeConfirm();
+    }
+  });
+
   /* ═══════════ شروع ═══════════ */
+  function renderAll() {
+    if (stats) renderStats();
+    renderUsers();
+    if (subsData) renderSubs();
+  }
+
   applyLang();
   applyTheme();
+  $('dash-date').textContent = new Date().toLocaleDateString(lang === 'fa' ? 'fa-IR' : 'en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
   api('me').then(function (r) {
     if (r.data.ok) {
@@ -765,12 +982,11 @@
       loadSettings();
       loadProxySettings();
       loadUsers();
+      loadStats();
     } else {
       window.location.href = 'login';
     }
   }).catch(function () {
     window.location.href = 'login';
   });
-
-  switchView('overview');
 })();

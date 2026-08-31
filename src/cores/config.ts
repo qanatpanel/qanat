@@ -12,6 +12,8 @@ export interface BuildInput {
   originHost: string; // هاستی که درخواست به آن آمده (پیش‌فرض host)
   /** IP تمیز/سرور جایگزین — اتصال به این IP ولی Host/SNI همچنان دامنه‌ی اصلی می‌ماند */
   serverHost?: string;
+  /** پورت جایگزین (مثلاً پورت‌های غیراستاندارد کلودفلر برای IP های تمیز) */
+  serverPort?: number;
 }
 
 /** هاست اصلی (دامنه) — برای Host header و SNI */
@@ -32,8 +34,8 @@ function wsPath(p: ProxySettings, identifier: string): string {
   return `/${p.proxyPath}/${identifier}`;
 }
 
-function port(p: ProxySettings): number {
-  return p.port || (p.tls ? 443 : 80);
+function port(b: BuildInput): number {
+  return b.serverPort || b.proxy.port || (b.proxy.tls ? 443 : 80);
 }
 
 function name(b: BuildInput, suffix = ''): string {
@@ -45,7 +47,7 @@ function name(b: BuildInput, suffix = ''): string {
 export function buildVlessUri(b: BuildInput): string {
   const host = effectiveHost(b);
   const server = effectiveServer(b);
-  const p = port(b.proxy);
+  const p = port(b);
   const security = b.proxy.tls ? 'tls' : 'none';
   const params = [
     'encryption=none',
@@ -63,7 +65,7 @@ export function buildVlessUri(b: BuildInput): string {
 export function buildTrojanUri(b: BuildInput): string {
   const host = effectiveHost(b);
   const server = effectiveServer(b);
-  const p = port(b.proxy);
+  const p = port(b);
   const security = b.proxy.tls ? 'tls' : 'none';
   const params = [
     `security=${security}`,
@@ -97,7 +99,7 @@ export function buildBase64Sub(b: BuildInput): string {
 
 export function buildClashConfig(b: BuildInput): string {
   const host = effectiveHost(b);
-  const p = port(b.proxy);
+  const p = port(b);
   const { vless, trojan } = protocolsEnabled(b.proxy);
   const lines: string[] = [];
 
@@ -131,7 +133,7 @@ export function buildClashConfig(b: BuildInput): string {
 
 export function buildSingboxConfig(b: BuildInput): string {
   const host = effectiveHost(b);
-  const p = port(b.proxy);
+  const p = port(b);
   const { vless, trojan } = protocolsEnabled(b.proxy);
   const server = effectiveServer(b);
   const outbounds: Array<Record<string, unknown>> = [];

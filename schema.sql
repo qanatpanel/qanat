@@ -30,6 +30,15 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_users_uuid     ON users(uuid);
 
+-- مصرف روزانه (برای نمودار داشبورد)
+CREATE TABLE IF NOT EXISTS usage_logs (
+  user_id INTEGER NOT NULL,
+  day     TEXT    NOT NULL,          -- YYYY-MM-DD (UTC)
+  bytes   INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (user_id, day)
+);
+CREATE INDEX IF NOT EXISTS idx_usage_logs_day ON usage_logs(day);
+
 -- محافظ بروت‌فورس لاگین (ایده‌ی ZEUS — ولی به‌جای حافظه، در دیتابیس
 -- تا بین ایزوله‌های Worker هم پابرجا بماند)
 CREATE TABLE IF NOT EXISTS login_attempts (

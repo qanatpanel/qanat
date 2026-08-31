@@ -95,6 +95,35 @@ else
   fail "پنل: $CODE"
 fi
 
+echo "═══ ۹) آمار داشبورد (stats) ═══"
+CODE=$(curl -s -o /dev/null -w '%{http_code}' "$BASE/$SP/panel/api/stats")
+[ "$CODE" = "401" ] && pass "stats بدون کوکی → 401" || fail "stats بدون کوکی: $CODE"
+RESP=$(curl -s -b "$JAR" "$BASE/$SP/panel/api/stats")
+if echo "$RESP" | grep -q '"counts"' && echo "$RESP" | grep -q '"topUsers"' && echo "$RESP" | grep -q '"recent"' && echo "$RESP" | grep -q '"daily"'; then
+  pass "stats → counts/topUsers/recent/daily موجود"
+else
+  fail "stats: $RESP"
+fi
+echo "$RESP" | grep -q '"panel"' && echo "$RESP" | grep -q '"securePath"' && pass "stats → info پنل موجود" || fail "stats panel: $RESP"
+
+echo "═══ ۱۰) کانفیگ با IP تمیز و پورت جایگزین ═══"
+RESP=$(curl -s -b "$JAR" "$BASE/$SP/panel/api/users")
+ALICE_UUID=$(echo "$RESP" | sed -n 's/.*"username":"alice","uuid":"\([0-9a-f-]*\)".*/\1/p')
+RESP=$(curl -s -b "$JAR" "$BASE/$SP/panel/api/config?server=104.16.130.229&uuid=$ALICE_UUID&port=8443")
+if echo "$RESP" | grep -q '"ok":true' && echo "$RESP" | grep -q '@104.16.130.229:8443' && echo "$RESP" | grep -q '"port":8443'; then
+  pass "config با پورت 8443 → کانفیگ روی 8443"
+else
+  fail "config port: $RESP"
+fi
+RESP=$(curl -s -b "$JAR" "$BASE/$SP/panel/api/config?server=104.16.130.229&uuid=$ALICE_UUID")
+if echo "$RESP" | grep -q '@104.16.130.229:443'; then
+  pass "config بدون پورت → پیش‌فرض 443"
+else
+  fail "config default: $RESP"
+fi
+RESP=$(curl -s -b "$JAR" "$BASE/$SP/panel/api/config?server=104.16.130.229&uuid=$ALICE_UUID&port=99999")
+echo "$RESP" | grep -q '"bad_params"' && pass "پورت نامعتبر → bad_params" || fail "port bad: $RESP"
+
 echo ""
 echo "═══════════════════════════════════"
 echo "  نتیجه: $PASS_CNT موفق / $FAIL_CNT ناموفق"

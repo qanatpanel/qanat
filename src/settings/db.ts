@@ -15,6 +15,8 @@ const SCHEMA = [
   'CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)',
   'CREATE INDEX IF NOT EXISTS idx_users_uuid ON users(uuid)',
   'CREATE TABLE IF NOT EXISTS login_attempts (ip TEXT PRIMARY KEY, failed INTEGER NOT NULL DEFAULT 0, locked_until INTEGER NOT NULL DEFAULT 0, updated_at INTEGER NOT NULL)',
+  'CREATE TABLE IF NOT EXISTS usage_logs (user_id INTEGER NOT NULL, day TEXT NOT NULL, bytes INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (user_id, day))',
+  'CREATE INDEX IF NOT EXISTS idx_usage_logs_day ON usage_logs(day)',
 ].join(';\n');
 
 let schemaReady = false;

@@ -17,7 +17,7 @@ import { verifyPassword } from '../auth/password';
 import { createUser, listUsers, deleteUser, setUserActive, getUserByUsername, type User } from '../settings/users';
 import { regenerateSecurePath, setAdminPassword } from '../settings/main';
 import { getProxySettings, saveProxySettings, regenerateProxyPath, protocolsEnabled } from '../settings/proxy';
-import { getUserByUuid } from '../settings/users';
+import { getUserByUuid, getDailyUsage, getUsageTotal } from '../settings/users';
 import { buildVlessUri, buildTrojanUri, type BuildInput } from '../cores/config';
 import { makeQrSvg } from '../cores/qr';
 import { json } from './utils';
@@ -191,8 +191,9 @@ export async function handleSettingsApi(request: Request, env: Env, settings: Pa
 /* ─────────────── QR Code ─────────────── */
 
 /**
- * تولید کانفیگ با سرور جایگزین (IP تمیز) — GET /panel/api/config?server=IP&uuid=UUID
+ * تولید کانفیگ با سرور جایگزین (IP تمیز) — GET /panel/api/config?server=IP&uuid=UUID[&port=N]
  * اتصال به IP تمیز ولی Host/SNI همچنان دامنه‌ی اصلی — این کانفیگ واقعاً کار می‌کند
+ * port: پورت جایگزین کلودفلر (443/8443/2053/2083/2087/2096) — برای IP های تمیز
  */
 export async function handleServerConfig(request: Request, env: Env, settings: PanelSettings): Promise<Response> {
   if (request.method !== 'GET') return json({ ok: false, error: 'method' }, 405);
@@ -204,17 +205,70 @@ export async function handleServerConfig(request: Request, env: Env, settings: P
   const uuid = (url.searchParams.get('uuid') || '').trim();
   if (!server || !uuid) return json({ ok: false, error: 'bad_params' }, 400);
 
+  let serverPort: number | undefined;
+  const portRaw = url.searchParams.get('port');
+  if (portRaw) {
+    serverPort = Number(portRaw);
+    if (!Number.isInteger(serverPort) || serverPort < 1 || serverPort > 65535) {
+      return json({ ok: false, error: 'bad_params' }, 400);
+    }
+  }
+
   const user = await getUserByUuid(env, uuid);
   if (!user) return json({ ok: false, error: 'not_found' }, 404);
 
   const proxy = await getProxySettings(env, url.hostname);
-  const input: BuildInput = { user, proxy, originHost: proxy.host || url.hostname, serverHost: server };
+  const input: BuildInput = { user, proxy, originHost: proxy.host || url.hostname, serverHost: server, serverPort };
   return json({
     ok: true,
     server,
+    port: serverPort || proxy.port || (proxy.tls ? 443 : 80),
     host: proxy.host || url.hostname,
     vless: buildVlessUri(input),
     trojan: buildTrojanUri(input),
+  });
+}
+
+/** آمار داشبورد: شمارش‌ها + مصرف روزانه + کاربران برتر */
+export async function handleStats(request: Request, env: Env, settings: PanelSettings): Promise<Response> {
+  if (request.method !== 'GET') return json({ ok: false, error: 'method' }, 405);
+  const authed = await requireAuth(request, settings);
+  if (!authed) return json({ ok: false, error: 'unauthorized' }, 401);
+
+  const now = Date.now();
+  const users = await listUsers(env);
+  const ser = users.map((u) => serializeUser(u, now));
+
+  const today = await getUsageTotal(env, 1);
+  const yesterday = await getUsageTotal(env, 2);
+  const daily = await getDailyUsage(env, 7);
+
+  return json({
+    ok: true,
+    counts: {
+      total: ser.length,
+      active: ser.filter((u) => u.status === 'active').length,
+      expired: ser.filter((u) => u.status === 'expired').length,
+      disabled: ser.filter((u) => u.status === 'disabled').length,
+    },
+    usage: {
+      todayBytes: today,
+      yesterdayBytes: Math.max(0, yesterday - today),
+      totalBytes: Math.round(ser.reduce((s, u) => s + u.usedGb, 0) * 1024 ** 3),
+      totalQuotaBytes: Math.round(ser.reduce((s, u) => s + u.quotaGb, 0) * 1024 ** 3),
+      daily: daily.map((d) => ({ day: d.day, bytes: d.bytes })),
+    },
+    topUsers: ser.slice().sort((a, b) => b.usedGb - a.usedGb).slice(0, 5).map((u) => ({
+      id: u.id, username: u.username, usedGb: u.usedGb, quotaGb: u.quotaGb, status: u.status,
+    })),
+    recent: ser.slice(0, 5).map((u) => ({
+      id: u.id, username: u.username, status: u.status, createdAt: u.createdAt,
+    })),
+    panel: {
+      securePath: settings.securePath,
+      version: __VERSION__,
+      claimTokenSet: !!settings.claimToken,
+    },
   });
 }
 
