@@ -157,6 +157,29 @@ ws://your-worker.workers.dev/{proxyPath}/{uuid-or-trojan-password}
 
 Fully **standard protocol** — no extra headers, no hacks. `alpn=http/1.1`, `fp=chrome`, SNI & Host from your settings.
 
+### ⛓️ Upstreams — egress chaining like edgetunnel
+
+When a target site closes Cloudflare's direct egress (`ERR_CONNECTION_CLOSED`), Qanat behaves like edgetunnel: it connects directly first, and if no first byte arrives within `failoverMs` (or the connection is closed), it falls back to "hop" upstreams in order:
+
+```
+client → panel (clean IP) → hop (a healthy edgetunnel) → site
+```
+
+In the panel's proxy settings ("Upstreams" section) each line is one upstream — all three formats:
+
+```
+vless://UUID@HOST:443?security=tls&sni=SNI&type=ws&path=%2Fup
+trojan://PASSWORD@HOST:443?security=tls&sni=SNI&type=ws&path=%2F
+HOST:PORT        ← transparent: raw bytes are sent to it
+```
+
+⚠️ If the hop is on **your own Cloudflare account** (e.g. your own edgetunnel), enable this compatibility flag on **both** Workers (panel and hop), otherwise a Worker cannot connect to another Worker (error 1042):
+
+```
+global_fetch_strictly_public
+```
+
+
 ---
 
 ## 🧪 Quality

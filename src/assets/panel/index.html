@@ -506,6 +506,17 @@
               <input id="p-sni" type="text" dir="ltr" placeholder="panel.example.com"/>
             </div>
             <div class="field">
+              <label for="p-upstreams" data-i18n="pUpstreams">بالادست‌ها (هاپ) — اختیاری</label>
+              <textarea id="p-upstreams" dir="ltr" rows="3" spellcheck="false"
+                placeholder="vless://UUID@host:443?security=tls&amp;sni=host&amp;type=ws&amp;path=%2F&#10;trojan://PASS@host:443?security=tls&amp;type=ws&amp;path=%2F&#10;1.2.3.4:443"></textarea>
+              <p class="hint" data-i18n="pUpstreamsHint">وقتی سایت‌ها اتصال مستقیم کلودفلر را می‌بندند (ERR_CONNECTION_CLOSED)، ترافیک از این‌ها رد می‌شود — مثل کانفیگ edgetunnel خودتان. هر خط یک کانفیگ؛ به ترتیب امتحان می‌شوند.</p>
+            </div>
+            <div class="field">
+              <label for="p-failover" data-i18n="pFailover">مهلت fallback (میلی‌ثانیه)</label>
+              <input id="p-failover" type="number" min="800" max="15000" value="3000" dir="ltr"/>
+              <p class="hint" data-i18n="pFailoverHint">اگر اتصال مستقیم تا این مدت پاسخ نداد، سراغ بالادست‌ها می‌رود.</p>
+            </div>
+            <div class="field">
               <label data-i18n="pPathLabel">مسیر مخفی پروکسی</label>
               <div class="input-row">
                 <input id="p-path" type="text" readonly dir="ltr"/>

@@ -1,6 +1,10 @@
 /**
  * هندلر پروکسی WebSocket — VLESS + Trojan روی Cloudflare Workers
  * الگو: WebSocketPair + استریم‌ها (مثل BPB) + connect از cloudflare:sockets
+ *
+ * خروجی زنجیره‌ای (مثل edgetunnel): ابتدا اتصال مستقیم؛ اگر سایت مقصد
+ * اتصال را بست/پاسخی نداد (بلاک IP خروجی کلودفلر)، از بالادست‌های
+ * تنظیم‌شده (VLESS/Trojan/شفاف) به‌ترتیب استفاده می‌شود.
  */
 import { connect } from 'cloudflare:sockets';
 import type { Env } from '../types/global';
@@ -9,6 +13,7 @@ import { protocolsEnabled } from '../settings/proxy';
 import { getUserByUuid, getUserByTrojanPassword } from '../settings/users';
 import { addUsage, recordDailyUsage } from '../settings/users';
 import { parseVlessHeader, parseTrojanPassword, parseTrojanRequest, type Target } from './parse';
+import { parseUpstreams, openUpstream, type UpstreamTunnel } from './upstream';
 
 const WS_OPEN = 1;
 
@@ -55,16 +60,6 @@ function wsWritableStream(ws: WebSocket): WritableStream<Uint8Array> {
   });
 }
 
-/** بستن امن سوکت TCP */
-function closeTcp(socket: Socket | null) {
-  if (!socket) return;
-  try {
-    socket.close();
-  } catch {
-    /* ignore */
-  }
-}
-
 /** بستن امن WebSocket */
 function closeWs(ws: WebSocket) {
   try {
@@ -82,8 +77,73 @@ function concat(a: Uint8Array, b: Uint8Array): Uint8Array {
   return out;
 }
 
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
- * اتصال یک کاربر: بررسی هدر → چک اعتبار → connect → رله‌ی دوطرفه
+ * باز کردن یک تلاش اتصال و منتظر ماندن برای «اولین بایت» از سمت سرور.
+ * اگر تا timeoutMs داده‌ای نرسید یا اتصال بسته شد → null (تلاش بعدی).
+ * بعد از موفقیت، پمپ TCP→WS (شامل اولین بایت) در پس‌زمینه ادامه دارد.
+ */
+async function tryConnection(
+  openFn: () => Promise<UpstreamTunnel | null>,
+  writer: WritableStreamDefaultWriter<Uint8Array>,
+  timeoutMs: number,
+  onBytes: (n: number) => void,
+): Promise<{ tunnel: UpstreamTunnel; pump: Promise<void> } | null> {
+  let tunnel: UpstreamTunnel | null = null;
+  try {
+    tunnel = await openFn();
+  } catch {
+    return null;
+  }
+  if (!tunnel) return null;
+
+  let sawFirst = false;
+  let resolveFirst: (ok: boolean) => void = () => {};
+  const firstPromise = new Promise<boolean>((resolve) => {
+    resolveFirst = resolve;
+  });
+
+  const pump = (async () => {
+    const tcpReader = tunnel!.reader;
+    try {
+      while (true) {
+        const { value, done } = await tcpReader.read();
+        if (done) {
+          if (!sawFirst) resolveFirst(false);
+          break;
+        }
+        if (!value || value.length === 0) continue;
+        if (!sawFirst) {
+          sawFirst = true;
+          resolveFirst(true);
+        }
+        onBytes(value.length);
+        await writer.write(value);
+      }
+    } catch {
+      if (!sawFirst) resolveFirst(false);
+    } finally {
+      try {
+        tcpReader.releaseLock();
+      } catch {
+        /* ignore */
+      }
+    }
+  })();
+
+  const ok = await Promise.race([firstPromise, delay(timeoutMs).then(() => false as boolean)]);
+  if (!ok) {
+    tunnel.close();
+    return null;
+  }
+  return { tunnel, pump };
+}
+
+/**
+ * اتصال یک کاربر: بررسی هدر → چک اعتبار → connect (مستقیم + بالادست) → رله‌ی دوطرفه
  * شناسه در مسیر: /{proxyPath}/{uuid|password}
  */
 export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env, proxy: ProxySettings): Promise<void> {
@@ -94,7 +154,6 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
   let userId = 0;
   let bytesUp = 0;
   let bytesDown = 0;
-  let remoteSocket: Socket | null = null;
 
   const isVless = vless && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(identifier);
   const isTrojan = trojan && /^[0-9a-f]{56}$/i.test(identifier);
@@ -104,6 +163,7 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
     return;
   }
 
+  let remoteTunnel: UpstreamTunnel | null = null;
   try {
     const reader = wsReadableStream(ws).getReader();
     const writer = wsWritableStream(ws).getWriter();
@@ -175,18 +235,64 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
       return;
     }
 
-    // ─── ۳) اتصال TCP ───
-    remoteSocket = connect({ hostname: target.host, port: target.port });
-
-    // داده‌های باقی‌مانده بعد از هدر → TCP
+    // ─── ۳) اتصال خروجی: مستقیم اول، بعد بالادست‌ها (مثل edgetunnel) ───
     const initial = bodyOffset > 0 && bodyOffset < handshake.length ? handshake.slice(bodyOffset) : new Uint8Array(0);
     bytesUp += initial.length;
 
-    // رله WS → TCP
-    const upstream = (async () => {
-      const tcpWriter = remoteSocket!.writable.getWriter();
+    const failoverMs = Math.max(800, Math.min(15000, proxy.failoverMs || 3000));
+    const upstreams = parseUpstreams(proxy.upstreams || '');
+    const attempts: (() => Promise<UpstreamTunnel | null>)[] = [];
+
+    // ۱) اتصال مستقیم + نوشتن داده‌ی اولیه (TLS hello)
+    attempts.push(async () => {
+      const s = connect({ hostname: target.host, port: target.port });
+      const w = s.writable.getWriter();
       try {
-        if (initial.length > 0) await tcpWriter.write(initial);
+        if (initial.length > 0) await w.write(initial);
+      } catch {
+        /* ignore */
+      } finally {
+        w.releaseLock();
+      }
+      return {
+        reader: s.readable.getReader(),
+        writer: s.writable.getWriter(),
+        close: () => {
+          try {
+            s.close();
+          } catch {
+            /* ignore */
+          }
+        },
+      };
+    });
+
+    // ۲) بالادست‌ها به ترتیب
+    for (const up of upstreams) {
+      attempts.push(async () => {
+        const tunnel = await openUpstream(up, target, initial, failoverMs);
+        return tunnel;
+      });
+    }
+
+    let pump: Promise<void> | null = null;
+    for (const open of attempts) {
+      const r = await tryConnection(open, writer, failoverMs, (n) => (bytesDown += n));
+      if (r) {
+        remoteTunnel = r.tunnel;
+        pump = r.pump;
+        break;
+      }
+    }
+    if (!remoteTunnel || !pump) {
+      closeWs(ws);
+      return;
+    }
+
+    // رله WS → TCP (داده‌ی اولیه قبلاً نوشته شده — مستقیم یا داخل upstream)
+    const upstream = (async () => {
+      const tcpWriter = remoteTunnel!.writer;
+      try {
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
@@ -194,32 +300,25 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
           await tcpWriter.write(value);
         }
       } finally {
-        tcpWriter.releaseLock();
-      }
-    })();
-
-    // رله TCP → WS
-    const downstream = (async () => {
-      const tcpReader = remoteSocket!.readable.getReader();
-      try {
-        while (true) {
-          const { value, done } = await tcpReader.read();
-          if (done) break;
-          if (!value) continue;
-          bytesDown += value.length;
-          await writer.write(value);
+        try {
+          tcpWriter.releaseLock();
+        } catch {
+          /* ignore */
         }
-      } finally {
-        tcpReader.releaseLock();
       }
     })();
 
     // ─── ۴) پایان اتصال ───
     try {
-      await Promise.race([upstream, downstream]);
-    } catch (e: any) {
+      await Promise.race([upstream, pump]);
+    } catch {
+      /* ignore */
     } finally {
-      closeTcp(remoteSocket);
+      try {
+        remoteTunnel!.close();
+      } catch {
+        /* ignore */
+      }
       try {
         await writer.close();
       } catch {
@@ -237,7 +336,13 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
       }
     }
   } catch (e: any) {
-    closeTcp(remoteSocket);
+    if (remoteTunnel) {
+      try {
+        remoteTunnel.close();
+      } catch {
+        /* ignore */
+      }
+    }
     closeWs(ws);
   }
 }

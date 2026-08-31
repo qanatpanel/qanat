@@ -66,7 +66,7 @@
       proxyTitle: 'تنظیمات پروکسی', pHost: 'هاست (خالی = خودکار)', pPort: 'پورت',
       pProtocols: 'پروتکل‌ها', pBoth: 'هر دو (VLESS + Trojan)', pVless: 'فقط VLESS', pTrojan: 'فقط Trojan',
       pTls: 'TLS', pTlsHint: 'اگر پشت دامنه‌ی خودتان است روشن باشد', pSni: 'SNI (خالی = هاست)',
-      pPathLabel: 'مسیر مخفی پروکسی', pPathHint: 'کلاینت‌ها با این مسیر وصل می‌شوند — بعد از تغییر، کانفیگ‌ها را به‌روز کنید.',
+      pPathLabel: 'مسیر مخفی پروکسی', pPathHint: 'کلاینت‌ها با این مسیر وصل می‌شوند — بعد از تغییر، کانفیگ‌ها را به‌روز کنید.', pUpstreams: 'بالادست‌ها (هاپ) — اختیاری', pUpstreamsHint: 'وقتی سایت‌ها اتصال مستقیم کلودفلر را می‌بندند (ERR_CONNECTION_CLOSED)، ترافیک از این‌ها رد می‌شود — مثل کانفیگ edgetunnel خودتان. هر خط یک کانفیگ؛ به ترتیب امتحان می‌شوند.', pFailover: 'مهلت fallback (میلی‌ثانیه)', pFailoverHint: 'اگر اتصال مستقیم تا این مدت پاسخ نداد، سراغ بالادست‌ها می‌رود.',
       saveProxy: 'ذخیره تنظیمات پروکسی', proxySaved: 'تنظیمات پروکسی ذخیره شد ✓', proxyPathRegen: 'مسیر پروکسی بازسازی شد ✓',
       errProxy: 'خطا در ذخیره تنظیمات پروکسی',
       usageOf: 'مصرف:', noLimit: 'نامحدود',
@@ -155,7 +155,7 @@
       proxyTitle: 'Proxy settings', pHost: 'Host (empty = auto)', pPort: 'Port',
       pProtocols: 'Protocols', pBoth: 'Both (VLESS + Trojan)', pVless: 'VLESS only', pTrojan: 'Trojan only',
       pTls: 'TLS', pTlsHint: 'Enable if behind your own domain', pSni: 'SNI (empty = host)',
-      pPathLabel: 'Secret proxy path', pPathHint: 'Clients connect through this path — regenerate configs after changing.',
+      pPathLabel: 'Secret proxy path', pPathHint: 'Clients connect through this path — regenerate configs after changing.', pUpstreams: 'Upstreams (hops) — optional', pUpstreamsHint: 'When sites close the direct Cloudflare connection (ERR_CONNECTION_CLOSED), traffic is routed through these — like your own edgetunnel config. One config per line, tried in order.', pFailover: 'Fallback timeout (ms)', pFailoverHint: 'If the direct connection sends nothing within this time, upstreams are tried.',
       saveProxy: 'Save proxy settings', proxySaved: 'Proxy settings saved ✓', proxyPathRegen: 'Proxy path regenerated ✓',
       errProxy: 'Error saving proxy settings',
       usageOf: 'Usage:', noLimit: 'Unlimited',
@@ -835,6 +835,8 @@
     $('p-tls').checked = !!p.tls;
     $('p-sni').value = p.sni || '';
     $('p-path').value = '/' + (p.proxyPath || '');
+    $('p-upstreams').value = p.upstreams || '';
+    $('p-failover').value = p.failoverMs || 3000;
   }
   function loadProxySettings() {
     api('settings/proxy').then(function (r) {
@@ -852,6 +854,8 @@
         protocols: $('p-protocols').value,
         tls: $('p-tls').checked,
         sni: $('p-sni').value.trim(),
+        upstreams: $('p-upstreams').value,
+        failoverMs: Number($('p-failover').value) || 3000,
       },
     }).then(function (r) {
       if (r.data.ok) { toast(t.proxySaved); fillProxyForm(r.data.proxy); }

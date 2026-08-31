@@ -6,6 +6,8 @@
  * - proxy_tls:    آیا TLS فعال است
  * - proxy_sni:    SNI (اگر خالی باشد = host)
  * - proxy_protocols: 'vless' | 'trojan' | 'both'
+ * - proxy_upstreams: بالادست‌ها (هر خط یک کانفیگ vless/trojan یا host:port شفاف)
+ * - proxy_failover_ms: مهلت fallback — اگر اتصال مستقیم تا این مدت پاسخ نداد، بالادست
  */
 import type { Env } from '../types/global';
 import { getSettings, setSettings } from './db';
@@ -20,9 +22,22 @@ export interface ProxySettings {
   tls: boolean;
   sni: string;
   protocols: ProtocolMode;
+  /** متن چندخطی بالادست‌ها */
+  upstreams: string;
+  /** مهلت fallback بر حسب میلی‌ثانیه */
+  failoverMs: number;
 }
 
-export const PROXY_KEYS = ['proxy_path', 'proxy_host', 'proxy_port', 'proxy_tls', 'proxy_sni', 'proxy_protocols'] as const;
+export const PROXY_KEYS = [
+  'proxy_path',
+  'proxy_host',
+  'proxy_port',
+  'proxy_tls',
+  'proxy_sni',
+  'proxy_protocols',
+  'proxy_upstreams',
+  'proxy_failover_ms',
+] as const;
 
 export async function getProxySettings(env: Env, requestHost?: string): Promise<ProxySettings> {
   const rows = await getSettings(env, [...PROXY_KEYS]);
@@ -41,6 +56,7 @@ export async function getProxySettings(env: Env, requestHost?: string): Promise<
 
   const port = Number(rows.proxy_port);
   const tls = rows.proxy_tls === '1' || rows.proxy_tls === 'true' || rows.proxy_tls === undefined;
+  const failoverMs = Number(rows.proxy_failover_ms);
 
   return {
     proxyPath,
@@ -49,12 +65,23 @@ export async function getProxySettings(env: Env, requestHost?: string): Promise<
     tls,
     sni: rows.proxy_sni || host,
     protocols: (rows.proxy_protocols as ProtocolMode) || 'both',
+    upstreams: rows.proxy_upstreams || '',
+    failoverMs: Number.isFinite(failoverMs) && failoverMs >= 800 && failoverMs <= 15000 ? Math.round(failoverMs) : 3000,
   };
 }
 
 export async function saveProxySettings(
   env: Env,
-  input: { host?: string; port?: number; tls?: boolean; sni?: string; protocols?: string; proxyPath?: string },
+  input: {
+    host?: string;
+    port?: number;
+    tls?: boolean;
+    sni?: string;
+    protocols?: string;
+    proxyPath?: string;
+    upstreams?: string;
+    failoverMs?: number;
+  },
 ): Promise<ProxySettings> {
   const entries: Record<string, string> = {};
   if (input.host !== undefined) entries.proxy_host = input.host.trim();
@@ -63,6 +90,8 @@ export async function saveProxySettings(
   if (input.sni !== undefined) entries.proxy_sni = input.sni.trim();
   if (input.protocols !== undefined) entries.proxy_protocols = input.protocols;
   if (input.proxyPath !== undefined) entries.proxy_path = input.proxyPath;
+  if (input.upstreams !== undefined) entries.proxy_upstreams = input.upstreams.trim();
+  if (input.failoverMs !== undefined) entries.proxy_failover_ms = String(Math.round(input.failoverMs));
   await setSettings(env, entries);
   return getProxySettings(env);
 }

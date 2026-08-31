@@ -164,6 +164,28 @@ ws://your-worker.workers.dev/{proxyPath}/{uuid-or-trojan-password}
 
 پروتکل **کاملاً استاندارد** — بدون هدر اضافه، بدون دستکاری. `alpn=http/1.1`، `fp=chrome`، SNI و Host کامل از تنظیمات شما.
 
+### ⛓️ بالادست‌ها (Upstream) — زنجیره‌ی خروجی مثل edgetunnel
+
+وقتی سایت مقصد اتصال مستقیم خروجی Cloudflare را می‌بندد (`ERR_CONNECTION_CLOSED`)، قنات مثل edgetunnel رفتار می‌کند: اول مستقیم وصل می‌شود و اگر تا `failoverMs` اولین بایت نرسید یا اتصال بسته شد، از «هاپ»های بالادست به‌ترتیب استفاده می‌شود:
+
+```
+کلاینت → پنل (IP تمیز) → هاپ (یک edgetunnel سالم) → سایت
+```
+
+در تنظیمات پروکسی پنل (بخش «بالادست‌ها») هر خط یک بالادست است — هر سه فرمت:
+
+```
+vless://UUID@HOST:443?security=tls&sni=SNI&type=ws&path=%2Fup
+trojan://PASSWORD@HOST:443?security=tls&sni=SNI&type=ws&path=%2F
+HOST:PORT        ← شفاف (Transparent): داده‌ی خام به آن فرستاده می‌شود
+```
+
+⚠️ اگر هاپ روی **خودتان** (همان اکانت Cloudflare) است — مثلاً edgetunnel خودتان — باید در **هر دو** Worker (پنل و هاپ) این compatibility flag فعال باشد، وگرنه Worker نمی‌تواند به Worker دیگر وصل شود (خطای 1042):
+
+```
+global_fetch_strictly_public
+```
+
 ---
 
 ## 🧪 کیفیت

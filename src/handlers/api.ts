@@ -169,12 +169,18 @@ export async function handleSettingsApi(request: Request, env: Env, settings: Pa
       if (port !== undefined && (!Number.isInteger(port) || port <= 0 || port > 65535)) {
         return json({ ok: false, error: 'invalid_port' }, 400);
       }
+      const failoverMs = typeof body.failoverMs === 'number' ? body.failoverMs : undefined;
+      if (failoverMs !== undefined && (!Number.isFinite(failoverMs) || failoverMs < 800 || failoverMs > 15000)) {
+        return json({ ok: false, error: 'invalid_failover' }, 400);
+      }
       const proxy = await saveProxySettings(env, {
         host: typeof body.host === 'string' ? body.host : undefined,
         port,
         tls: typeof body.tls === 'boolean' ? body.tls : undefined,
         sni: typeof body.sni === 'string' ? body.sni : undefined,
         protocols,
+        upstreams: typeof body.upstreams === 'string' ? body.upstreams : undefined,
+        failoverMs,
       });
       return json({ ok: true, proxy });
     }
