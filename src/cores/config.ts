@@ -21,9 +21,9 @@ function effectiveHost(b: BuildInput): string {
   return b.proxy.host || b.originHost;
 }
 
-/** سرور اتصال — اگر IP تمیز داده شود، اتصال به آن است (host همچنان دامنه) */
+/** سرور اتصال — اگر IP تمیز داده شود (دستی یا ست‌شده روی کانفیگ‌ها)، اتصال به آن است (host همچنان دامنه) */
 function effectiveServer(b: BuildInput): string {
-  return b.serverHost || effectiveHost(b);
+  return b.serverHost || b.proxy.overrideIp || effectiveHost(b);
 }
 
 /**
@@ -35,7 +35,7 @@ function wsPath(p: ProxySettings, identifier: string): string {
 }
 
 function port(b: BuildInput): number {
-  return b.serverPort || b.proxy.port || (b.proxy.tls ? 443 : 80);
+  return b.serverPort || b.proxy.overridePort || b.proxy.port || (b.proxy.tls ? 443 : 80);
 }
 
 function name(b: BuildInput, suffix = ''): string {

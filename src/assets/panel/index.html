@@ -268,6 +268,9 @@
               <button id="scan-send-relay" class="ghost-btn" disabled>
                 🧪 <span data-i18n="scanSendRelay">تست رله روی نتایج</span>
               </button>
+              <button id="scan-set-ip" class="btn-glow-alt" title="ست کردن بهترین IP روی همه کانفیگ‌ها (اتصال به IP؛ Host/SNI همان دامنه)">
+                🎯 <span data-i18n="scanSetIp">ست کردن IP روی کانفیگ‌ها</span>
+              </button>
             </div>
           </div>
           <div id="scan-progress" class="card scan-progress" hidden>
@@ -281,6 +284,10 @@
           <div class="card">
             <div class="card-head">
               <h3 data-i18n="scanResults">نتایج</h3>
+              <span id="scan-set-badge" class="set-ip-badge" hidden>
+                🎯 <span id="scan-set-badge-text"></span>
+                <button id="scan-set-clear" class="badge-clear" title="پاک کردن IP ست‌شده">✕</button>
+              </span>
               <button id="scan-copy-best" class="ghost-btn" data-i18n="scanCopyBest">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span data-i18n="scanCopyBest">کپی کانفیگ ۵ IP برتر</span>
@@ -356,6 +363,7 @@
                 <span data-i18n="relayStart">شروع تست رله</span>
               </button>
               <button id="relay-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
+              <button id="relay-set-best" class="btn-glow-alt" title="ست کردن بهترین IP روی همه کانفیگ‌ها">🎯 <span data-i18n="relaySetBest">ست کردن IP برتر روی کانفیگ‌ها</span></button>
               <button id="relay-export" class="ghost-btn" data-i18n="relayExport">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span data-i18n="relayExport">خروجی متن</span>

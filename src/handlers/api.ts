@@ -173,6 +173,24 @@ export async function handleSettingsApi(request: Request, env: Env, settings: Pa
       if (failoverMs !== undefined && (!Number.isFinite(failoverMs) || failoverMs < 800 || failoverMs > 15000)) {
         return json({ ok: false, error: 'invalid_failover' }, 400);
       }
+      // IP تمیز ست‌شده روی کانفیگ‌ها — خالی = پاک کردن
+      let overrideIp: string | undefined;
+      let overridePort: number | undefined;
+      if (typeof body.overrideIp === 'string') {
+        const ip = body.overrideIp.trim();
+        if (ip && !/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) {
+          return json({ ok: false, error: 'invalid_ip' }, 400);
+        }
+        overrideIp = ip;
+      }
+      if (body.overridePort !== undefined && body.overridePort !== null && body.overridePort !== '') {
+        overridePort = Number(body.overridePort);
+        if (!Number.isInteger(overridePort) || overridePort < 0 || overridePort > 65535) {
+          return json({ ok: false, error: 'invalid_port' }, 400);
+        }
+      }
+      // اگر IP پاک شود، پورت هم پاک شود (جلوگیری از overridePort بدون IP)
+      if (overrideIp !== undefined && !overrideIp) overridePort = 0;
       const proxy = await saveProxySettings(env, {
         host: typeof body.host === 'string' ? body.host : undefined,
         port,
@@ -181,6 +199,8 @@ export async function handleSettingsApi(request: Request, env: Env, settings: Pa
         protocols,
         upstreams: typeof body.upstreams === 'string' ? body.upstreams : undefined,
         failoverMs,
+        overrideIp,
+        overridePort,
       });
       return json({ ok: true, proxy });
     }
@@ -209,7 +229,7 @@ export async function handleServerConfig(request: Request, env: Env, settings: P
   const url = new URL(request.url);
   const server = (url.searchParams.get('server') || '').trim();
   const uuid = (url.searchParams.get('uuid') || '').trim();
-  if (!server || !uuid) return json({ ok: false, error: 'bad_params' }, 400);
+  if (!uuid) return json({ ok: false, error: 'bad_params' }, 400);
 
   let serverPort: number | undefined;
   const portRaw = url.searchParams.get('port');
@@ -224,12 +244,17 @@ export async function handleServerConfig(request: Request, env: Env, settings: P
   if (!user) return json({ ok: false, error: 'not_found' }, 404);
 
   const proxy = await getProxySettings(env, url.hostname);
-  const input: BuildInput = { user, proxy, originHost: proxy.host || url.hostname, serverHost: server, serverPort };
+  // اگر server داده نشده، از IP ست‌شده روی کانفیگ‌ها استفاده کن
+  const effServer = server || proxy.overrideIp || '';
+  if (!effServer) return json({ ok: false, error: 'no_server', hint: 'scan_set' }, 400);
+  const effPort = serverPort || proxy.overridePort || 0;
+  const input: BuildInput = { user, proxy, originHost: proxy.host || url.hostname, serverHost: effServer, serverPort: effPort || undefined };
   return json({
     ok: true,
-    server,
-    port: serverPort || proxy.port || (proxy.tls ? 443 : 80),
+    server: effServer,
+    port: effPort || proxy.port || (proxy.tls ? 443 : 80),
     host: proxy.host || url.hostname,
+    applied: !!proxy.overrideIp && effServer === proxy.overrideIp,
     vless: buildVlessUri(input),
     trojan: buildTrojanUri(input),
   });

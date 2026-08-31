@@ -8,6 +8,8 @@
  * - proxy_protocols: 'vless' | 'trojan' | 'both'
  * - proxy_upstreams: بالادست‌ها (هر خط یک کانفیگ vless/trojan یا host:port شفاف)
  * - proxy_failover_ms: مهلت fallback — اگر اتصال مستقیم تا این مدت پاسخ نداد، بالادست
+ * - proxy_override_ip: IP تمیز ست‌شده روی کانفیگ‌ها (اتصال به این IP؛ Host/SNI همان دامنه)
+ * - proxy_override_port: پورت همراه IP ست‌شده
  */
 import type { Env } from '../types/global';
 import { getSettings, setSettings } from './db';
@@ -26,6 +28,10 @@ export interface ProxySettings {
   upstreams: string;
   /** مهلت fallback بر حسب میلی‌ثانیه */
   failoverMs: number;
+  /** IP تمیز ست‌شده روی کانفیگ‌ها (خالی = استفاده از دامنه) */
+  overrideIp: string;
+  /** پورت همراه IP ست‌شده */
+  overridePort: number;
 }
 
 export const PROXY_KEYS = [
@@ -37,6 +43,8 @@ export const PROXY_KEYS = [
   'proxy_protocols',
   'proxy_upstreams',
   'proxy_failover_ms',
+  'proxy_override_ip',
+  'proxy_override_port',
 ] as const;
 
 export async function getProxySettings(env: Env, requestHost?: string): Promise<ProxySettings> {
@@ -57,6 +65,8 @@ export async function getProxySettings(env: Env, requestHost?: string): Promise<
   const port = Number(rows.proxy_port);
   const tls = rows.proxy_tls === '1' || rows.proxy_tls === 'true' || rows.proxy_tls === undefined;
   const failoverMs = Number(rows.proxy_failover_ms);
+  const overridePort = Number(rows.proxy_override_port);
+  const overrideIp = (rows.proxy_override_ip || '').trim();
 
   return {
     proxyPath,
@@ -67,6 +77,8 @@ export async function getProxySettings(env: Env, requestHost?: string): Promise<
     protocols: (rows.proxy_protocols as ProtocolMode) || 'both',
     upstreams: rows.proxy_upstreams || '',
     failoverMs: Number.isFinite(failoverMs) && failoverMs >= 800 && failoverMs <= 15000 ? Math.round(failoverMs) : 3000,
+    overrideIp,
+    overridePort: Number.isInteger(overridePort) && overridePort > 0 && overridePort < 65536 ? overridePort : 0,
   };
 }
 
@@ -81,6 +93,9 @@ export async function saveProxySettings(
     proxyPath?: string;
     upstreams?: string;
     failoverMs?: number;
+    /** IP تمیز — رشته‌ی خالی یعنی پاک کردن */
+    overrideIp?: string;
+    overridePort?: number;
   },
 ): Promise<ProxySettings> {
   const entries: Record<string, string> = {};
@@ -92,6 +107,8 @@ export async function saveProxySettings(
   if (input.proxyPath !== undefined) entries.proxy_path = input.proxyPath;
   if (input.upstreams !== undefined) entries.proxy_upstreams = input.upstreams.trim();
   if (input.failoverMs !== undefined) entries.proxy_failover_ms = String(Math.round(input.failoverMs));
+  if (input.overrideIp !== undefined) entries.proxy_override_ip = input.overrideIp.trim();
+  if (input.overridePort !== undefined) entries.proxy_override_port = String(input.overridePort);
   await setSettings(env, entries);
   return getProxySettings(env);
 }

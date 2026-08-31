@@ -1247,3 +1247,44 @@
   .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat-card .stat-sub { font-size: 10.5px; }
 }
+
+/* ─── ست کردن IP روی کانفیگ‌ها (اسکنر) ─── */
+.btn-glow-alt {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(59, 130, 246, 0.18));
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(139, 92, 246, 0.25);
+  transition: all 0.22s ease;
+}
+.btn-glow-alt:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(139, 92, 246, 0.4); border-color: rgba(167, 139, 250, 0.85); }
+.btn-glow-alt:active { transform: translateY(0); }
+.btn-glow-alt:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.btn-glow-alt svg { width: 17px; height: 17px; }
+
+.set-ip-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.16);
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  direction: ltr;
+}
+.set-ip-badge .badge-clear {
+  border: none; background: none; color: var(--muted);
+  cursor: pointer; font-size: 13px; padding: 0 2px; line-height: 1;
+  border-radius: 50%;
+}
+.set-ip-badge .badge-clear:hover { color: #f87171; }
+
+.scan-set-btn { margin-inline-start: 4px; padding: 6px 10px; }
+.scan-set-btn:hover { border-color: rgba(139, 92, 246, 0.8); }

@@ -76,6 +76,13 @@
       scanProgress: 'در حال اسکن…', scanFound: 'زنده', scanAlive: 'زنده', scanBest: 'بهترین',
       scanNoResult: 'IP زنده‌ای پیدا نشد — تعداد یا مهلت را بیشتر کنید.', scanCopied: 'کانفیگ کپی شد ✓', scanErr: 'برای کپی کانفیگ باید اول اسکن کنید.', scanCalibFail: 'تشخیص خودکار شبکه ممکن نشد — از آستانه‌ی پیش‌فرض استفاده شد.',
       scanCopy: 'کپی',
+      scanSetIp: '🎯 ست کردن IP روی کانفیگ‌ها',
+      scanSetIpBtn: 'ست کردن IP روی کانفیگ‌ها',
+      relaySetBest: 'ست کردن IP برتر روی کانفیگ‌ها',
+      scanSetDone: 'IP روی کانفیگ‌ها ست شد — کانفیگ‌ها و لینک اشتراک از این به بعد به این IP وصل می‌شوند',
+      scanSetCleared: 'IP ست‌شده پاک شد — کانفیگ‌ها دوباره به دامنه وصل می‌شوند',
+      scanSetEmpty: 'اول اسکن کنید یا از نتایج رله استفاده کنید',
+      scanSetBadge: 'ست‌شده روی کانفیگ‌ها',
 
       srcMix: '⚡ همه منابع زنده (پیشنهادی)', srcIrcf: '🌐 IRCF.space — هر اپراتور', srcCf2dns: '📡 cf2dns — روزانه + امتیاز', srcBestcf: '🌏 best-cf-ips — هر ۳ ساعت',
       liveLoading: 'دریافت لیست زنده…', liveFallback: 'منبع زنده در دسترس نبود — از لیست داخلی استفاده شد',
@@ -165,6 +172,13 @@
       scanProgress: 'Scanning…', scanFound: 'alive', scanAlive: 'Alive', scanBest: 'Best',
       scanNoResult: 'No alive IP found — increase count or timeout.', scanCopied: 'Config copied ✓', scanErr: 'Run a scan first.', scanCalibFail: 'Network auto-calibration failed — using default threshold.',
       scanCopy: 'Copy',
+      scanSetIp: '🎯 Set IP on configs',
+      scanSetIpBtn: 'Set IP on configs',
+      relaySetBest: 'Set best IP on configs',
+      scanSetDone: 'IP applied to configs — configs & subscription links now connect to this IP',
+      scanSetCleared: 'Set IP cleared — configs use the domain again',
+      scanSetEmpty: 'Run a scan or use relay results first',
+      scanSetBadge: 'applied to configs',
 
       srcMix: '⚡ All live sources (recommended)', srcIrcf: '🌐 IRCF.space — per ISP', srcCf2dns: '📡 cf2dns — daily + score', srcBestcf: '🌏 best-cf-ips — every 3h',
       liveLoading: 'Fetching live list…', liveFallback: 'Live source unavailable — using built-in list',
@@ -840,7 +854,7 @@
   }
   function loadProxySettings() {
     api('settings/proxy').then(function (r) {
-      if (r.data.ok) fillProxyForm(r.data.proxy);
+      if (r.data.ok) { fillProxyForm(r.data.proxy); proxyData = r.data.proxy; renderSetBadge(); }
     });
   }
   $('save-proxy').addEventListener('click', function () {
@@ -1320,6 +1334,7 @@
           '<span class="scan-rt">' + r.ms + ' ms</span>' +
           (best ? '<span class="status-pill st-active">★ ' + t.scanBest + '</span>' : '') +
           '<button class="ghost-btn sm scan-copy-btn" data-ip="' + r.ip + '" data-port="' + r.port + '">' + t.scanCopy + '</button>' +
+          '<button class="ghost-btn sm scan-set-btn" data-set-ip="' + r.ip + '" data-set-port="' + (r.port || 443) + '" title="' + esc(t.scanSetIp) + '">🎯</button>' +
           '</div>';
       }).join('');
     },
@@ -1376,6 +1391,58 @@
     });
   });
 
+  /* ═══════════ ست کردن IP روی کانفیگ‌ها ═══════════ */
+  var proxyData = null;
+  function renderSetBadge() {
+    var badge = $('scan-set-badge');
+    if (!badge) return;
+    if (proxyData && proxyData.overrideIp) {
+      $('scan-set-badge-text').textContent = proxyData.overrideIp + (proxyData.overridePort ? ':' + proxyData.overridePort : '') + ' · ' + t.scanSetBadge;
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
+  }
+  function setConfigIp(ip, port) {
+    if (!ip) { toast(t.scanSetEmpty); return; }
+    api('settings/proxy', {
+      method: 'POST',
+      body: { overrideIp: ip, overridePort: port ? Number(port) : undefined },
+    }).then(function (r) {
+      if (r.data.ok) {
+        proxyData = r.data.proxy;
+        renderSetBadge();
+        toast(t.scanSetDone + ' — ' + ip + (port ? ':' + port : ''));
+      } else {
+        toast(errMsg(r) || t.errProxy);
+      }
+    }).catch(function () { toast(t.errProxy); });
+  }
+  function clearConfigIp() {
+    api('settings/proxy', { method: 'POST', body: { overrideIp: '' } }).then(function (r) {
+      if (r.data.ok) {
+        proxyData = r.data.proxy;
+        renderSetBadge();
+        toast(t.scanSetCleared);
+      } else toast(errMsg(r) || t.errProxy);
+    }).catch(function () { toast(t.errProxy); });
+  }
+  $('scan-set-ip').addEventListener('click', function () {
+    var alive = scanner.results.filter(function (r) { return r.ok; }).slice().sort(function (a, b) { return a.ms - b.ms; });
+    if (!alive.length) { toast(t.scanSetEmpty); return; }
+    setConfigIp(alive[0].ip, alive[0].port || 443);
+  });
+  $('scan-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('.scan-set-btn');
+    if (btn) setConfigIp(btn.getAttribute('data-set-ip'), btn.getAttribute('data-set-port'));
+  });
+  $('scan-set-clear').addEventListener('click', clearConfigIp);
+  $('relay-set-best').addEventListener('click', function () {
+    var alive = relay.results.filter(function (r) { return r.avg != null; }).slice()
+      .sort(function (a, b) { return relayScoreRank(a.score) - relayScoreRank(b.score) || (a.avg - b.avg); });
+    if (!alive.length) { toast(t.scanSetEmpty); return; }
+    setConfigIp(alive[0].ip, alive[0].port || 443);
+  });
   /* ═══════════ تست رله‌ها (پیشرفته) ═══════════ */
   var relay = {
     running: false, ips: [], results: [], index: 0, active: 0,
@@ -1600,6 +1667,7 @@
         '<td>' + relaySpark(r.probes) + '</td>' +
         '<td><div class="cell-actions">' +
         '<button class="icon-btn" data-relay-copy="' + esc(r.ip) + '" data-relay-port="' + r.port + '" title="' + esc(t.copyVless) + '">📋</button>' +
+        '<button class="icon-btn" data-relay-set="' + esc(r.ip) + '" data-relay-port="' + r.port + '" title="' + esc(t.scanSetIp) + '">🎯</button>' +
         '<button class="icon-btn" data-relay-fav="' + esc(r.ip) + '" data-relay-port="' + r.port + '" title="⭐">⭐</button>' +
         '</div></td>' +
         '</tr>';
@@ -1689,6 +1757,11 @@
     }
   });
   $('relay-tbody').addEventListener('click', function (e) {
+    var setb = e.target.closest('[data-relay-set]');
+    if (setb) {
+      setConfigIp(setb.getAttribute('data-relay-set'), setb.getAttribute('data-relay-port'));
+      return;
+    }
     var btn = e.target.closest('[data-relay-copy]');
     if (btn) {
       copyServerConfig(btn.getAttribute('data-relay-copy'), btn.getAttribute('data-relay-port'));
