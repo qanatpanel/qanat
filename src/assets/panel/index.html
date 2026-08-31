@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>قنات | پنل مدیریت</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22s%22%20gradientUnits%3D%22userSpaceOnUse%22%20x1%3D%2214%22%20y1%3D%2210%22%20x2%3D%2250%22%20y2%3D%2254%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2357e6ff%22/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2314b8a6%22/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%3C/defs%3E%0A%20%20%3Ccircle%20cx%3D%2227%22%20cy%3D%2229%22%20r%3D%2214.5%22%20fill%3D%22none%22%20stroke%3D%22url%28%23s%29%22%20stroke-width%3D%225.5%22%20stroke-linecap%3D%22round%22/%3E%0A%20%20%3Cpath%20d%3D%22M37%2038c7.5%201%2010.5%207%208.5%2012.5-1.2%203.4-5.4%205.4-9%204%22%20fill%3D%22none%22%20stroke%3D%22url%28%23s%29%22%20stroke-width%3D%225.5%22%20stroke-linecap%3D%22round%22/%3E%0A%20%20%3Ccircle%20cx%3D%2241%22%20cy%3D%229%22%20r%3D%222.1%22%20fill%3D%22%2367e8f9%22/%3E%0A%20%20%3Ccircle%20cx%3D%2249.5%22%20cy%3D%2213.5%22%20r%3D%221.7%22%20fill%3D%22%2367e8f9%22/%3E%0A%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* SHARED_CSS_PLACEHOLDER */
+/* CSS_PLACEHOLDER */
+</style>
+</head>
+<body data-version="__VERSION__">
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo"><svg xmlns="http://www.w3.org/2000/svg" class="qanat-mark" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1836"/>
+      <stop offset="0.55" stop-color="#0b2340"/>
+      <stop offset="1" stop-color="#07293e"/>
+    </linearGradient>
+    <linearGradient id="stream" gradientUnits="userSpaceOnUse" x1="150" y1="120" x2="380" y2="460">
+      <stop offset="0" stop-color="#57e6ff"/>
+      <stop offset="0.5" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="wave" gradientUnits="userSpaceOnUse" x1="0" y1="205" x2="0" y2="295">
+      <stop offset="0" stop-color="#8ef0ff" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0.5"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+
+  <!-- tile -->
+  <rect rx="118" fill="url(#tile)"/>
+  <rect rx="118" fill="url(#glow)"/>
+  <rect x="9" y="9" width="494" height="494" rx="110" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="2"/>
+
+  <!-- ripples -->
+  <circle cx="215" cy="238" r="152" fill="none" stroke="#57e6ff" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="215" cy="238" r="172" fill="none" stroke="#57e6ff" stroke-opacity="0.05" stroke-width="2"/>
+
+  <!-- tunnel ring (Q) -->
+  <circle cx="215" cy="238" r="110" fill="none" stroke="url(#stream)" stroke-width="36" stroke-linecap="round"/>
+
+  <!-- water levels -->
+  <line x1="160" y1="212" x2="270" y2="212" stroke="url(#wave)" stroke-width="15" stroke-linecap="round"/>
+  <line x1="178" y1="246" x2="252" y2="246" stroke="url(#wave)" stroke-width="15" stroke-linecap="round" opacity="0.62"/>
+  <line x1="193" y1="280" x2="237" y2="280" stroke="url(#wave)" stroke-width="15" stroke-linecap="round" opacity="0.36"/>
+
+  <!-- Q tail: flowing stream -->
+  <path d="M 297 306 C 356 312 388 352 370 402 C 358 438 314 456 278 442" fill="none" stroke="url(#stream)" stroke-width="36" stroke-linecap="round"/>
+
+  <!-- droplet -->
+  <circle cx="252" cy="446" r="16" fill="url(#stream)"/>
+  <circle cx="249" cy="443" r="5" fill="#ffffff" opacity="0.55"/>
+
+  <!-- qaf dots -->
+  <circle cx="300" cy="76" r="10" fill="#67e8f9"/>
+  <circle cx="300" cy="76" r="15" fill="#22d3ee" opacity="0.4" filter="url(#soft)"/>
+  <circle cx="356" cy="98" r="8" fill="#67e8f9"/>
+  <circle cx="356" cy="98" r="12" fill="#22d3ee" opacity="0.4" filter="url(#soft)"/>
+</svg></div>
+    <div>
+      <h1 data-i18n="panelTitle">قنات</h1>
+        <span class="qanat-tag">QANAT</span>
+      <span class="ver">v__VERSION__</span>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <span id="session-chip" class="chip">…</span>
+    <button id="lang-btn" class="ghost-btn">English</button>
+    <button id="theme-btn" class="ghost-btn">🌙</button>
+    <button id="logout-btn" class="ghost-btn" data-i18n="logout">خروج</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-view="overview" data-i18n="tabOverview">نمای کلی</button>
+  <button class="tab" data-view="users" data-i18n="tabUsers">کاربران</button>
+  <button class="tab" data-view="subs" data-i18n="tabSubs">اشتراک‌ها</button>
+  <button class="tab" data-view="scanner" data-i18n="tabScanner">اسکنر</button>
+  <button class="tab" data-view="settings" data-i18n="tabSettings">تنظیمات</button>
+</nav>
+
+<main class="shell shell-wide">
+
+  <!-- ═══════ نمای کلی ═══════ -->
+  <section id="view-overview" class="view">
+    <div class="grid" id="stat-cards"></div>
+
+    <div class="card">
+      <h3 data-i18n="quickTitle">دسترسی سریع</h3>
+      <div class="quick-actions">
+        <button class="btn-outline" data-goto="users" data-i18n="quickUsers">مدیریت کاربران</button>
+        <button class="btn-outline" data-goto="settings" data-i18n="quickSettings">تنظیمات پنل</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="infoTitle">اطلاعات پنل</h3>
+      <dl class="info-list" id="info-list"></dl>
+    </div>
+  </section>
+
+  <!-- ═══════ کاربران ═══════ -->
+  <section id="view-users" class="view" hidden>
+    <div class="card">
+      <div class="card-head">
+        <h3 data-i18n="usersTitle">کاربران</h3>
+        <div class="head-actions">
+          <button id="refresh-users" class="ghost-btn" data-i18n="refresh">تازه‌سازی</button>
+          <button id="add-user" class="btn-primary btn-small" data-i18n="addUser">+ کاربر جدید</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th data-i18n="thUser">کاربر</th>
+              <th data-i18n="thStatus">وضعیت</th>
+              <th data-i18n="thQuota">کوتا (GB)</th>
+              <th data-i18n="thUsed">مصرف</th>
+              <th data-i18n="thExpiry">انقضا</th>
+              <th data-i18n="thActions">عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="users-body">
+            <tr><td colspan="6" class="empty" data-i18n="loading">در حال بارگذاری…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="users-empty-hint" class="empty-hint" hidden data-i18n="noUsers">هنوز کاربری ساخته نشده — با دکمه‌ی «کاربر جدید» شروع کنید.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ اشتراک‌ها ═══════ -->
+  <section id="view-subs" class="view" hidden>
+    <div class="card">
+      <div class="card-head">
+        <h3 data-i18n="subsTitle">اشتراک کاربران</h3>
+        <div class="head-actions">
+          <button id="refresh-subs" class="ghost-btn" data-i18n="refresh">تازه‌سازی</button>
+        </div>
+      </div>
+      <p class="hint" data-i18n="subsHint">هر کاربر لینک اختصاصی خودش را دارد — با دانستن UUID قابل دسترسی است.</p>
+      <div id="subs-list" class="subs-list">
+        <div class="empty-hint" data-i18n="loading">در حال بارگذاری…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ اسکنر IP تمیز ═══════ -->
+  <section id="view-scanner" class="view" hidden>
+    <div class="card">
+      <div class="card-head">
+        <h3 data-i18n="scanTitle">📡 اسکنر IP تمیز کلودفلر</h3>
+        <div class="head-actions">
+          <button id="scan-start" class="btn-primary" data-i18n="scanStart">شروع اسکن</button>
+          <button id="scan-stop" class="ghost-btn danger" data-i18n="scanStop" hidden>توقف</button>
+        </div>
+      </div>
+      <p class="hint" data-i18n="scanHint">IP های تصادفی کلودفلر از مرورگر شما تست می‌شوند (پینگ واقعی RTT). نتیجه: IP های تمیز و قابل استفاده برای اتصال سریع‌تر.</p>
+
+      <div class="grid grid-3 scan-opts">
+        <div class="field">
+          <label for="scan-count" data-i18n="scanCount">تعداد IP</label>
+          <select id="scan-count">
+            <option value="50">50</option>
+            <option value="100" selected>100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="scan-timeout" data-i18n="scanTimeout">مهلت اتصال</label>
+          <select id="scan-timeout">
+            <option value="1000">1s</option>
+            <option value="2000" selected>2s</option>
+            <option value="3000">3s</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="scan-conc" data-i18n="scanConc">همزمانی</label>
+          <select id="scan-conc">
+            <option value="15">15</option>
+            <option value="30" selected>30</option>
+            <option value="60">60</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="scan-progress" class="scan-progress" hidden>
+        <div class="scan-bar"><i id="scan-bar-fill" style="width:0%"></i></div>
+        <div class="scan-status"><span id="scan-counter">0 / 0</span><span id="scan-found">0 ✓</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3 data-i18n="scanResults">نتایج</h3>
+        <div class="head-actions">
+          <button id="scan-copy-best" class="ghost-btn" data-i18n="scanCopyBest">کپی کانفیگ ۵ IP برتر</button>
+        </div>
+      </div>
+      <div id="scan-list" class="scan-list">
+        <div class="empty-hint" data-i18n="scanIdle">اسکن را شروع کنید — نتایج اینجا نمایش داده می‌شود.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ تنظیمات ═══════ -->
+  <section id="view-settings" class="view" hidden>
+    <div class="card">
+      <h3 data-i18n="secTitle">امنیت</h3>
+      <div class="field">
+        <label data-i18n="securePathLabel">مسیر مخفی پنل</label>
+        <div class="input-row">
+          <input id="secure-path" type="text" readonly dir="ltr"/>
+          <button id="copy-path" class="icon-btn" title="copy">📋</button>
+          <button id="regenerate-path" class="ghost-btn" data-i18n="regenerate">بازسازی</button>
+        </div>
+        <p class="hint" data-i18n="securePathHint">بعد از بازسازی، آدرس پنل عوض می‌شود. لینک جدید را ذخیره کنید.</p>
+      </div>
+
+      <div class="field">
+        <label data-i18n="claimLabel">توکن ادعای نصب (Claim Token)</label>
+        <div id="claim-status" class="value-line">—</div>
+        <p class="hint" data-i18n="claimHint">اگر تنظیم شده باشد، اولین نصب فقط با این توکن امکان‌پذیر است.</p>
+      </div>
+
+      <div class="field">
+        <label data-i18n="verLabel">نسخه</label>
+        <div id="ver-status" class="value-line" dir="ltr">v__VERSION__</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="proxyTitle">تنظیمات پروکسی</h3>
+      <div class="grid grid-2">
+        <div class="field">
+          <label for="p-host" data-i18n="pHost">هاست (خالی = خودکار)</label>
+          <input id="p-host" type="text" dir="ltr" placeholder="panel.example.com"/>
+        </div>
+        <div class="field">
+          <label for="p-port" data-i18n="pPort">پورت</label>
+          <input id="p-port" type="number" min="1" max="65535" value="443" dir="ltr"/>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="field">
+          <label for="p-protocols" data-i18n="pProtocols">پروتکل‌ها</label>
+          <select id="p-protocols">
+            <option value="both" data-i18n="pBoth">هر دو (VLESS + Trojan)</option>
+            <option value="vless" data-i18n="pVless">فقط VLESS</option>
+            <option value="trojan" data-i18n="pTrojan">فقط Trojan</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="p-tls" data-i18n="pTls">TLS</label>
+          <label class="switch switch-lg">
+            <input id="p-tls" type="checkbox" checked/>
+            <span class="track"></span>
+          </label>
+          <p class="hint" data-i18n="pTlsHint">اگر پشت دامنه‌ی خودتان است روشن باشد</p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="p-sni" data-i18n="pSni">SNI (خالی = هاست)</label>
+        <input id="p-sni" type="text" dir="ltr" placeholder="panel.example.com"/>
+      </div>
+      <div class="field">
+        <label data-i18n="pPathLabel">مسیر مخفی پروکسی</label>
+        <div class="input-row">
+          <input id="p-path" type="text" readonly dir="ltr"/>
+          <button id="regenerate-proxy-path" class="ghost-btn" data-i18n="regenerate">بازسازی</button>
+        </div>
+        <p class="hint" data-i18n="pPathHint">کلاینت‌ها با این مسیر وصل می‌شوند — بعد از تغییر، کانفیگ‌ها را به‌روز کنید.</p>
+      </div>
+      <div id="proxy-error" class="error"></div>
+      <button id="save-proxy" class="btn-primary btn-inline" data-i18n="saveProxy">ذخیره تنظیمات پروکسی</button>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="passTitle">تغییر رمز عبور</h3>
+      <div class="field">
+        <label for="cur-pass" data-i18n="curPass">رمز فعلی</label>
+        <input id="cur-pass" type="password" autocomplete="current-password"/>
+      </div>
+      <div class="field">
+        <label for="new-pass" data-i18n="newPass">رمز جدید (حداقل ۸ کاراکتر)</label>
+        <input id="new-pass" type="password" autocomplete="new-password"/>
+      </div>
+      <div class="field">
+        <label for="conf-pass" data-i18n="confPass">تکرار رمز جدید</label>
+        <input id="conf-pass" type="password" autocomplete="new-password"/>
+      </div>
+      <div id="pass-error" class="error"></div>
+      <button id="change-pass" class="btn-primary btn-inline" data-i18n="changePass">تغییر رمز عبور</button>
+    </div>
+  </section>
+</main>
+
+<!-- مودال ساخت کاربر -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 data-i18n="addUserTitle">کاربر جدید</h3>
+      <button id="modal-close" class="icon-btn">✕</button>
+    </div>
+    <div class="field">
+      <label for="u-username" data-i18n="uUsername">نام کاربری</label>
+      <input id="u-username" type="text" autocomplete="off" placeholder="alice"/>
+      <p class="hint" data-i18n="uUsernameHint">۳ تا ۳۲ حرف — حروف، اعداد، _ و -</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="field">
+        <label for="u-quota" data-i18n="uQuota">کوتای حجم (GB) — ۰ = نامحدود</label>
+        <input id="u-quota" type="number" min="0" step="1" value="0"/>
+      </div>
+      <div class="field">
+        <label for="u-expiry" data-i18n="uExpiry">انقضا (روز) — ۰ = بدون انقضا</label>
+        <input id="u-expiry" type="number" min="0" step="1" value="0"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="u-note" data-i18n="uNote">یادداشت (اختیاری)</label>
+      <input id="u-note" type="text" autocomplete="off"/>
+    </div>
+    <div id="modal-error" class="error"></div>
+    <div class="modal-foot">
+      <button id="modal-cancel" class="ghost-btn" data-i18n="cancel">انصراف</button>
+      <button id="modal-save" class="btn-primary btn-inline" data-i18n="save">ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script>/* JS_PLACEHOLDER */</script>
+</body>
+</html>

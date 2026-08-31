@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src/generated/
+.wrangler/
+.dev.vars
+.env
+*.log
+.DS_Store
+*.db
+*.sqlite

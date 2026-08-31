@@ -1,0 +1,28 @@
+{
+  "name": "panel-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "پنل چندکاربره روی Cloudflare Workers — TypeScript + D1",
+  "scripts": {
+    "check": "npm run build && tsc --noEmit",
+    "build": "node scripts/build.mjs",
+    "build:watch": "node scripts/build.mjs --watch",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "db:local": "wrangler d1 execute panel-db --local --file=schema.sql",
+    "db:remote": "wrangler d1 execute panel-db --remote --file=schema.sql"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250601.0",
+    "esbuild": "^0.25.0",
+    "terser": "^5.51.2",
+    "typescript": "^5.8.0",
+    "wrangler": "^4.0.0",
+    "ws": "^8.21.3"
+  },
+  "dependencies": {
+    "jose": "^6.2.10",
+    "qrcode-generator": "^2.0.4"
+  }
+}
