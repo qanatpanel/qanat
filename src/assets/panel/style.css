@@ -1003,3 +1003,247 @@
 @media (max-width: 400px) {
   .stat-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   قنات — ارتقای گرافیکی «عمق اقیانوس» (Ocean Depth)
+   پس‌زمینه‌ی زنده، درخشش، میکرو-انیمیشن‌ها
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─────────── سایدبار با عمق ─────────── */
+.sidebar {
+  background: linear-gradient(180deg, rgba(10, 18, 34, 0.88), rgba(8, 24, 42, 0.82));
+  border-inline-start: 1px solid rgba(103, 232, 249, 0.12);
+}
+[data-theme="light"] .sidebar { background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(240, 249, 255, 0.86)); }
+.sidebar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 40% at 50% 0%, rgba(34, 211, 238, 0.08), transparent 60%);
+  pointer-events: none;
+}
+.nav-item { position: relative; overflow: hidden; }
+.nav-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(90% 90% at 50% 0%, var(--accent-soft), transparent 70%);
+  opacity: 0; transition: opacity 0.25s;
+  pointer-events: none;
+}
+.nav-item:hover::after { opacity: 0.6; }
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), rgba(45, 212, 191, 0.10) 60%, transparent);
+  box-shadow: inset 0 0 26px rgba(34, 211, 238, 0.10), 0 6px 20px rgba(8, 145, 178, 0.18);
+  border-color: rgba(103, 232, 249, 0.35);
+}
+.nav-item.active::after { opacity: 1; }
+.nav-item.active svg { filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7)); }
+
+/* ─────────── کارت‌ها: شیشه‌ی عمیق ─────────── */
+.card {
+  background: linear-gradient(160deg, var(--card), var(--card-2));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.card:hover { border-color: var(--ring); box-shadow: 0 14px 40px rgba(8, 47, 73, 0.22), inset 0 1px 0 rgba(255,255,255,0.05); }
+.card-head h3::before {
+  content: '';
+  display: inline-block;
+  width: 4px; height: 16px;
+  border-radius: 4px;
+  background: var(--accent-grad);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+}
+
+/* ─────────── کارت‌های آمار: کریستالی ─────────── */
+.stat-card { position: relative; overflow: hidden; }
+.stat-card::before {
+  content: '';
+  position: absolute; inset-inline: 0; top: 0; height: 3px;
+  background: var(--accent-grad);
+  opacity: 0.75;
+  transition: opacity 0.25s;
+}
+.stat-card::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -40%; top: -60%;
+  width: 70%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--glow-c, rgba(34, 211, 238, 0.14));
+  filter: blur(34px);
+  transition: transform 0.4s ease;
+}
+.stat-card:hover { transform: translateY(-6px) scale(1.01); border-color: var(--ring); }
+.stat-card:hover::before { opacity: 1; }
+.stat-card:hover::after { transform: scale(1.35); }
+.stat-ico {
+  position: relative;
+  box-shadow: 0 8px 20px rgba(8, 145, 178, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: icoBob 5s ease-in-out infinite;
+}
+@keyframes icoBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.stat-value {
+  background: linear-gradient(120deg, var(--text) 20%, var(--accent) 90%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(34, 211, 238, 0.12));
+}
+.stat-spark polyline {
+  stroke: url(#spark-grad);
+  stroke-width: 2.4;
+  stroke-dasharray: 220; stroke-dashoffset: 220;
+  animation: sparkDraw 1.4s ease forwards;
+  filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.6));
+}
+@keyframes sparkDraw { to { stroke-dashoffset: 0; } }
+
+/* ─────────── چارت: رشد زنده ─────────── */
+.chart-box { position: relative; }
+.chart-box svg { overflow: visible; }
+.bar { transform-box: fill-box; transform-origin: bottom; animation: barGrow 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.1) both; }
+@keyframes barGrow { from { transform: scaleY(0); opacity: 0.35; } to { transform: scaleY(1); opacity: 1; } }
+.bar-g { cursor: default; }
+.bar-g:hover .bar { fill: url(#cg) !important; filter: brightness(1.35) drop-shadow(0 0 8px rgba(34, 211, 238, 0.6)); }
+.bar-g:hover .bar-lbl { fill: var(--text); }
+.bar-g:hover .bar-dot { r: 5; }
+.chart-line {
+  stroke-dasharray: 900; stroke-dashoffset: 900;
+  animation: lineDraw 2.2s ease 0.35s forwards;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.55));
+}
+@keyframes lineDraw { to { stroke-dashoffset: 0; } }
+.chart-area { opacity: 0; animation: areaFade 1.4s ease 0.6s forwards; }
+@keyframes areaFade { to { opacity: 1; } }
+.bar-dot { animation: dotPulse 2.4s ease-in-out infinite; }
+.bar-dot.hot { animation: dotPulse 1.6s ease-in-out infinite; }
+@keyframes dotPulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(34, 211, 238, 0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.8)); }
+}
+.grid-line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
+
+/* ─────────── کارت‌های کاربر ─────────── */
+.user-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, var(--card), var(--card-2));
+  border: 1px solid var(--line);
+}
+.user-card::before {
+  content: '';
+  position: absolute; inset-inline: 0; top: 0; height: 2.5px;
+  background: var(--accent-grad);
+  opacity: 0.5; transition: opacity 0.25s, height 0.25s;
+}
+.user-card:hover { transform: translateY(-5px); border-color: var(--ring); box-shadow: 0 18px 44px rgba(8, 47, 73, 0.3); }
+.user-card:hover::before { opacity: 1; height: 3.5px; }
+.user-card::after {
+  content: '';
+  position: absolute; inset-inline-start: -40%; top: -70%;
+  width: 80%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.10), transparent 70%);
+  filter: blur(26px);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+.user-card:hover::after { transform: translateX(14%) scale(1.2); }
+.mini-avatar {
+  position: relative;
+  box-shadow: 0 6px 16px rgba(8, 145, 178, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.mini-avatar::after {
+  content: '';
+  position: absolute; inset: 1.5px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 55%);
+  pointer-events: none;
+}
+.status-pill { position: relative; display: inline-flex; align-items: center; gap: 5px; }
+.status-pill::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+.st-active::before { animation: dotBlink 1.8s ease-in-out infinite; }
+@keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.st-expired::before { animation: dotBlink 3s ease-in-out infinite; }
+
+/* نوار پیشرفت کوتا */
+.progress { position: relative; overflow: hidden; }
+.progress i, .progress-bar, [class*="progress"] i {
+  background: var(--accent-grad) !important;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  transition: width 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+.progress::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.45) 50%, transparent 80%);
+  transform: translateX(-100%);
+  animation: progShine 2.6s ease infinite;
+  pointer-events: none;
+}
+@keyframes progShine { 60%, 100% { transform: translateX(100%); } }
+
+/* ─────────── چیپ‌ها و جستجو ─────────── */
+.chip-btn { position: relative; transition: all 0.22s ease; }
+.chip-btn.active {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(45, 212, 191, 0.12));
+  border-color: rgba(103, 232, 249, 0.5);
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.2);
+  color: var(--accent);
+}
+.search-box { transition: box-shadow 0.25s, border-color 0.25s; }
+.search-box:focus-within { box-shadow: 0 0 0 4px var(--ring), 0 8px 24px rgba(8, 145, 178, 0.15); }
+
+/* ─────────── هیرو: درخشش زنده ─────────── */
+.dash-hero {
+  background:
+    linear-gradient(135deg, rgba(11, 35, 64, 0.88), rgba(8, 47, 73, 0.80) 55%, rgba(10, 32, 60, 0.88)),
+    radial-gradient(60% 120% at 20% 0%, rgba(34, 211, 238, 0.16), transparent 55%);
+  box-shadow: 0 18px 50px rgba(8, 47, 73, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 0 60px rgba(34, 211, 238, 0.05);
+}
+.hero-title {
+  background: linear-gradient(120deg, #e8f6ff 30%, #67e8f9 70%, #2dd4bf 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(34, 211, 238, 0.25));
+}
+.hero-clock {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(103, 232, 249, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 30px rgba(8, 47, 73, 0.35);
+  backdrop-filter: blur(10px);
+}
+.clock-time { text-shadow: 0 0 16px rgba(34, 211, 238, 0.55); }
+
+/* ─────────── اسکرول‌بار و انتخاب ─────────── */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.35), rgba(45, 212, 191, 0.25));
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(34, 211, 238, 0.6), rgba(45, 212, 191, 0.45)); background-clip: padding-box; }
+::selection { background: rgba(34, 211, 238, 0.35); color: var(--text); }
+
+/* ─────────── مودال‌ها ─────────── */
+.modal-box { backdrop-filter: blur(26px); box-shadow: 0 30px 80px rgba(4, 10, 20, 0.5), inset 0 1px 0 rgba(255,255,255,0.06); }
+.modal-enter { animation: modalPop 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.15) both; }
+@keyframes modalPop { from { opacity: 0; transform: scale(0.94) translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ─────────── موبایل ─────────── */
+@media (max-width: 900px) {
+  .bg-orb.o2 { left: 78%; top: 8%; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+@media (max-width: 560px) {
+  .bg-grid { background-size: 34px 34px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card .stat-sub { font-size: 10.5px; }
+}

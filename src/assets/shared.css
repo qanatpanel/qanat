@@ -263,3 +263,56 @@ select { cursor: pointer; }
 .ghost-btn:hover { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
 .ghost-btn svg { width: 15px; height: 15px; }
 .ghost-btn.danger:hover { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
+
+/* ─────────── پس‌زمینه‌ی زنده‌ی کل پنل ─────────── */
+.panel-body { position: relative; }
+.bg-fx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(103, 232, 249, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.035) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 78%);
+  animation: gridDrift 26s linear infinite;
+}
+@keyframes gridDrift { from { background-position: 0 0, 0 0; } to { background-position: 46px 46px, 46px 46px; } }
+.bg-sheen {
+  position: absolute; inset: -30%;
+  background:
+    radial-gradient(42% 34% at 18% 12%, var(--bg-grad-1), transparent 60%),
+    radial-gradient(38% 32% at 82% 18%, var(--bg-grad-2), transparent 62%),
+    radial-gradient(40% 36% at 55% 92%, var(--bg-grad-3), transparent 65%);
+  filter: blur(36px);
+  animation: sheenDrift 24s ease-in-out infinite alternate;
+}
+@keyframes sheenDrift {
+  0% { transform: translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
+  50% { transform: translate3d(2%, 2%, 0) rotate(2deg) scale(1.05); }
+  100% { transform: translate3d(-1%, 2%, 0) rotate(-2deg) scale(1.02); }
+}
+.bg-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(10px);
+  opacity: 0.5;
+  animation: orbFloat 16s ease-in-out infinite;
+}
+.bg-orb::after {
+  content: '';
+  position: absolute; inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.85), transparent 55%);
+  opacity: 0.5;
+}
+.bg-orb.o1 { width: 9px; height: 9px; left: 12%; top: 22%; background: #22d3ee; box-shadow: 0 0 18px 4px rgba(34, 211, 238, 0.55); animation-duration: 13s; }
+.bg-orb.o2 { width: 6px; height: 6px; left: 68%; top: 14%; background: #67e8f9; box-shadow: 0 0 14px 3px rgba(103, 232, 249, 0.5); animation-duration: 19s; animation-delay: -6s; }
+.bg-orb.o3 { width: 12px; height: 12px; left: 84%; top: 58%; background: #2dd4bf; box-shadow: 0 0 22px 5px rgba(45, 212, 191, 0.5); animation-duration: 15s; animation-delay: -11s; }
+.bg-orb.o4 { width: 5px; height: 5px; left: 38%; top: 76%; background: #a78bfa; box-shadow: 0 0 12px 3px rgba(167, 139, 250, 0.5); animation-duration: 21s; animation-delay: -3s; }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0); opacity: 0.45; }
+  25% { transform: translate(30px, -22px); opacity: 0.8; }
+  50% { transform: translate(-18px, -40px); opacity: 0.55; }
+  75% { transform: translate(-34px, 14px); opacity: 0.75; }
+}
+

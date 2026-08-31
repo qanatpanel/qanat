@@ -416,6 +416,34 @@
         '</div>';
     }).join('');
 
+    // شمارش انیمیشنی اعداد کارت‌های آمار (count-up)
+    document.querySelectorAll('#stat-cards .stat-value').forEach(function (el) {
+      var faMap = { '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9' };
+      function enDigits(s) { return s.replace(/[۰-۹]/g, function (d) { return faMap[d]; }); }
+      function faDigits(s) { return s.replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); }
+      var raw = enDigits(el.textContent.trim());
+      var m = raw.match(/^([\d]+(?:[.,]\d+)?)\s*(.*)$/);
+      if (!m) return;
+      var target = parseFloat(m[1].replace(/,/g, ''));
+      if (isNaN(target)) return;
+      var unit = m[2];
+      var intOnly = m[1].indexOf('.') === -1 && m[1].indexOf(',') === -1;
+      var dur = 950, t0 = null;
+      function fmt(v) {
+        var s = intOnly ? String(Math.round(v)) : v.toFixed(1);
+        if (lang === 'fa') s = faDigits(s);
+        return s + (unit ? ' ' + unit : '');
+      }
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * eased);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+
     renderChart(u.daily || []);
     renderTopUsers(stats.topUsers || []);
     renderInfoList(stats.panel);
