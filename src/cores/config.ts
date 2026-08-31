@@ -89,10 +89,27 @@ export function buildUris(b: BuildInput): string[] {
   return uris;
 }
 
-/** اشتراک متنی (base64) — سازگار با کلاینت‌ها */
+/** UTF-8 → base64 (برای متن‌های فارسی در کامنت‌های اشتراک) */
+export function utf8ToB64(s: string): string {
+  const bytes = new TextEncoder().encode(s);
+  let bin = '';
+  bytes.forEach((x) => (bin += String.fromCharCode(x)));
+  return btoa(bin);
+}
+
+/**
+ * اشتراک متنی (base64) — سازگار با کلاینت‌ها
+ * با کامنت‌های profile-title / subscription-userinfo تا اپ‌ها
+ * (Hiddify, v2rayNG, V2Box, Happ, …) مصرف و انقضا را خودکار نشان دهند.
+ */
 export function buildBase64Sub(b: BuildInput): string {
   const uris = buildUris(b);
-  return btoa(uris.join('\n'));
+  const header = [
+    `#profile-title: base64:${utf8ToB64(`قنات — ${b.user.username}`)}`,
+    '#profile-update-interval: 12',
+    `#subscription-userinfo: upload=0; download=${Math.round(b.user.usedGb * 1073741824)}; total=${b.user.quotaGb > 0 ? Math.round(b.user.quotaGb * 1073741824) : 0}; expire=${b.user.expiry > 0 ? Math.floor(b.user.expiry / 1000) : 0}`,
+  ].join('\n');
+  return btoa(header + '\n' + uris.join('\n'));
 }
 
 /* ─────────────── Clash / Mihomo YAML ─────────────── */

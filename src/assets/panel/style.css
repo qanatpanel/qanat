@@ -888,6 +888,16 @@
 .qr-img-wrap img { width: 100%; height: 100%; image-rendering: pixelated; border-radius: 12px; }
 .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .qr-actions .ghost-btn.wide { grid-column: 1 / -1; justify-content: center; }
+.qr-apps { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.qr-apps-title { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 8px; text-align: center; }
+.qr-apps-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.qr-app { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--card2); color: var(--text); font-family: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; transition: .2s; }
+.qr-app:hover { border-color: var(--accent); transform: translateY(-2px); }
+.qa-ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 15px; font-weight: 900; color: #fff; font-style: normal; box-shadow: 0 6px 14px -4px rgba(0,0,0,.45); }
+.qa-ico.gh { background: linear-gradient(135deg,#38bdf8,#1d4ed8); }
+.qa-ico.gv { background: linear-gradient(135deg,#334155,#0b1220); color: #fbbf24; }
+.qa-ico.gb { background: linear-gradient(135deg,#a78bfa,#6d28d9); }
+.qa-ico.gp { background: linear-gradient(135deg,#2dd4bf,#0f766e); }
 
 /* ─────────── توست ─────────── */
 .toast {

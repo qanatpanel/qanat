@@ -54,6 +54,7 @@
       noSubs: 'کاربری وجود ندارد — اول کاربر بسازید.',
       copyUri: 'کپی', openSubPage: 'صفحه‌ی اشتراک', txtSub: 'اشتراک متنی', clashSub: 'Clash', singboxSub: 'sing-box',
       copyVless: 'کپی VLESS', copyTrojan: 'کپی Trojan', copySubLink: 'کپی لینک اشتراک', copySubTxt: 'کپی اشتراک متنی',
+      qrAppsTitle: 'نصب سریع — اشتراک مستقیم در اپ (همین دستگاه)', appHiddify: 'Hiddify', appV2rayng: 'v2rayNG', appV2box: 'V2Box', appHapp: 'Happ',
       qrLoading: 'در حال آماده‌سازی…',
       secTitle: 'امنیت', securePathLabel: 'مسیر مخفی پنل', regenerate: 'بازسازی',
       securePathHint: 'بعد از بازسازی، آدرس پنل عوض می‌شود. لینک جدید را ذخیره کنید.',
@@ -142,6 +143,7 @@
       noSubs: 'No users yet — create one first.',
       copyUri: 'Copy', openSubPage: 'Subscription page', txtSub: 'Text sub', clashSub: 'Clash', singboxSub: 'sing-box',
       copyVless: 'Copy VLESS', copyTrojan: 'Copy Trojan', copySubLink: 'Copy subscription link', copySubTxt: 'Copy text subscription',
+      qrAppsTitle: 'Quick install — opens the sub directly in the app (this device)', appHiddify: 'Hiddify', appV2rayng: 'v2rayNG', appV2box: 'V2Box', appHapp: 'Happ',
       qrLoading: 'Preparing…',
       secTitle: 'Security', securePathLabel: 'Panel secret path', regenerate: 'Regenerate',
       securePathHint: 'After regeneration the panel URL changes. Save the new link.',
@@ -694,6 +696,19 @@
     if (kind === 'trojan') copyText(qrItem.trojan);
     if (kind === 'sub') copyText(qrItem.subUrl);
     if (kind === 'subtxt') copyText(qrItem.subTxt);
+  });
+  // نصب سریع در اپ — deep link با لینک اشتراک
+  $('qr-modal').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-app-link]');
+    if (!btn || !qrItem || !qrItem.subTxt) return;
+    var kind = btn.getAttribute('data-app-link');
+    var sub = qrItem.subTxt;
+    var link =
+      kind === 'hiddify' ? 'hiddify://install-sub?url=' + encodeURIComponent(sub)
+      : kind === 'v2rayng' ? 'v2rayng://install-config?url=' + btoa(sub)
+      : kind === 'v2box' ? 'v2box://install-sub?url=' + encodeURIComponent(sub) + '&name=' + encodeURIComponent(qrItem.username)
+      : 'happ://install-config?url=' + btoa(sub);
+    window.open(link, '_self');
   });
 
   /* ═══════════ اشتراک‌ها ═══════════ */
