@@ -3,7 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="README.md"><img src="https://img.shields.io/badge/زبان-فارسی-22d3ee?style=flat-square" alt="فارسی"/></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/زبان-فارسی-22d3ee?style=flat-square" alt="فارسی"/>
+  <img src="https://img.shields.io/github/v/release/qanatpanel/qanat?style=flat-square&color=22d3ee" alt="Release v1.0.0"/></a>
   <img src="https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
   <img src="https://img.shields.io/badge/Cloudflare%20Workers-deploy--ready-f6821f?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Workers"/>
   <img src="https://img.shields.io/badge/D1-SQLite%20at%20the%20Edge-22d3ee?style=flat-square" alt="D1"/>
