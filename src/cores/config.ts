@@ -24,8 +24,12 @@ function effectiveServer(b: BuildInput): string {
   return b.serverHost || effectiveHost(b);
 }
 
-function wsPath(p: ProxySettings): string {
-  return `/${p.proxyPath}`;
+/**
+ * مسیر WebSocket: روت پروکسی worker به شکل `/{proxyPath}/{uuid|password}` است
+ * (شناسه‌ی کاربر در مسیر — الگوی BPB) — کانفیگ باید همین مسیر را داشته باشد
+ */
+function wsPath(p: ProxySettings, identifier: string): string {
+  return `/${p.proxyPath}/${identifier}`;
 }
 
 function port(p: ProxySettings): number {
@@ -48,11 +52,11 @@ export function buildVlessUri(b: BuildInput): string {
     `security=${security}`,
     'type=ws',
     `host=${encodeURIComponent(host)}`,
-    `path=${encodeURIComponent(wsPath(b.proxy))}`,
+    `path=${encodeURIComponent(wsPath(b.proxy, b.user.uuid))}`,
   ];
   if (b.proxy.tls) params.push(`sni=${encodeURIComponent(b.proxy.sni || host)}`);
   if (b.proxy.tls) params.push('fp=chrome');
-  if (b.proxy.tls) params.push('alpn=h2,http/1.1');
+  if (b.proxy.tls) params.push('alpn=http/1.1');
   return `vless://${b.user.uuid}@${server}:${p}?${params.join('&')}#${encodeURIComponent(name(b, server !== host ? ' ✈️' : ''))}`;
 }
 
@@ -65,12 +69,12 @@ export function buildTrojanUri(b: BuildInput): string {
     `security=${security}`,
     'type=ws',
     `host=${encodeURIComponent(host)}`,
-    `path=${encodeURIComponent(wsPath(b.proxy))}`,
   ];
+  const pass = b.user.trojanPassword ?? b.user.uuid.replace(/-/g, '').slice(0, 56);
+  params.push(`path=${encodeURIComponent(wsPath(b.proxy, pass))}`);
   if (b.proxy.tls) params.push(`sni=${encodeURIComponent(b.proxy.sni || host)}`);
   if (b.proxy.tls) params.push('fp=chrome');
-  if (b.proxy.tls) params.push('alpn=h2,http/1.1');
-  const pass = b.user.trojanPassword ?? b.user.uuid.replace(/-/g, '').slice(0, 56);
+  if (b.proxy.tls) params.push('alpn=http/1.1');
   return `trojan://${pass}@${server}:${p}?${params.join('&')}#${encodeURIComponent(name(b, ' (Trojan)'))}`;
 }
 
@@ -101,13 +105,13 @@ export function buildClashConfig(b: BuildInput): string {
   const proxyList: string[] = [];
   if (vless) {
     proxyList.push(
-      `      - name: "${name(b)}"\n        type: vless\n        server: ${server}\n        port: ${p}\n        uuid: ${b.user.uuid}\n        network: ws\n        udp: true\n        tls: ${b.proxy.tls}\n        servername: ${b.proxy.sni || host}\n        client-fingerprint: chrome\n        ws-opts:\n          path: "${wsPath(b.proxy)}"\n          headers:\n            Host: ${host}`,
+      `      - name: "${name(b)}"\n        type: vless\n        server: ${server}\n        port: ${p}\n        uuid: ${b.user.uuid}\n        network: ws\n        udp: true\n        tls: ${b.proxy.tls}\n        servername: ${b.proxy.sni || host}\n        client-fingerprint: chrome\n        alpn: [http/1.1]\n        ws-opts:\n          path: "${wsPath(b.proxy, b.user.uuid)}"\n          headers:\n            Host: ${host}`,
     );
   }
   if (trojan) {
     const pass = b.user.trojanPassword ?? b.user.uuid.replace(/-/g, '').slice(0, 56);
     proxyList.push(
-      `      - name: "${name(b, ' (Trojan)')}"\n        type: trojan\n        server: ${server}\n        port: ${p}\n        password: "${pass}"\n        network: ws\n        udp: true\n        tls: ${b.proxy.tls}\n        sni: ${b.proxy.sni || host}\n        client-fingerprint: chrome\n        ws-opts:\n          path: "${wsPath(b.proxy)}"\n          headers:\n            Host: ${host}`,
+      `      - name: "${name(b, ' (Trojan)')}"\n        type: trojan\n        server: ${server}\n        port: ${p}\n        password: "${pass}"\n        network: ws\n        udp: true\n        tls: ${b.proxy.tls}\n        sni: ${b.proxy.sni || host}\n        client-fingerprint: chrome\n        alpn: [http/1.1]\n        ws-opts:\n          path: "${wsPath(b.proxy, pass)}"\n          headers:\n            Host: ${host}`,
     );
   }
 
@@ -140,9 +144,9 @@ export function buildSingboxConfig(b: BuildInput): string {
       server_port: p,
       uuid: b.user.uuid,
       tls: b.proxy.tls
-        ? { enabled: true, server_name: b.proxy.sni || host, utls: { enabled: true, fingerprint: 'chrome' } }
+        ? { enabled: true, server_name: b.proxy.sni || host, alpn: ['http/1.1'], utls: { enabled: true, fingerprint: 'chrome' } }
         : undefined,
-      transport: { type: 'ws', path: wsPath(b.proxy), headers: { Host: host } },
+      transport: { type: 'ws', path: wsPath(b.proxy, b.user.uuid), headers: { Host: host } },
     });
   }
   if (trojan) {
@@ -154,9 +158,9 @@ export function buildSingboxConfig(b: BuildInput): string {
       server_port: p,
       password: pass,
       tls: b.proxy.tls
-        ? { enabled: true, server_name: b.proxy.sni || host, utls: { enabled: true, fingerprint: 'chrome' } }
+        ? { enabled: true, server_name: b.proxy.sni || host, alpn: ['http/1.1'], utls: { enabled: true, fingerprint: 'chrome' } }
         : undefined,
-      transport: { type: 'ws', path: wsPath(b.proxy), headers: { Host: host } },
+      transport: { type: 'ws', path: wsPath(b.proxy, pass), headers: { Host: host } },
     });
   }
 

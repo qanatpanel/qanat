@@ -87,8 +87,9 @@ const TEXT_DECODER = new TextDecoder();
 /* ─────────────── VLESS ─────────────── */
 
 export function parseVlessHeader(data: Uint8Array): VlessHeader | null {
-  // حداقل: ver(1) + uuid(16) + addonLen(1) + req(1+2) + cmd(1)+rsv(1)+atype(1) + addr min 1 + port(2)
-  if (data.length < 26) return null;
+  // استاندارد رسمی VLESS (xray/v2rayNG/Hiddify):
+  //   ver(1)=0 | uuid(16) | addonLen(1) | [addons] | cmd(1) | port(2 BE) | atype(1) | addr | payload
+  if (data.length < 22) return null;
 
   let p = 0;
   const version = data[p++]!;
@@ -100,26 +101,19 @@ export function parseVlessHeader(data: Uint8Array): VlessHeader | null {
   const addonLen = data[p++]!;
   p += addonLen;
 
-  if (p + 3 > data.length) return null;
-  p++; // version req
-  const reqLen = (data[p]! << 8) | data[p + 1]!;
-  p += 2;
-  if (p + reqLen > data.length) return null;
-  const reqEnd = p + reqLen;
-
+  if (p + 3 > data.length) return null; // cmd + port(2) + atype
   const command = data[p++] === 2 ? ('udp' as const) : ('tcp' as const);
-  p++; // reserved
-
-  const addr = parseAddress(data, p, TEXT_DECODER);
-  if (!addr) return null;
-  p = addr.next;
-  if (p + 2 > reqEnd) return null;
   const port = (data[p]! << 8) | data[p + 1]!;
   p += 2;
 
+  const atype = data[p]!;
+  const addr = parseAddress(data, p, TEXT_DECODER);
+  if (!addr) return null;
+  p = addr.next;
+
   return {
     uuid,
-    target: { command, host: addr.host, port, hostType: data[2 + 16 + addonLen + 3] ?? 0 },
+    target: { command, host: addr.host, port, hostType: atype },
     responseHeader: new Uint8Array([0, 0]),
     bodyOffset: p,
   };
@@ -178,26 +172,22 @@ export function buildVlessHeader(uuid: string, host: string, port: number, comma
   const uuidBytes = uuidToBytes(uuid)!;
   const hostBytes = new TextEncoder().encode(host);
 
-  const body = new Uint8Array(1 + 1 + 1 + 1 + hostBytes.length + 2);
+  // استاندارد: ver | uuid | addonLen | cmd | port(2) | atype | addr
+  const body = new Uint8Array(1 + 2 + 1 + 1 + hostBytes.length);
   let p = 0;
   body[p++] = command === 'udp' ? 2 : 1;
-  body[p++] = 0; // reserved
+  body[p++] = (port >> 8) & 0xff;
+  body[p++] = port & 0xff;
   body[p++] = 2; // atype: domain
   body[p++] = hostBytes.length;
   body.set(hostBytes, p);
-  p += hostBytes.length;
-  body[p++] = (port >> 8) & 0xff;
-  body[p++] = port & 0xff;
 
-  const header = new Uint8Array(1 + 16 + 1 + 3 + body.length);
+  const header = new Uint8Array(1 + 16 + 1 + body.length);
   p = 0;
   header[p++] = 0; // version
   header.set(uuidBytes, p);
   p += 16;
   header[p++] = 0; // addonLen
-  header[p++] = 0; // req version
-  header[p++] = (body.length >> 8) & 0xff;
-  header[p++] = body.length & 0xff;
   header.set(body, p);
 
   return header;

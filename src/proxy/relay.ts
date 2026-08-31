@@ -119,7 +119,7 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
 
     if (isVless) {
       // اگر هدر ناقص بود یک فریم دیگر بگیر
-      if (handshake.length < 26) {
+      if (handshake.length < 22) {
         const second = await reader.read();
         if (second.done) return closeWs(ws);
         handshake = concat(handshake, second.value);
@@ -205,6 +205,7 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
         while (true) {
           const { value, done } = await tcpReader.read();
           if (done) break;
+          if (!value) continue;
           bytesDown += value.length;
           await writer.write(value);
         }
@@ -216,8 +217,7 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
     // ─── ۴) پایان اتصال ───
     try {
       await Promise.race([upstream, downstream]);
-    } catch {
-      /* خطا → بستن */
+    } catch (e: any) {
     } finally {
       closeTcp(remoteSocket);
       try {
@@ -235,7 +235,7 @@ export async function handleProxyWs(ws: WebSocket, identifier: string, env: Env,
         }
       }
     }
-  } catch {
+  } catch (e: any) {
     closeTcp(remoteSocket);
     closeWs(ws);
   }

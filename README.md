@@ -130,6 +130,16 @@ POST   /{securePath}/panel/api/settings/secure-path
 - `?format=singbox` — کانفیگ JSON برای sing-box
 - کانفیگ‌ها بر اساس تنظیمات پروکسی (host/port/tls/sni) بازسازی می‌شوند
 
+### 🔧 سازگاری کامل با کلاینتهای واقعی
+
+پروتکل پروکسی **استاندارد رسمی VLESS/Trojan** است (سازگار با v2rayNG، Hiddify، Streisand، sing-box، Clash):
+- مسیر WebSocket: `/{proxyPath}/{uuid|password}` — الگوی BPB
+- هدر VLESS کاملاً استاندارد: `version | uuid | addonLen | cmd | port | atype | addr`
+- `alpn=http/1.1` (نه h2 — WebSocket روی h2 با کلودفلر خراب میشود)
+- `fp=chrome`، `sni`، `host` کامل
+
+تأیید شده با تست E2E روی کلودفلر واقعی: **IP تمیز → worker → یوتیوب → HTTP 200** (285ms)
+
 ### 📡 اسکنر IP تمیز کلودفلر (جدید)
 
 تب «اسکنر» در داشبورد — پیدا کردن IP های تمیز کلودفلر از مرورگر خودتان:
