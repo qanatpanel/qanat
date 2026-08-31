@@ -30,7 +30,9 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
       const url = new URL(request.url);
-      const { pathname } = url;
+      let { pathname } = url;
+      // نرمال‌سازی اسلش انتهایی (به‌جز ریشه): '/panel/' == '/panel'
+      if (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
 
       // پروب سلامت — بدون نیاز به دیتابیس
       if (pathname === '/healthz') {
@@ -63,7 +65,7 @@ export default {
       const prefix = `/${settings.securePath}`;
       let route = pathname;
       const lowerPath = pathname.toLowerCase();
-      if (lowerPath === '/qanat') {
+      if (lowerPath === '/qanat' || lowerPath === '/qanat/') {
         if (!settings.installed) return new Response(null, { status: 302, headers: { location: '/install' } });
         route = `${prefix}/panel`;
       } else if (lowerPath.startsWith('/qanat/')) {
@@ -72,7 +74,10 @@ export default {
       }
 
       // ─── مسیرهای امن پنل ───
-      if (route === prefix || route.startsWith(prefix + '/')) {
+      if (route === prefix || route === prefix + '/') {
+        return new Response(null, { status: 302, headers: { location: `${prefix}/panel` } });
+      }
+      if (route.startsWith(prefix + '/')) {
         const rest = route.slice(prefix.length) || '/';
 
         if (rest === '/login') return handleLogin(request, env, settings);
