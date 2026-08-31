@@ -264,6 +264,11 @@
     theme = theme === 'dark' ? 'light' : 'dark';
     store.setItem('panel_theme', theme);
     applyTheme();
+    var h = document.documentElement;
+    h.classList.remove('theme-flash');
+    void h.offsetWidth; // ری‌استارت انیمیشن
+    h.classList.add('theme-flash');
+    setTimeout(function () { h.classList.remove('theme-flash'); }, 600);
   });
 
   /* ═══════════ ناوبری ═══════════ */

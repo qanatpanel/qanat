@@ -10,7 +10,7 @@ export function json(data: unknown, status = 200): Response {
   });
 }
 
-const HTML_HEADERS: Record<string, string> = {
+export const HTML_HEADERS: Record<string, string> = {
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
   'cache-control': 'no-store, no-cache, must-revalidate',
@@ -21,9 +21,7 @@ const HTML_HEADERS: Record<string, string> = {
     "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' wss: ws:;",
 };
 
-export function htmlPage(content: string, status = 200): Response {
-  return new Response(content, { status, headers: HTML_HEADERS });
-}
+export { htmlPage } from './bgfx';
 
 export function redirect(location: string): Response {
   return new Response(null, { status: 302, headers: { location } });

@@ -18,8 +18,35 @@ const OUT_FILE = join(OUT_DIR, 'assets.ts');
 
 const watch = process.argv.includes('--watch');
 
+/** بازتولید handlers/bgfx.ts از assets/bgfx.js (بک‌گراند کانواس) */
+function rebuildBgfx() {
+  const srcPath = join(ASSETS_DIR, 'bgfx.js');
+  const outPath = join(ROOT, 'src/handlers/bgfx.ts');
+  if (!existsSync(srcPath)) return;
+  const js = readFileSync(srcPath, 'utf8');
+  const escaped = js.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+  const ts = `/**
+ * بک‌گراند زندهٔ قنات (Canvas) — در همهٔ صفحات تزریق می‌شود (لاگین/نصب/پنل)
+ * ⚠️ این فایل خودکار از assets/bgfx.js ساخته می‌شود — آن را ویرایش کن، بعد build کن.
+ */
+import { HTML_HEADERS } from './utils';
+
+const BG_FX_SCRIPT = \`${escaped}\`;
+
+export function htmlPage(content: string, status = 200): Response {
+  const inject = \`<script>\${BG_FX_SCRIPT}</script>\`;
+  const out = content.includes('</body>')
+    ? content.replace('</body>', inject + '</body>')
+    : content + inject;
+  return new Response(out, { status, headers: HTML_HEADERS });
+}
+`;
+  writeFileSync(outPath, ts);
+}
+
 /** پردازش assets → ماژول TS */
 async function buildAssets() {
+  rebuildBgfx();
   const sharedCssPath = join(ASSETS_DIR, 'shared.css');
   const sharedCss = existsSync(sharedCssPath) ? readFileSync(sharedCssPath, 'utf8') : '';
 

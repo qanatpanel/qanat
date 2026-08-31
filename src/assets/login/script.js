@@ -69,6 +69,11 @@
     localStorage.setItem('panel_lang', lang);
   });
   document.getElementById('theme-btn').addEventListener('click', function () {
+    var h = document.documentElement;
+    h.classList.remove('theme-flash');
+    void h.offsetWidth;
+    h.classList.add('theme-flash');
+    setTimeout(function () { h.classList.remove('theme-flash'); }, 600);
     applyTheme(theme === 'dark' ? 'light' : 'dark');
     localStorage.setItem('panel_theme', theme);
   });

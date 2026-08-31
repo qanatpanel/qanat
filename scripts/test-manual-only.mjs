@@ -1,0 +1,17 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto('https://qanat-e2e-up.amirhesamfathalian7.workers.dev/Qanat', { waitUntil: 'networkidle' });
+await page.waitForSelector('#login-form', { timeout: 15000 });
+await page.fill('#password', 'TestPass1234!');
+await Promise.all([page.waitForURL((u) => u.pathname === '/Qanat', { timeout: 20000 }), page.click('#submit')]);
+await page.waitForSelector('.sidebar', { timeout: 20000 });
+await page.click('[data-view="scanner"]');
+await page.click('[data-stab="manual"]');
+await page.fill('#relay-ips', '8.8.8.8\n9.9.9.9');
+await page.click('#relay-start');
+await page.waitForTimeout(20000);
+const rows = await page.locator('#relay-tbody tr').count();
+console.log('manual rows:', rows);
+if (rows) console.log('first row:', (await page.locator('#relay-tbody tr').first().textContent()).slice(0, 120));
+await browser.close();

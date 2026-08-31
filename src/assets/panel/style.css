@@ -1446,3 +1446,112 @@
   .srow .sg { display: none; }
   .scan-status-actions { width: 100%; justify-content: flex-end; }
 }
+
+/* ═══════════ تم و گرافیک v3 — ارتقای بصری ═══════════ */
+
+/* کارت‌ها — هاور با درخشش و بلندشدن */
+.card {
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.card:hover {
+  border-color: var(--ring);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow), 0 0 34px rgba(34, 211, 238, 0.1);
+}
+.card:active { transform: translateY(0); }
+
+/* ناوبری — پیل گرادیانی + نقطهٔ فعال تپنده */
+.nav-item.active {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.18));
+  border-color: var(--ring);
+  box-shadow: 0 6px 22px rgba(34, 211, 238, 0.16), inset 0 0 24px rgba(34, 211, 238, 0.07);
+}
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 12px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px var(--accent);
+  transform: translateY(-50%);
+  animation: navDot 2.2s ease infinite;
+}
+@keyframes navDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.nav-item { transition: all 0.22s ease; }
+
+/* هیرو — تیتر گرادیانی متحرک */
+.hero-title {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradMove 9s linear infinite;
+}
+@keyframes gradMove { to { background-position: 300% 0; } }
+
+/* موج‌های پایین هیرو */
+.hero-waves {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 200%;
+  height: 52px;
+  pointer-events: none;
+  animation: waveSlide 12s linear infinite;
+}
+.hero-waves svg { width: 100%; height: 100%; display: block; }
+.hero-waves .w1 { fill: rgba(34, 211, 238, 0.12); }
+.hero-waves .w2 { fill: rgba(139, 92, 246, 0.09); }
+@keyframes waveSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ورود ویو — انیمیشن نرم‌تر */
+.view.active { animation: viewIn 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.05) both; }
+
+/* توست — شیشه‌ای با درخشش */
+.toast {
+  background: var(--card-solid);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ring);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 24px rgba(34, 211, 238, 0.12);
+}
+
+/* مودال — ورود با اسکیل */
+.modal-box { animation: modalIn 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.12) both; }
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+/* فلش تغییر تم */
+html.theme-flash::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(2, 8, 20, 0.6) 100%);
+  animation: flashOut 0.55s ease forwards;
+}
+@keyframes flashOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* اسکرول‌بار گرادیانی */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent-3));
+  border-radius: 99px;
+}
+
+/* هدر موبایل شیشه‌ای */
+.mobile-head {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: var(--card);
+}
