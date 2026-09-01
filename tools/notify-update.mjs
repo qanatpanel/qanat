@@ -43,15 +43,28 @@ if (!adminPass) {
 
 console.log(`📢 ارسال نوتیف نسخهٔ ${version} به همهٔ کاربران...`);
 
-const res = await fetch('https://qanat-bot.workers.dev/broadcast-update', {
-  method: 'POST',
-  headers: { 'content-type': 'application/json', 'x-admin-key': adminPass },
-  body: JSON.stringify({ version, note }),
-});
-const data = await res.json().catch(() => null);
-if (res.ok && data?.ok) {
-  console.log(`✅ نوتیف ارسال شد: ${data.sent} ارسال موفق / ${data.failed} ناموفق (از ${data.total})`);
-} else {
-  console.log(`❌ خطا (${res.status}):`, JSON.stringify(data).slice(0, 300));
-  process.exit(1);
+// چند هاست را امتحان کن: دامنهٔ سفارشی (مقاومتر) → workers.dev
+const hosts = [
+  'https://qanat-bot.amirhesamfathalian7.workers.dev',
+  'https://qanat-bot.workers.dev',
+];
+let lastErr = null;
+for (const host of hosts) {
+  try {
+    const res = await fetch(host + '/broadcast-update', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-admin-key': adminPass },
+      body: JSON.stringify({ version, note }),
+    });
+    const data = await res.json().catch(() => null);
+    if (res.ok && data?.ok) {
+      console.log(`✅ نوتیف ارسال شد: ${data.sent} ارسال موفق / ${data.failed} ناموفق (از ${data.total})`);
+      process.exit(0);
+    }
+    lastErr = `HTTP ${res.status}: ${JSON.stringify(data).slice(0, 200)}`;
+  } catch (e) {
+    lastErr = e.message;
+  }
 }
+console.log(`❌ خطا (${lastErr})`);
+process.exit(1);
