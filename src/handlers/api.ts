@@ -14,7 +14,7 @@ import type { Env } from '../types/global';
 import type { PanelSettings } from '../settings/main';
 import { verifySessionCookie } from '../auth/session';
 import { verifyPassword } from '../auth/password';
-import { createUser, listUsers, deleteUser, setUserActive, getUserByUsername, type User } from '../settings/users';
+import { createUser, listUsers, deleteUser, setUserActive, getUserByUsername, updateUserQuota, updateUserExpiry, updateUserNote, type User } from '../settings/users';
 import { regenerateSecurePath, setAdminPassword } from '../settings/main';
 import { getProxySettings, saveProxySettings, regenerateProxyPath, protocolsEnabled } from '../settings/proxy';
 import { getUserByUuid, getDailyUsage, getUsageTotal } from '../settings/users';
@@ -89,6 +89,31 @@ export async function handleUsersApi(request: Request, env: Env, settings: Panel
     } catch {
       return json({ ok: false, error: 'username_taken' }, 409);
     }
+  }
+
+  if (request.method === 'PATCH' && rest.length === 1) {
+    // ویرایش کاربر: کوتا / تمدید / یادداشت
+    const id = Number(rest[0]);
+    if (!Number.isInteger(id)) return json({ ok: false, error: 'bad_request' }, 400);
+    const body = await readJson(request);
+    const patch: Partial<User> = {};
+    if (typeof body.quotaGb === 'number' && Number.isFinite(body.quotaGb) && body.quotaGb >= 0) {
+      patch.quotaGb = body.quotaGb;
+      await updateUserQuota(env, id, body.quotaGb);
+    }
+    if (typeof body.expiryDays === 'number' && Number.isFinite(body.expiryDays) && body.expiryDays >= 0) {
+      const expiry = Math.floor(body.expiryDays) > 0 ? now + Math.floor(body.expiryDays) * 86400000 : 0;
+      patch.expiry = expiry;
+      await updateUserExpiry(env, id, expiry);
+    }
+    if (typeof body.note === 'string' && body.note.length <= 200) {
+      patch.note = body.note;
+      await updateUserNote(env, id, body.note);
+    }
+    const users = await listUsers(env);
+    const u = users.find((x) => x.id === id);
+    if (!u) return json({ ok: false, error: 'not_found' }, 404);
+    return json({ ok: true, user: serializeUser({ ...u, ...patch }, now) });
   }
 
   if (request.method === 'POST' && rest.length === 2 && rest[1] === 'toggle') {

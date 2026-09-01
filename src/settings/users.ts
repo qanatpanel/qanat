@@ -183,3 +183,11 @@ export async function applyAutoResets(env: Env): Promise<number> {
     .run();
   return Number(result.meta.changes);
 }
+
+export async function updateUserExpiry(env: Env, id: number, expiry: number): Promise<void> {
+  await env.DB.prepare('UPDATE users SET expiry = ? WHERE id = ?').bind(expiry, id).run();
+}
+
+export async function updateUserNote(env: Env, id: number, note: string): Promise<void> {
+  await env.DB.prepare('UPDATE users SET note = ? WHERE id = ?').bind(note, id).run();
+}

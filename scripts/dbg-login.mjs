@@ -1,14 +1,20 @@
 import { chromium } from 'playwright';
-const browser = await chromium.launch();
-const page = await browser.newPage();
-await page.goto('https://qanat-e2e-up.amirhesamfathalian7.workers.dev/Qanat', { waitUntil: 'networkidle' });
-console.log('URL0:', page.url());
-await page.fill('#password', 'TestPass1234!');
-await Promise.all([
-  page.waitForNavigation({ timeout: 20000 }).catch(e => console.log('NAV-ERR:', e.message.slice(0, 120))),
-  page.click('#submit'),
-]);
-await page.waitForTimeout(3000);
-console.log('URL1:', page.url());
-console.log('sidebar:', await page.locator('.sidebar').count());
+const browser = await chromium.launch({ args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+page.on('pageerror', (e) => console.log('PAGEERROR:', e.message.slice(0, 200)));
+page.on('console', (m) => { if (m.type() === 'error') console.log('CONSOLE:', m.text().slice(0, 200)); });
+await page.goto('https://qanat-admin.amirhesamfathalian7.workers.dev/panel', { waitUntil: 'load' });
+await page.waitForTimeout(1000);
+console.log('login screen visible:', await page.isVisible('#loginScreen'));
+await page.fill('#passInput', process.env.ADMIN_PASS);
+await page.click('#loginBtn');
+await page.waitForTimeout(2500);
+console.log('login screen still visible:', await page.isVisible('#loginScreen'));
+console.log('nav visible:', await page.isVisible('#appNav'));
+console.log('cookie:', await page.evaluate(() => document.cookie));
+const r = await page.evaluate(async () => {
+  const res = await fetch('/panel/api/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: document.getElementById('passInput').value }) });
+  return { status: res.status, body: await res.text() };
+});
+console.log('direct login fetch:', JSON.stringify(r));
 await browser.close();
