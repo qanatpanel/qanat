@@ -101,6 +101,22 @@
     errBox.classList.remove('show');
   }
 
+  // نمایش «آخرین ورود» — از localStorage مرورگر همین دستگاه
+  (function () {
+    try {
+      var last = localStorage.getItem('qanat_last_login');
+      if (last) {
+        var d = new Date(Number(last));
+        if (!isNaN(d.getTime())) {
+          var el = document.createElement('div');
+          el.className = 'last-login';
+          el.textContent = '🕘 آخرین ورود: ' + d.toLocaleString('fa-IR', { dateStyle: 'short', timeStyle: 'short' });
+          errBox.parentNode.insertBefore(el, errBox);
+        }
+      }
+    } catch (e) { /* ignore */ }
+  })();
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (lockTimer) return;
@@ -137,6 +153,11 @@
               clearError();
             }
           }, 1000);
+        } else if (r.status === 200) {
+          // ذخیره‌ی آخرین ورود برای نمایش در دفعات بعد
+          try { localStorage.setItem('qanat_last_login', String(Date.now())); } catch (e) { /* ignore */ }
+          window.location.href = r.data.redirect || 'panel';
+          return;
         } else if (r.status === 401) {
           showError(t.invalid + (r.data.attemptsLeft != null ? ' (' + t.attemptsLeft + ' ' + r.data.attemptsLeft + ')' : ''));
         } else if (r.status === 403) {

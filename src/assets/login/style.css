@@ -5,3 +5,10 @@
   border-radius: 24px;
   box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.18), 0 18px 52px rgba(34, 211, 238, 0.3);
 }
+
+/* ─── لگوی گیت‌هاب در لاگین ─── */
+#gh-link:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 12px rgba(34, 211, 238, 0.3); transform: translateY(-1px); }
+
+/* ─── آخرین ورود ─── */
+.last-login { font-size: 11px; color: var(--mut); text-align: center; margin: 10px 0 0; opacity: 0; animation: fadeUp .5s ease .3s forwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }

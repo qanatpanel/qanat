@@ -1555,3 +1555,8 @@ html.theme-flash::after {
   -webkit-backdrop-filter: blur(18px);
   background: var(--card);
 }
+
+/* ─── لگوی گیت‌هاب (v3) ─── */
+.side-icon-btn.gh-btn { text-decoration: none; color: var(--mut); }
+.side-icon-btn.gh-btn svg { width: 18px; height: 18px; }
+.side-icon-btn.gh-btn:hover { color: #fff; border-color: var(--ring); box-shadow: 0 0 14px rgba(34, 211, 238, 0.25); }
