@@ -141,6 +141,7 @@ p{color:#8b98ad;font-size:13.5px;line-height:2}
 .btn:active{transform:translateY(0)}
 .btn.alt{background:linear-gradient(135deg,rgba(34,211,238,.14),rgba(14,165,233,.1));border:1px solid rgba(34,211,238,.4);color:#67e8f9;box-shadow:none;margin-top:10px;padding:10px 26px;font-size:13px;font-weight:700}
 .btn.alt:hover{box-shadow:0 10px 26px rgba(34,211,238,.22)}
+.bg-canvas,.bg-vignette{position:fixed;inset:0;z-index:-1;pointer-events:none}
 </style>
 </head>
 <body>

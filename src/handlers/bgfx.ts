@@ -23,10 +23,22 @@ const BG_FX_SCRIPT = `/**
     canvas.className = 'bg-canvas';
     canvas.id = 'bg-canvas';
     canvas.setAttribute('aria-hidden', 'true');
+    // ⚠️ position:fixed الزامی است — بدون آن، کانواس در body های flex (مثل لندینگ)
+    // به عنوان flex-item محسوب شده و چیدمان صفحه را می‌شکند (کارت وسط نمی‌ماند)
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
     document.body.appendChild(canvas);
     var vg = document.createElement('div');
     vg.className = 'bg-vignette';
     vg.setAttribute('aria-hidden', 'true');
+    vg.style.position = 'fixed';
+    vg.style.top = '0';
+    vg.style.left = '0';
+    vg.style.zIndex = '-1';
+    vg.style.pointerEvents = 'none';
     document.body.appendChild(vg);
 
     var ctx = canvas.getContext('2d');
