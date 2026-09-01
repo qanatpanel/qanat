@@ -49,3 +49,20 @@ for (const name of process.argv.slice(2)) {
   });
   console.log(`${name}: deployed → ${dep.result?.id}`);
 }
+
+// ─── نوتیف خودکار به کاربران بعد از آپدیت ───
+// استفاده: node deploy-panels.mjs --notify v1.5.0 "توضیح" <workerName...>
+const ni = process.argv.indexOf('--notify');
+if (ni !== -1) {
+  const nv = process.argv[ni + 1];
+  const nnote = process.argv.slice(ni + 2).filter((a) => !/^qanat-|^takht-|^tabora-|^zeus-|^zak|^mypanel/.test(a)).join(' ').trim();
+  if (nv) {
+    console.log(`\n📢 ارسال نوتیف نسخهٔ ${nv} به کاربران...`);
+    const { execSync } = await import('node:child_process');
+    try {
+      execSync(`node tools/notify-update.mjs "${nv.replace(/"/g, '')}" ${JSON.stringify(nnote)}`, { stdio: 'inherit' });
+    } catch (e) {
+      console.log('نوتیف ناموفق:', e.message);
+    }
+  }
+}
