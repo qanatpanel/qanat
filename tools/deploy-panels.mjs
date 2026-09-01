@@ -13,21 +13,31 @@ async function cf(path, init = {}) {
   const res = await fetch('https://api.cloudflare.com/client/v4' + path, { ...init, headers: { Authorization: `Bearer ${CF}`, ...(init.headers || {}) } });
   const body = await res.json().catch(() => null);
   if (!res.ok || !body?.success) {
-    console.log(`CF ERROR ${path}:`, JSON.stringify(body).slice(0, 300));
-    process.exit(1);
+    throw new Error(`CF ${path}: ${JSON.stringify(body).slice(0, 300)}`);
   }
   return body;
 }
 
 for (const name of process.argv.slice(2)) {
   const st = await cf(`/accounts/${ACCT}/workers/scripts/${name}/settings`);
-  const bindings = st.result?.bindings || [];
-  console.log(`${name}: ${bindings.length} bindings ->`, bindings.map((b) => `${b.type}:${b.name}`).join(', '));
+  const all = st.result?.bindings || [];
+  // secret_text ها مقدارشان از API خوانده نمی‌شود؛ با keep_bindings حفظ می‌شوند
+  const bindings = all.filter((b) => b.type !== 'secret_text');
+  const hasSecrets = all.some((b) => b.type === 'secret_text');
+  console.log(`${name}: ${all.length} bindings ->`, all.map((b) => `${b.type}:${b.name}`).join(', '));
 
   const fd = new FormData();
-  fd.append('metadata', new Blob([JSON.stringify({ main_module: 'worker.js', compatibility_date: '2026-05-01', bindings })], { type: 'application/json' }));
+  const meta = { main_module: 'worker.js', compatibility_date: '2026-05-01', bindings };
+  if (hasSecrets) meta.keep_bindings = ['secret_text'];
+  fd.append('metadata', new Blob([JSON.stringify(meta)], { type: 'application/json' }));
   fd.append('files', new Blob([code], { type: 'application/javascript+module' }), 'worker.js');
-  const up = await cf(`/accounts/${ACCT}/workers/scripts/${name}`, { method: 'PUT', body: fd });
+  let up;
+  try {
+    up = await cf(`/accounts/${ACCT}/workers/scripts/${name}`, { method: 'PUT', body: fd });
+  } catch (e) {
+    console.log(`${name}: SKIP (${e.message})`);
+    continue;
+  }
 
   const vs = await cf(`/accounts/${ACCT}/workers/scripts/${name}/versions?per_page=1`);
   const vid = vs.result?.items?.[0]?.id;

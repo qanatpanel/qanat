@@ -1,9 +1,200 @@
-/* استایل اختصاصی صفحه ورود */
+/* ═══════════ استایل اختصاصی صفحه ورود — تم و گرافیک v4 ═══════════ */
 
-.brand .brand-logo {
-  width: 92px; height: 92px;
+/* ─── برند عمودی وسط‌چین ─── */
+.auth-card .brand-v {
+  flex-direction: column;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.auth-card .brand-v .brand-logo {
+  width: 88px;
+  height: 88px;
   border-radius: 24px;
-  box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.18), 0 18px 52px rgba(34, 211, 238, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(103, 232, 249, 0.22),
+    0 0 40px rgba(34, 211, 238, 0.28),
+    0 18px 52px rgba(34, 211, 238, 0.3);
+  animation: logoFloat 5.5s ease-in-out infinite;
+}
+.auth-card .brand-v .brand-text { line-height: 1.55; }
+.auth-card .brand-v h1 { font-size: 26px; letter-spacing: -0.4px; }
+.auth-card .brand-v .qanat-tag { font-size: 10.5px; letter-spacing: 7px; }
+.auth-card .brand-v .ver {
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  padding: 3px 12px;
+  border-radius: 99px;
+  margin-top: 2px;
+}
+
+/* ─── زیرنویس ─── */
+.auth-card .sub {
+  text-align: center;
+  font-size: 13.5px;
+  margin: 4px 0 26px;
+}
+
+/* ─── ورودی رمز با آیکون قفل ─── */
+.auth-card .pass-row {
+  position: relative;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card-2);
+  transition: border-color 0.25s, box-shadow 0.25s;
+  overflow: hidden;
+}
+.auth-card .pass-row:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3.5px var(--ring), 0 0 24px rgba(34, 211, 238, 0.12);
+}
+.auth-card .pass-row .lock-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  flex: none;
+  color: var(--muted);
+  border-inline-end: 1px solid var(--line);
+  background: rgba(34, 211, 238, 0.04);
+}
+.auth-card .pass-row .lock-ic svg { width: 17px; height: 17px; }
+.auth-card .pass-row input {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none !important;
+  padding: 13px 14px;
+  font-size: 14.5px;
+}
+.auth-card .pass-row .icon-btn {
+  width: 46px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  border-inline-start: 1px solid var(--line);
+}
+
+/* ─── دکمهٔ ورود ─── */
+.auth-card .btn-primary {
+  position: relative;
+  margin-top: 22px;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15.5px;
+  letter-spacing: 0.2px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.25s, filter 0.25s;
+}
+.auth-card .btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.35) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+.auth-card .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(34, 211, 238, 0.35);
+}
+.auth-card .btn-primary:hover::after { transform: translateX(120%); }
+.auth-card .btn-primary:active { transform: translateY(0) scale(0.98); }
+
+/* ─── کارت شیشه‌ای با هاله ─── */
+.auth-card {
+  position: relative;
+  background: color-mix(in srgb, var(--card) 82%, transparent);
+  border: 1px solid var(--line);
+  box-shadow:
+    var(--shadow),
+    0 0 0 1px rgba(103, 232, 249, 0.05),
+    0 30px 80px rgba(2, 8, 23, 0.45);
+}
+.auth-card::after {
+  top: -110px;
+  inset-inline-start: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+  opacity: 0.9;
+}
+/* هاله دوم (بنفش) پایین کارت */
+.auth-card .glow-b {
+  position: absolute;
+  bottom: -120px;
+  inset-inline-end: -90px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-3-soft, rgba(139, 92, 246, 0.16)), transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+/* ─── خط نور متحرک بالای کارت ─── */
+.auth-card .topline {
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  background-size: 220% 100%;
+  animation: topSweep 5s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes topSweep {
+  0% { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+
+/* ─── فوتر ─── */
+.auth-card .foot-actions { display: flex; gap: 8px; align-items: center; }
+.auth-card .foot-actions .gh-btn {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.auth-card .foot-actions .gh-btn svg { width: 15px; height: 15px; }
+.auth-card .foot-actions .gh-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ─── خطای ورود ─── */
+.auth-card .error {
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* ─── ورودی/فرم z-index بالای هاله‌ها ─── */
+.auth-card form,
+.auth-card .sub,
+.auth-card .brand-v,
+.auth-card .foot {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── ریسپانسیو موبایل ─── */
+@media (max-width: 480px) {
+  .auth-wrap { padding: 16px 14px; }
+  .auth-card { padding: 30px 22px 24px; }
+  .auth-card .brand-v .brand-logo { width: 74px; height: 74px; }
 }
 
 /* ─── لگوی گیت‌هاب در لاگین ─── */

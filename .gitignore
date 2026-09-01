@@ -9,3 +9,8 @@ src/generated/
 *.db
 *.sqlite
 export-*/
+scripts/dbg-*.mjs
+scripts/shot-*.mjs
+scripts/test-manual-only.mjs
+scripts/test-scanner.mjs
+scripts/test-theme.mjs

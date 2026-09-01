@@ -19,6 +19,7 @@
   --accent-3: #7c3aed;
   --accent-hover: #0e7490;
   --accent-soft: rgba(8, 145, 178, 0.12);
+  --accent-3-soft: rgba(124, 58, 237, 0.10);
   --accent-grad: linear-gradient(135deg, #06b6d4, #14b8a6 55%, #10b981);
   --violet-grad: linear-gradient(135deg, #8b5cf6, #6366f1);
   --amber-grad: linear-gradient(135deg, #f59e0b, #f97316);
@@ -55,6 +56,7 @@
   --accent-3: #a78bfa;
   --accent-hover: #67e8f9;
   --accent-soft: rgba(34, 211, 238, 0.13);
+  --accent-3-soft: rgba(167, 139, 250, 0.13);
   --accent-grad: linear-gradient(135deg, #22d3ee, #2dd4bf 55%, #34d399);
   --violet-grad: linear-gradient(135deg, #a78bfa, #818cf8);
   --amber-grad: linear-gradient(135deg, #fbbf24, #fb923c);
@@ -91,7 +93,19 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 
 /* ═══════════ کارت مرکزی صفحات ورود/نصب ═══════════ */
-.auth-wrap { width: 100%; max-width: 430px; padding: 20px; }
+.auth-wrap {
+  width: 100%;
+  max-width: 460px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 24px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.auth-wrap > .auth-card { width: 100%; }
 .auth-card {
   position: relative;
   background: var(--card);
